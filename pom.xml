@@ -40,8 +40,6 @@
         </pluginManagement>
     </build>
     <modules>
-        <module>event-tracking</module>
-        <module>ad-serving</module>
         <module>sample-app</module>
         <module>tapestry</module>
     </modules>

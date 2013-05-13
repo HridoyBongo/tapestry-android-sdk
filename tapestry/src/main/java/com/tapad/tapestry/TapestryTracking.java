@@ -23,8 +23,10 @@ public class TapestryTracking {
     public static List<IdentifierSource> createIdentifierSourcesFromManifest(Context context) {
         ArrayList<IdentifierSource> sources = new ArrayList<IdentifierSource>();
         try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String[] idSourceClasses = ai.metaData.getString("tapad.ID_SOURCES").split(",");
+            String sourcesConfig = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
+                    .metaData.getString("tapad.ID_SOURCES");
+            String[] idSourceClasses = (sourcesConfig == null ? "Android" : sourcesConfig).split(",");
             for (String className : idSourceClasses) {
                 sources.add((IdentifierSource) Class.forName("com.tapad.tracking.deviceidentification." + className.trim()).newInstance());
             }

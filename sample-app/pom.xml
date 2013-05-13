@@ -12,19 +12,8 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>event-tracking</artifactId>
+            <artifactId>tapestry</artifactId>
             <version>${buildVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ad-serving</artifactId>
-            <version>${buildVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <version>${android.api.version}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

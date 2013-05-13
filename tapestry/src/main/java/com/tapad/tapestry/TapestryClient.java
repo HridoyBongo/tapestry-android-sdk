@@ -1,5 +1,6 @@
 package com.tapad.tapestry;
 
+import android.content.Context;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,6 +24,10 @@ public class TapestryClient {
     private final String partnerId;
     private ExecutorService executor = Executors.newFixedThreadPool(2);
 
+    public TapestryClient(Context context, String partnerId) {
+        this(new TapestryTracking(context), partnerId, "http://tapestry.tapad.com/tapestry/1");
+    }
+
     public TapestryClient(TapestryTracking tracking, String partnerId, String url) {
         this.tracking = tracking;
         this.partnerId = partnerId;
@@ -41,7 +46,7 @@ public class TapestryClient {
 
     public TapestryResponse send(TapestryRequest request) {
         try {
-            String uri = url + "?" + decorateRequest(request).toQuery();
+            String uri = url + "?" + addParameters(request).toQuery();
             HttpResponse response = client.execute(new HttpGet(uri));
             HttpEntity entity = response.getEntity();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -53,15 +58,14 @@ public class TapestryClient {
         }
     }
 
-    protected TapestryRequest decorateRequest(TapestryRequest request) {
+    public TapestryRequest addParameters(TapestryRequest request) {
         for (TypedIdentifier identifier : tracking.getIds())
             request.typedDid(identifier.getType(), identifier.getValue());
         return request.partnerId(partnerId);
     }
 
-    protected static DefaultHttpClient createClient(String userAgent) {
-        // Event occur infrequently, so we use a vanilla single-threaded
-        // client.
+    public static DefaultHttpClient createClient(String userAgent) {
+        // Event occur infrequently, so we use a vanilla single-threaded client.
         HttpParams params = new BasicHttpParams();
         HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
         HttpProtocolParams.setContentCharset(params, "UTF-8");

@@ -1,51 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tapad.sample"
+          package="com.tapad.tapestry"
           android:versionCode="6"
           android:versionName="1.1">
     <uses-sdk android:minSdkVersion="8"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- End -->
-    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- End -->
-    <application
-            android:icon="@drawable/logo"
-            android:label="TestApp"
-            >
-
-        <!-- Tapad Tracking application id. Not required if Swappit Property ID is specified -->
-        <meta-data android:name="tapad.APP_ID" android:value="sample_app"/>
-        <!-- End -->
-
-        <!-- Tapad Tracking ids to be collected. Defaults to AndroidId if not specified -->
-        <!-- Available Values are: AndroidId, PhoneId, WifiMac -->
-        <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
-        <!-- End -->
-
-        <!-- Swappit Ad Serving properties -->
-        <meta-data android:name="swappit.PUBLISHER_ID" android:value="sample_pub"/>
-        <meta-data android:name="swappit.PROPERTY_ID" android:value="sample_app"/>
-        <!-- End -->
-
-        <activity android:name=".MainActivity"
-                  android:label="TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".AdViewActivity" android:label="Ad with managed view"/>
-        <activity android:name=".ManualMarkupActivity" android:label="Manual markup management"/>
-
-        <!-- Google Play referral tracking -->
-        <receiver android:name="com.tapad.tracking.InstallReferrerReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
-            </intent-filter>
-        </receiver>
-    </application>
-
-</manifest> 
+</manifest>

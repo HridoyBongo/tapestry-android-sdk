@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.tapad.tracking.deviceidentification.TypedIdentifier.TYPE_ANDROID_ID_MD5;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
 import static org.mockito.Mockito.*;
@@ -18,6 +19,15 @@ public class TapestryClientTest {
     @Before
     public void setup() {
         when(tracking.getIds()).thenReturn(new ArrayList<TypedIdentifier>());
+    }
+
+    @Test
+    public void should_send_requests_and_receive_responses() {
+        when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier(TYPE_ANDROID_ID_MD5, "111")));
+        TapestryClient client = new TapestryClient(tracking, "1", "http://tapestry.tapad.com/tapestry/1");
+        TapestryResponse response = client.send(new TapestryRequest().setData("color", "blue").getData().getIds());
+        assertThat(response.getIds().get(TYPE_ANDROID_ID_MD5), hasItem("111"));
+        assertThat(response.getData().get("color"), hasItem("blue"));
     }
 
     @Test
@@ -45,6 +55,6 @@ public class TapestryClientTest {
     public void should_decorate_requests_with_partner_id_and_tracked_ids() throws Exception {
         when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier("sometype", "someval")));
         TapestryClient client = new TapestryClient(tracking, "1", "");
-        assertEquals(client.decorateRequest(new TapestryRequest()), new TapestryRequest().typedDid("sometype", "someval").partnerId("1"));
+        assertEquals(client.addParameters(new TapestryRequest()), new TapestryRequest().typedDid("sometype", "someval").partnerId("1"));
     }
 }
