@@ -4,6 +4,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
+
     <TextView
             android:id="@+id/request"
             android:layout_width="fill_parent"
@@ -11,34 +12,8 @@
             android:text="Request"
             />
 
-    <TextView
-            android:id="@+id/device_id"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-
-    <TextView
-            android:id="@+id/typed_device_id"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            />
-
-    <Button android:id="@+id/custom_event"
-            android:text="Send custom event"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
-
-    <Button android:id="@+id/pull_ad_markup"
-            android:text="Show manual markup view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
-
-    <Button android:id="@+id/managed_ad_view"
-            android:text="Show managed ad view"
+    <Spinner
+            android:id="@+id/parameters"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />
@@ -47,6 +22,19 @@
             android:text="Opt in / out"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            />
+
+    <Button android:id="@+id/send"
+            android:text="Send Request"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+
+    <TextView
+            android:id="@+id/response"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Response"
             />
 
 </LinearLayout>

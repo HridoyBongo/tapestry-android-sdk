@@ -1,5 +1,6 @@
 package com.tapad.tapestry;
 
+import com.tapad.util.Logging;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +12,10 @@ import java.util.Map;
 
 public class TapestryResponse {
     public JSONObject json;
+
+    public TapestryResponse(TapestryError error) {
+        this("{errors:['" + error + "']}");
+    }
 
     public TapestryResponse(String response) {
         try {
@@ -33,8 +38,11 @@ public class TapestryResponse {
         return getList("platforms");
     }
 
-    public List<String> getErrors() {
-        return getList("errors");
+    public List<TapestryError> getErrors() {
+        ArrayList<TapestryError> errors = new ArrayList<TapestryError>();
+        for (String error : getList("errors"))
+            errors.add(TapestryError.fromJSON(error));
+        return errors;
     }
 
     public List<String> getAudiences() {

@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
 import com.tapad.tapestry.Logging;
 import com.tapad.tapestry.TapestryClient;
 import com.tapad.tapestry.TapestryRequest;
@@ -22,6 +21,11 @@ public class TapestryDemoActivity extends Activity {
         setContentView(R.layout.main);
         TextView requestText = ((TextView) findViewById(R.id.request));
         requestText.setText(client.addParameters(request).toDecodedQuery());
+
+        Spinner spinner = (Spinner) findViewById(R.id.parameters);
+        ((ArrayAdapter)spinner.getAdapter()).add("asdf");
+// Specify the layout to use when the list of choices appears
+// Apply the adapter to the spinner
 
 //        Button custom = (Button) findViewById(R.id.custom_event);
 //        custom.setOnClickListener(new View.OnClickListener() {

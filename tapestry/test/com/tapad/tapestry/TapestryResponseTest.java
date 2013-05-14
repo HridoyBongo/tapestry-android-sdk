@@ -28,8 +28,8 @@ public class TapestryResponseTest {
 
     @Test
     public void should_parse_errors() {
-        TapestryResponse response = new TapestryResponse("{'errors':['a','b']}");
-        assertThat(response.getErrors(), hasItems("a", "b"));
+        TapestryResponse response = new TapestryResponse("{'errors':[1|name|message]}");
+        assertThat(response.getErrors(), hasItems(new TapestryError(1, "name", "message")));
     }
 
     @Test

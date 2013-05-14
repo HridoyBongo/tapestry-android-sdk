@@ -2,6 +2,7 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
+import com.tapad.util.Logging;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -14,8 +15,11 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.ByteArrayOutputStream;
+import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.tapad.tapestry.TapestryError.CLIENT_REQUEST_ERROR;
 
 public class TapestryClient {
     private final TapestryTracking tracking;
@@ -49,11 +53,16 @@ public class TapestryClient {
             HttpResponse response = client.execute(new HttpGet(uri));
             HttpEntity entity = response.getEntity();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            entity.writeTo(bout);
+            try {
+                entity.writeTo(bout);
+            } catch (SocketException e) {
+                // can happen due to Connection Reset, but still return a valid response
+                Logging.error("TapestryClient", "Exception writing output ", e);
+            }
             return new TapestryResponse(bout.toString("UTF-8"));
         } catch (Exception e) {
-            Logging.error("TapestryClient", "Exception sending request " + e.getMessage());
-            return new TapestryResponse("{errors:['Exception sending request']}");
+            Logging.error("TapestryClient", "Exception sending request ", e);
+            return new TapestryResponse(new TapestryError(CLIENT_REQUEST_ERROR, "ClientRequestError", "Exception: " + e));
         }
     }
 

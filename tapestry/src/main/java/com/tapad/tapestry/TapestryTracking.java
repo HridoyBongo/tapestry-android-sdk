@@ -7,6 +7,7 @@ import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
 import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
+import com.tapad.util.Logging;
 
 import java.util.ArrayList;
 import java.util.List;

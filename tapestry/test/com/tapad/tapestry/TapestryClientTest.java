@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.tapad.tracking.deviceidentification.TypedIdentifier.TYPE_ANDROID_ID_MD5;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
 import static org.mockito.Mockito.*;
@@ -40,7 +41,7 @@ public class TapestryClientTest {
                 called.set(true);
             }
         });
-        Thread.sleep(500);
+        Thread.sleep(1000);
         assertTrue(called.get());
     }
 
@@ -48,7 +49,7 @@ public class TapestryClientTest {
     public void should_return_errors_in_response() {
         TapestryClient client = new TapestryClient(tracking, "1", "bad url");
         TapestryResponse response = client.send(new TapestryRequest());
-        assertThat(response.getErrors(), hasItems("Exception sending request"));
+        assertThat(response.getErrors().get(0).type, equalTo(TapestryError.CLIENT_REQUEST_ERROR));
     }
 
     @Test

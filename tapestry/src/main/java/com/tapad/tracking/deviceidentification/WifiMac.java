@@ -29,12 +29,12 @@ public class WifiMac implements IdentifierSource {
             try {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_MD5, DigestUtil.md5Hash(wifiMac)));
             } catch (NoSuchAlgorithmException nsae) {
-                Logging.error("Tracking", "Error hashing WIFI_MAC - MD5 not supported");
+                Logging.error("Tracking", "Error hashing WIFI_MAC - MD5 not supported", nsae);
             }
             try {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_SHA1, DigestUtil.sha1Hash(wifiMac)));
             } catch (NoSuchAlgorithmException nsae) {
-                Logging.error("Tracking", "Error hashing WIFI_MAC - SHA1 not supported");
+                Logging.error("Tracking", "Error hashing WIFI_MAC - SHA1 not supported", nsae);
             }
         } else {
             Logging.warn("Tracking", "Error retrieving WIFI_MAC.");
