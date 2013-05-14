@@ -6,6 +6,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 public class TapestryRequest {
@@ -99,6 +101,14 @@ public class TapestryRequest {
                 params.add(new BasicNameValuePair(key, new JSONObject((Map) value).toString()));
         }
         return URLEncodedUtils.format(params, "UTF-8");
+    }
+
+    public String toDecodedQuery() {
+        try {
+            return URLDecoder.decode(toQuery(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "Cannot decode " + e.getMessage();
+        }
     }
 
     @Override

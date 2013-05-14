@@ -18,9 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TapestryClient {
-    public final String url;
-    public final DefaultHttpClient client;
     private final TapestryTracking tracking;
+    private final String url;
     private final String partnerId;
     private ExecutorService executor = Executors.newFixedThreadPool(2);
 
@@ -32,7 +31,6 @@ public class TapestryClient {
         this.tracking = tracking;
         this.partnerId = partnerId;
         this.url = url;
-        this.client = createClient(tracking.getUserAgent());
     }
 
     public void send(final TapestryRequest request, final TapestryCallback callback) {
@@ -47,6 +45,7 @@ public class TapestryClient {
     public TapestryResponse send(TapestryRequest request) {
         try {
             String uri = url + "?" + addParameters(request).toQuery();
+            DefaultHttpClient client = createClient(tracking.getUserAgent());
             HttpResponse response = client.execute(new HttpGet(uri));
             HttpEntity entity = response.getEntity();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();

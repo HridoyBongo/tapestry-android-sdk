@@ -1,12 +1,11 @@
 package com.tapad.tapestry;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
-import com.tapad.tracking.deviceidentification.IdentifierSourceAggregator;
+import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 
 import java.util.ArrayList;
@@ -20,30 +19,13 @@ public class TapestryTracking {
     private final Context context;
     private List<TypedIdentifier> ids;
 
-    public static List<IdentifierSource> createIdentifierSourcesFromManifest(Context context) {
-        ArrayList<IdentifierSource> sources = new ArrayList<IdentifierSource>();
-        try {
-            String sourcesConfig = context.getPackageManager()
-                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
-                    .metaData.getString("tapad.ID_SOURCES");
-            String[] idSourceClasses = (sourcesConfig == null ? "Android" : sourcesConfig).split(",");
-            for (String className : idSourceClasses) {
-                sources.add((IdentifierSource) Class.forName("com.tapad.tracking.deviceidentification." + className.trim()).newInstance());
-            }
-        } catch (Exception e) {
-            com.tapad.util.Logging.warn("TapestryTracking", "Unable to instantiate identifier sources from manifest: " + e.getMessage());
-        }
-        return sources;
-    }
-
     public TapestryTracking(Context context) {
-        this(context, createIdentifierSourcesFromManifest(context));
+        this(context, new ManifestAggregator());
     }
 
-    public TapestryTracking(Context context, List<IdentifierSource> sources) {
+    public TapestryTracking(Context context, IdentifierSource source) {
         this.context = context;
-        this.source = new IdentifierSourceAggregator(sources);
-        ids = updateIds();
+        this.source = source;
     }
 
     /**
@@ -51,7 +33,7 @@ public class TapestryTracking {
      */
     public void optIn() {
         // we clear the saved preferences and run through id collection logic once more
-        PreferenceManager.getDefaultSharedPreferences(context)
+        getPreferences()
                 .edit()
                 .remove(PREF_TAPAD_DEVICE_ID)
                 .commit();
@@ -64,7 +46,7 @@ public class TapestryTracking {
      * other opted out device.
      */
     public void optOut() {
-        PreferenceManager.getDefaultSharedPreferences(context)
+        getPreferences()
                 .edit()
                 .putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID)
                 .commit();
@@ -76,6 +58,8 @@ public class TapestryTracking {
     }
 
     public List<TypedIdentifier> getIds() {
+        if (ids == null)
+            ids = updateIds();
         return ids;
     }
 
@@ -87,12 +71,19 @@ public class TapestryTracking {
     }
 
     public String getDeviceId() {
-        String deviceId = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_TAPAD_DEVICE_ID, null);
+        String deviceId = getPreferences().getString(PREF_TAPAD_DEVICE_ID, null);
         if (deviceId == null) {
             deviceId = UUID.randomUUID().toString();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
+            getPreferences().edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
         }
         return deviceId;
+    }
+
+    private SharedPreferences getPreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences == null)
+            throw new IllegalStateException("Preferences is null, make sure onCreate() has been called before using Tapestry");
+        return preferences;
     }
 
     /**

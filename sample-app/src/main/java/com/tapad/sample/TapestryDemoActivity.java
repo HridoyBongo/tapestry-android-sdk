@@ -2,16 +2,18 @@ package com.tapad.sample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.tapad.tapestry.Logging;
 import com.tapad.tapestry.TapestryClient;
 import com.tapad.tapestry.TapestryRequest;
 import com.tapad.tapestry.TapestryTracking;
 
-public class MainActivity extends Activity {
-    TapestryClient client = new TapestryClient(getApplication().getApplicationContext(), "1");
+public class TapestryDemoActivity extends Activity {
+    TapestryClient client = new TapestryClient(this, "1");
     TapestryRequest request = new TapestryRequest();
 
     @Override
@@ -19,9 +21,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         TextView requestText = ((TextView) findViewById(R.id.request));
-        requestText.setText(client.addParameters(request).toString());
+        requestText.setText(client.addParameters(request).toDecodedQuery());
 
-//
 //        Button custom = (Button) findViewById(R.id.custom_event);
 //        custom.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view) {
