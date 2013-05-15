@@ -25,17 +25,17 @@ public class AndroidId implements IdentifierSource {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_MD5, DigestUtil.md5Hash(androidId)));
             }
             catch (NoSuchAlgorithmException nsae) {
-                Logging.error("Tracking", "Error hashing ANDROID_ID - MD5 not supported", nsae);
+                Logging.error(getClass(), "Error hashing ANDROID_ID - MD5 not supported", nsae);
             }
             try {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_SHA1, DigestUtil.sha1Hash(androidId)));
             }
             catch (NoSuchAlgorithmException nsae) {
-                Logging.error("Tracking", "Error hashing ANDROID_ID - SHA1 not supported", nsae);
+                Logging.error(getClass(), "Error hashing ANDROID_ID - SHA1 not supported", nsae);
             }
         }
         else {
-            Logging.warn("Tracking", "Error retrieving ANDROID_ID.");
+            Logging.warn(getClass(), "Error retrieving ANDROID_ID.");
         }
         return (ids);
     }

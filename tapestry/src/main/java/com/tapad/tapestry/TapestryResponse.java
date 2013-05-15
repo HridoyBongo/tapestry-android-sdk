@@ -21,7 +21,7 @@ public class TapestryResponse {
         try {
             json = new JSONObject(response);
         } catch (JSONException e) {
-            Logging.warn("TapestryResponse", "Could not parse " + response);
+            Logging.warn(getClass(), "Could not parse " + response);
             json = new JSONObject();
         }
     }
@@ -61,7 +61,7 @@ public class TapestryResponse {
         try {
             return jsonArrayToStringList(json.getJSONArray(key));
         } catch (JSONException e) {
-            Logging.warn("TapestryResponse", "Could not parse " + key + " in " + json);
+            Logging.warn(getClass(), "Could not parse " + key + " in " + json);
             return new ArrayList<String>();
         }
     }
@@ -75,7 +75,7 @@ public class TapestryResponse {
             }
             return map;
         } catch (JSONException e) {
-            Logging.warn("TapestryResponse", "Could not parse " + key + " in " + json);
+            Logging.warn(getClass(), "Could not parse " + key + " in " + json);
             return new HashMap<String, List<String>>();
         }
     }

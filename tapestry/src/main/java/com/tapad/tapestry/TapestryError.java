@@ -1,5 +1,7 @@
 package com.tapad.tapestry;
 
+import com.tapad.util.Logging;
+
 public class TapestryError {
     public static int UNEXPECTED_EXCEPTION_ERROR = 0;
     public static int JSON_PARSE_ERROR = 1;
@@ -16,9 +18,14 @@ public class TapestryError {
     public String message;
 
     public static TapestryError fromJSON(String error) {
-        String[] split = error.split("\\|");
-        String message = split.length > 1 ? split[2] : "";
-        return new TapestryError(Integer.parseInt(split[0]), split[1], message);
+        try {
+            String[] split = error.split("\\|");
+            String message = split.length > 2 ? split[2] : "";
+            return new TapestryError(Integer.parseInt(split[0]), split[1], message);
+        } catch (Exception e) {
+            Logging.error(TapestryError.class, "Could not parse error message " + error, e);
+            return new TapestryError(0, "UnexpectedExceptionError", e.getMessage());
+        }
     }
 
     public TapestryError(int type, String name, String message) {

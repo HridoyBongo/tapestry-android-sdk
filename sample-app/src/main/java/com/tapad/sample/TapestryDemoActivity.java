@@ -20,8 +20,8 @@ import java.net.URLDecoder;
 
 public class TapestryDemoActivity extends Activity {
     private TapestryClient client = new TapestryClient(this, "1");
-    private String[] parameters = {"setData(color, blue)", "addData(color, red)", "addAudiences(2DSP1)", "listDevices()", "strength(5)", "depth(2)"};
-    private boolean[] selected = new boolean[6];
+    private String[] parameters = {"Opt-out", "setData(color, blue)", "addData(color, red)", "addAudiences(2DSP1)", "listDevices()", "strength(5)", "depth(2)"};
+    private boolean[] selected = new boolean[parameters.length];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,8 @@ public class TapestryDemoActivity extends Activity {
         getTextView(R.id.response).setHorizontallyScrolling(true);
         getTextView(R.id.request).setHorizontallyScrolling(true);
 
-        Logging.throwExceptions = true;
-        Logging.enabled = true;
+        Logging.setThrowExceptions(true);;
+        Logging.setEnabled(true);
 
         Button send = (Button) findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
@@ -44,12 +44,15 @@ public class TapestryDemoActivity extends Activity {
 
     public TapestryRequest updateRequest() {
         TapestryRequest request = new TapestryRequest();
-        if (selected[0]) request.setData("color", "blue");
-        if (selected[1]) request.addData("color", "red");
-        if (selected[2]) request.addAudiences("2DSP1");
-        if (selected[3]) request.listDevices();
-        if (selected[4]) request.strength(5);
-        if (selected[5]) request.depth(2);
+        int i = 0;
+        if (selected[i++]) client.optOut();
+        else client.optIn();
+        if (selected[i++]) request.setData("color", "blue");
+        if (selected[i++]) request.addData("color", "red");
+        if (selected[i++]) request.addAudiences("2DSP1");
+        if (selected[i++]) request.listDevices();
+        if (selected[i++]) request.strength(5);
+        if (selected[i++]) request.depth(2);
         request.getAudiences();
         request.getData();
         request.getIds();
@@ -61,7 +64,6 @@ public class TapestryDemoActivity extends Activity {
         client.send(this, request, new TapestryCallback() {
             @Override
             public void receive(TapestryResponse response) {
-                Logging.debug("Demo", response.toString());
                 getTextView(R.id.response).setText(response.toString());
             }
         });

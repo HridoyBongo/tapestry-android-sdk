@@ -1,6 +1,7 @@
 package com.tapad.tapestry;
 
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
+import com.tapad.util.Logging;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +21,15 @@ public class TapestryClientTest {
     @Before
     public void setup() {
         when(tracking.getIds()).thenReturn(new ArrayList<TypedIdentifier>());
+    }
+
+    @Test
+    public void returns_opt_out_if_opted_out() {
+        when(tracking.isOptedOut()).thenReturn(true);
+        TapestryClient client = new TapestryClient(tracking, "1", "http://tapestry.tapad.com/tapestry/1");
+        TapestryResponse response = client.send(new TapestryRequest());
+        Logging.setEnabled(true);
+        assertThat(response.getErrors().get(0).type, equalTo(TapestryError.OPTED_OUT));
     }
 
     @Test

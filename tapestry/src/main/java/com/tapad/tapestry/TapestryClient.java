@@ -21,6 +21,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.tapad.tapestry.TapestryError.CLIENT_REQUEST_ERROR;
+import static com.tapad.tapestry.TapestryError.OPTED_OUT;
+import static com.tapad.tapestry.TapestryTracking.OPTED_OUT_DEVICE_ID;
+import static com.tapad.tapestry.TapestryTracking.PREF_TAPAD_DEVICE_ID;
 
 public class TapestryClient {
     private final TapestryTracking tracking;
@@ -36,6 +39,22 @@ public class TapestryClient {
         this.tracking = tracking;
         this.partnerId = partnerId;
         this.url = url;
+    }
+
+    /**
+     * Opts the device back in after an opt out.
+     */
+    public void optIn() {
+        tracking.getPreferences().edit().remove(PREF_TAPAD_DEVICE_ID).commit();
+    }
+
+    /**
+     * Opts the device out of all tracking / personalization by setting the device id to the constant
+     * string OptedOut. This means that it is now impossible to distinguish this device from all
+     * other opted out device.
+     */
+    public void optOut() {
+        tracking.getPreferences().edit().putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID).commit();
     }
 
     public void send(final Activity activity, final TapestryRequest request, final TapestryCallback callback) {
@@ -64,6 +83,8 @@ public class TapestryClient {
 
     public TapestryResponse send(TapestryRequest request) {
         try {
+            if (tracking.isOptedOut())
+                return new TapestryResponse(new TapestryError(OPTED_OUT, "OptedOut", ""));
             String uri = url + "?" + addParameters(request).toQuery();
             DefaultHttpClient client = createClient(tracking.getUserAgent());
             HttpResponse response = client.execute(new HttpGet(uri));
@@ -73,11 +94,12 @@ public class TapestryClient {
                 entity.writeTo(bout);
             } catch (SocketException e) {
                 // can happen due to Connection Reset, but still return a valid response
-                Logging.error("TapestryClient", "Exception writing output ", e);
+                Logging.error(getClass(), "Exception writing output ", e);
             }
+            Logging.debug(getClass(), "Received response " + bout.toString("UTF-8"));
             return new TapestryResponse(bout.toString("UTF-8"));
         } catch (Exception e) {
-            Logging.error("TapestryClient", "Exception sending request ", e);
+            Logging.error(getClass(), "Exception sending request ", e);
             return new TapestryResponse(new TapestryError(CLIENT_REQUEST_ERROR, "ClientRequestError", "Exception: " + e));
         }
     }
@@ -95,7 +117,6 @@ public class TapestryClient {
         HttpProtocolParams.setContentCharset(params, "UTF-8");
         HttpProtocolParams.setUserAgent(params, userAgent);
         DefaultHttpClient client = new DefaultHttpClient(params);
-
         // Keep connections alive for 5 seconds.
         client.setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
             public long getKeepAliveDuration(HttpResponse httpResponse, HttpContext httpContext) {
