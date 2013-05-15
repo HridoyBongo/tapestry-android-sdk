@@ -8,11 +8,8 @@ public class TapestryRequestTest {
     @Test
     public void should_append_values_to_array_parameters() {
         assertEncodedEquals(new TapestryRequest()
-                .getData("a")
-                .getData("b", "c")
-                .getIds("d")
                 .addAudiences("e")
-                .toQuery(), "ta_get_data=['a','b','c']&ta_get_ids=['d']&ta_add_audiences=['e']");
+                .toQuery(), "ta_add_audiences=['e']");
     }
 
     @Test
@@ -34,8 +31,8 @@ public class TapestryRequestTest {
 
     @Test
     public void should_create_empty_parameters() {
-        assertEncodedEquals(new TapestryRequest().getData().getPlatforms().getAudiences().listDevices().toQuery(),
-                "ta_get_data=[]&ta_get_platforms=&ta_get_audiences=&ta_list_devices=");
+        assertEncodedEquals(new TapestryRequest().listDevices().toQuery(),
+                "ta_list_devices=");
     }
 
     private static void assertEncodedEquals(String actual, String expected) {

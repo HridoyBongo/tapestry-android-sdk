@@ -1,6 +1,5 @@
 package com.tapad.tapestry;
 
-import android.app.Activity;
 import android.content.Context;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.util.Logging;
@@ -25,12 +24,41 @@ import static com.tapad.tapestry.TapestryError.OPTED_OUT;
 import static com.tapad.tapestry.TapestryTracking.OPTED_OUT_DEVICE_ID;
 import static com.tapad.tapestry.TapestryTracking.PREF_TAPAD_DEVICE_ID;
 
+/**
+ * A client for sending requests to the Tapestry Web API and returning responses.
+ * <p/>
+ * The client sends a {@link TapestryRequest} as an HTTP request to the Tapestry Web API and parses the JSON response as
+ * {@link TapestryResponse}.  When calling the client from the Android UI thread, it is recommended to send requests
+ * asynchronously by passing in a {@link TapestryCallback} so as not to block the UI thread.
+ * <p/>
+ * An example of sending a request and receiving a response:
+ * <blockquote><pre>
+ * TapestryClient client = new TapestryClient(context, "your-partner-id");
+ * TapestryRequest request = new TapestryRequest();
+ * // TODO build request
+ * client.send(request, new TapestryCallback() {
+ *     {@literal @}Override
+ *     public void receive(TapestryResponse response) {
+ *         // TODO handle response
+ *     }
+ * });
+ * </pre></blockquote>
+ * Note if the callback updates the UI then you should use the {@link TapestryUICallback} convenience class which runs
+ * the callback on the UI thread.  The client throws no exceptions unless {@link Logging#setThrowExceptions(boolean)}
+ * has been set to true.
+ */
 public class TapestryClient {
     private final TapestryTracking tracking;
     private final String url;
     private final String partnerId;
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
+    /**
+     * Creates client ready to receive requests.  Can be instantiated before {@code onCreate} is called.
+     *
+     * @param context   The context of the app
+     * @param partnerId The Tapestry partner id that has been assigned to you
+     */
     public TapestryClient(Context context, String partnerId) {
         this(new TapestryTracking(context), partnerId, "http://tapestry.tapad.com/tapestry/1");
     }
@@ -42,46 +70,28 @@ public class TapestryClient {
     }
 
     /**
-     * Opts the device back in after an opt out.
+     * Sends a request asynchronously using a worker thread pool.
+     *
+     * @param request  The request
+     * @param callback A callback that will be called when the Tapestry server responds
      */
-    public void optIn() {
-        tracking.getPreferences().edit().remove(PREF_TAPAD_DEVICE_ID).commit();
-    }
-
-    /**
-     * Opts the device out of all tracking / personalization by setting the device id to the constant
-     * string OptedOut. This means that it is now impossible to distinguish this device from all
-     * other opted out device.
-     */
-    public void optOut() {
-        tracking.getPreferences().edit().putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID).commit();
-    }
-
-    public void send(final Activity activity, final TapestryRequest request, final TapestryCallback callback) {
-        send(request, new TapestryCallback() {
-            @Override
-            public void receive(final TapestryResponse response) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.receive(response);
-                    }
-                });
-            }
-        });
-    }
-
     public void send(final TapestryRequest request, final TapestryCallback callback) {
         tracking.getUserAgent();
         executor.submit(new Runnable() {
             @Override
             public void run() {
-                callback.receive(send(request));
+                callback.receive(sendSynchronously(request));
             }
         });
     }
 
-    public TapestryResponse send(TapestryRequest request) {
+    /**
+     * Sends a request synchronously, blocking until response is received.
+     *
+     * @param request The request
+     * @return a response from the server
+     */
+    public TapestryResponse sendSynchronously(TapestryRequest request) {
         try {
             if (tracking.isOptedOut())
                 return new TapestryResponse(new TapestryError(OPTED_OUT, "OptedOut", ""));
@@ -104,13 +114,34 @@ public class TapestryClient {
         }
     }
 
+    /**
+     * Opts this device into tracking.  Tapestry will collect ids and send requests from this app.
+     */
+    public void optIn() {
+        tracking.getPreferences().edit().remove(PREF_TAPAD_DEVICE_ID).commit();
+    }
+
+    /**
+     * Opts this device out of all tracking. Tapestry will not be able to send requests from this app.  All responses
+     * will be a {@link TapestryResponse} containing an {@link TapestryError#OPTED_OUT} error.
+     */
+    public void optOut() {
+        tracking.getPreferences().edit().putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID).commit();
+    }
+
+    /**
+     * Adds parameters which are required (e.g. device identifiers and partner id) to a request.
+     *
+     * @param request A request
+     * @return the request with additional parameters
+     */
     public TapestryRequest addParameters(TapestryRequest request) {
         for (TypedIdentifier identifier : tracking.getIds())
             request.typedDid(identifier.getType(), identifier.getValue());
-        return request.partnerId(partnerId);
+        return request.partnerId(partnerId).get();
     }
 
-    public static DefaultHttpClient createClient(String userAgent) {
+    protected DefaultHttpClient createClient(String userAgent) {
         // Event occur infrequently, so we use a vanilla single-threaded client.
         HttpParams params = new BasicHttpParams();
         HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);

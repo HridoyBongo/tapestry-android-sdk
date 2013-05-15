@@ -27,7 +27,7 @@ public class TapestryClientTest {
     public void returns_opt_out_if_opted_out() {
         when(tracking.isOptedOut()).thenReturn(true);
         TapestryClient client = new TapestryClient(tracking, "1", "http://tapestry.tapad.com/tapestry/1");
-        TapestryResponse response = client.send(new TapestryRequest());
+        TapestryResponse response = client.sendSynchronously(new TapestryRequest());
         Logging.setEnabled(true);
         assertThat(response.getErrors().get(0).type, equalTo(TapestryError.OPTED_OUT));
     }
@@ -36,9 +36,9 @@ public class TapestryClientTest {
     public void should_send_requests_and_receive_responses() {
         when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier(TYPE_ANDROID_ID_MD5, "111")));
         TapestryClient client = new TapestryClient(tracking, "1", "http://tapestry.tapad.com/tapestry/1");
-        TapestryResponse response = client.send(new TapestryRequest().setData("color", "blue").getData().getIds());
-        assertThat(response.getIds().get(TYPE_ANDROID_ID_MD5), hasItem("111"));
-        assertThat(response.getData().get("color"), hasItem("blue"));
+        TapestryResponse response = client.sendSynchronously(new TapestryRequest().setData("color", "blue"));
+        assertThat(response.getIds(TYPE_ANDROID_ID_MD5), hasItem("111"));
+        assertThat(response.getData("color"), hasItem("blue"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class TapestryClientTest {
     @Test
     public void should_return_errors_in_response() {
         TapestryClient client = new TapestryClient(tracking, "1", "bad url");
-        TapestryResponse response = client.send(new TapestryRequest());
+        TapestryResponse response = client.sendSynchronously(new TapestryRequest());
         assertThat(response.getErrors().get(0).type, equalTo(TapestryError.CLIENT_REQUEST_ERROR));
     }
 
@@ -66,6 +66,6 @@ public class TapestryClientTest {
     public void should_decorate_requests_with_partner_id_and_tracked_ids() throws Exception {
         when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier("sometype", "someval")));
         TapestryClient client = new TapestryClient(tracking, "1", "");
-        assertEquals(client.addParameters(new TapestryRequest()), new TapestryRequest().typedDid("sometype", "someval").partnerId("1"));
+        assertEquals(client.addParameters(new TapestryRequest()), new TapestryRequest().typedDid("sometype", "someval").partnerId("1").get());
     }
 }

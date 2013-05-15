@@ -9,10 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.tapad.tapestry.TapestryCallback;
-import com.tapad.tapestry.TapestryClient;
-import com.tapad.tapestry.TapestryRequest;
-import com.tapad.tapestry.TapestryResponse;
+import com.tapad.tapestry.*;
 import com.tapad.util.Logging;
 
 import java.io.UnsupportedEncodingException;
@@ -30,7 +27,7 @@ public class TapestryDemoActivity extends Activity {
         getTextView(R.id.response).setHorizontallyScrolling(true);
         getTextView(R.id.request).setHorizontallyScrolling(true);
 
-        Logging.setThrowExceptions(true);;
+        Logging.setThrowExceptions(true);
         Logging.setEnabled(true);
 
         Button send = (Button) findViewById(R.id.send);
@@ -53,17 +50,14 @@ public class TapestryDemoActivity extends Activity {
         if (selected[i++]) request.listDevices();
         if (selected[i++]) request.strength(5);
         if (selected[i++]) request.depth(2);
-        request.getAudiences();
-        request.getData();
-        request.getIds();
         getTextView(R.id.request).setText(prettifyRequest(client.addParameters(request).toQuery()));
         return request;
     }
 
     public void sendRequest(TapestryRequest request) {
-        client.send(this, request, new TapestryCallback() {
+        client.send(request, new TapestryUICallback(this) {
             @Override
-            public void receive(TapestryResponse response) {
+            public void receiveOnUiThread(TapestryResponse response) {
                 getTextView(R.id.response).setText(response.toString());
             }
         });

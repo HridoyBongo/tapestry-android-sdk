@@ -10,6 +10,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains the response to requests sent by the {@link TapestryClient}.
+ * <p/>
+ * Responses are returned as JSON from the Tapestry Web API.  This class parses that JSON and provides useful accessors
+ * to the fields contained within.
+ * <p/>
+ * An example of getting information from a response:
+ * <blockquote><pre>
+ * if (response.getData("color").contains("blue"))
+ *  // user has a preference for blue
+ * if (response.getData("color").isEmpty())
+ *  // user has no color preferences yet
+ * if (response.getAudiences().contains("buying-car"))
+ *   // user is in a buying car audience
+ * for (String cookieId : response.getIds("my-cookie"))
+ *   // for every cookie id in a connected device the user has
+ * if (response.getPlatforms().contains("XBox"))
+ *   // user has an XBox
+ * if (response.getErrors().isEmpty())
+ *   // no errors occurred
+ * for (TapestryResponse device : response.getDevices())
+ *   // handle each device separately
+ * </pre></blockquote>
+ */
 public class TapestryResponse {
     private JSONObject json;
 
@@ -20,7 +44,7 @@ public class TapestryResponse {
     public TapestryResponse(String response) {
         try {
             json = new JSONObject(response);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Logging.warn(getClass(), "Could not parse " + response);
             json = new JSONObject();
         }
@@ -49,34 +73,31 @@ public class TapestryResponse {
         return getList("audiences");
     }
 
-    public Map<String, List<String>> getData() {
-        return getStringListMap("data");
+    public List<String> getData(String key) {
+        return getStringListMap("data", key);
     }
 
-    public Map<String, List<String>> getIds() {
-        return getStringListMap("ids");
+    public List<String> getIds(String key) {
+        return getStringListMap("ids", key);
     }
 
-    public List<String> getList(String key) {
+    private List<String> getList(String key) {
         try {
             return jsonArrayToStringList(json.getJSONArray(key));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Logging.warn(getClass(), "Could not parse " + key + " in " + json);
             return new ArrayList<String>();
         }
     }
 
-    public Map<String, List<String>> getStringListMap(String key) {
+    private List<String> getStringListMap(String name, String key) {
         try {
             HashMap<String, List<String>> map = new HashMap<String, List<String>>();
-            JSONObject data = json.getJSONObject(key);
-            for (String name : jsonArrayToStringList(data.names())) {
-                map.put(name, jsonArrayToStringList(data.getJSONArray(name)));
-            }
-            return map;
-        } catch (JSONException e) {
-            Logging.warn(getClass(), "Could not parse " + key + " in " + json);
-            return new HashMap<String, List<String>>();
+            JSONObject data = json.getJSONObject(name);
+            return jsonArrayToStringList(data.getJSONArray(key));
+        } catch (Exception e) {
+            Logging.warn(getClass(), "Could not parse " + name + " in " + json);
+            return new ArrayList<String>();
         }
     }
 
