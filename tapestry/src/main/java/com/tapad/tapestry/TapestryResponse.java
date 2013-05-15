@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TapestryResponse {
-    public JSONObject json;
+    private JSONObject json;
 
     public TapestryResponse(TapestryError error) {
         this("{errors:['" + error + "']}");
@@ -90,7 +90,11 @@ public class TapestryResponse {
 
     @Override
     public String toString() {
-        return json.toString();
+        try {
+            return json.toString(2);
+        } catch (JSONException e) {
+            return json.toString();
+        }
     }
 
     @Override

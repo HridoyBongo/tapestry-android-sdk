@@ -1,5 +1,6 @@
 package com.tapad.tapestry;
 
+import android.app.Activity;
 import android.content.Context;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.util.Logging;
@@ -25,7 +26,7 @@ public class TapestryClient {
     private final TapestryTracking tracking;
     private final String url;
     private final String partnerId;
-    private ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
 
     public TapestryClient(Context context, String partnerId) {
         this(new TapestryTracking(context), partnerId, "http://tapestry.tapad.com/tapestry/1");
@@ -37,7 +38,22 @@ public class TapestryClient {
         this.url = url;
     }
 
+    public void send(final Activity activity, final TapestryRequest request, final TapestryCallback callback) {
+        send(request, new TapestryCallback() {
+            @Override
+            public void receive(final TapestryResponse response) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.receive(response);
+                    }
+                });
+            }
+        });
+    }
+
     public void send(final TapestryRequest request, final TapestryCallback callback) {
+        tracking.getUserAgent();
         executor.submit(new Runnable() {
             @Override
             public void run() {

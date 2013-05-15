@@ -6,6 +6,10 @@ public class Logging {
     public static boolean enabled = false;
     public static boolean throwExceptions = false;
 
+    public static void debug(String tag, String message) {
+        if (enabled) Log.d(tag, message);
+    }
+
     public static void warn(String tag, String message) {
         if (enabled) Log.w(tag, message);
     }

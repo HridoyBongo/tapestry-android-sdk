@@ -3,6 +3,7 @@
           package="com.tapad.sample"
           android:versionCode="6"
           android:versionName="1.1">
+
     <uses-sdk android:minSdkVersion="8"/>
 
     <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
@@ -12,13 +13,14 @@
     <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-    <application android:icon="@drawable/logo" android:label="Tapestry Demo">
+    <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         <!-- Tapad Tracking ids to be collected. Defaults to AndroidId if not specified -->
         <!-- Available Values are: AndroidId, PhoneId, WifiMac -->
-        <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
+        <meta-data
+                android:name="tapad.ID_SOURCES"
+                android:value="AndroidId,PhoneId,WifiMac"/>
 
-        <activity android:name=".TapestryDemoActivity"
-                  android:label="TestActivity">
+        <activity android:name=".TapestryDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

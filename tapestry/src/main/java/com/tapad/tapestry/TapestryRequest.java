@@ -6,12 +6,26 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.*;
 
 public class TapestryRequest {
-    public Map<String, Object> parameters = new LinkedHashMap<String, Object>();
+    private Map<String, Object> parameters = new LinkedHashMap<String, Object>();
+
+    public TapestryRequest setData(String key, String value) {
+        return addMapParameter("ta_set_data", key, value);
+    }
+
+    public TapestryRequest addData(String key, String value) {
+        return addMapParameter("ta_add_data", key, value);
+    }
+
+    public TapestryRequest addAudiences(String... audiences) {
+        return addArrayParameter("ta_add_audiences", audiences);
+    }
+
+    public TapestryRequest listDevices() {
+        return addParameter("ta_list_devices", "");
+    }
 
     public TapestryRequest strength(int i) {
         return addParameter("ta_strength", i + "");
@@ -21,24 +35,16 @@ public class TapestryRequest {
         return addParameter("ta_depth", i + "");
     }
 
-    public TapestryRequest partnerId(String id) {
-        return addParameter("ta_partner_id", id);
-    }
-
-    public TapestryRequest addData(String key, String value) {
-        return addMapParameter("ta_add_data", key, value);
-    }
-
     public TapestryRequest userIds(String key, String value) {
         return addMapParameter("ta_user_ids", key, value);
     }
 
-    public TapestryRequest setData(String key, String value) {
-        return addMapParameter("ta_set_data", key, value);
+    protected TapestryRequest partnerId(String id) {
+        return addParameter("ta_partner_id", id);
     }
 
-    public TapestryRequest getData(String... keys) {
-        return addArrayParameter("ta_get_data", keys);
+    protected TapestryRequest typedDid(String key, String value) {
+        return addMapParameter("ta_typed_did", key, value);
     }
 
     public TapestryRequest getIds(String... keys) {
@@ -53,19 +59,11 @@ public class TapestryRequest {
         return addParameter("ta_get_audiences", "");
     }
 
-    public TapestryRequest listDevices() {
-        return addParameter("ta_list_devices", "");
+    public TapestryRequest getData(String... keys) {
+        return addArrayParameter("ta_get_data", keys);
     }
 
-    public TapestryRequest addAudiences(String... audiences) {
-        return addArrayParameter("ta_add_audiences", audiences);
-    }
-
-    public TapestryRequest typedDid(String key, String value) {
-        return addMapParameter("ta_typed_did", key, value);
-    }
-
-    public TapestryRequest addMapParameter(String name, String key, String value) {
+    private TapestryRequest addMapParameter(String name, String key, String value) {
         Object param = parameters.get(name);
         Map<String, String> map = new HashMap<String, String>();
         if (param != null && param instanceof Map)
@@ -74,7 +72,7 @@ public class TapestryRequest {
         return addParameter(name, map);
     }
 
-    public TapestryRequest addArrayParameter(String name, String... values) {
+    private TapestryRequest addArrayParameter(String name, String... values) {
         Object param = parameters.get(name);
         List<String> list = new ArrayList<String>();
         if (param != null && param instanceof List)
@@ -103,12 +101,8 @@ public class TapestryRequest {
         return URLEncodedUtils.format(params, "UTF-8");
     }
 
-    public String toDecodedQuery() {
-        try {
-            return URLDecoder.decode(toQuery(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return "Cannot decode " + e.getMessage();
-        }
+    public Map<String, Object> getParameters() {
+        return parameters;
     }
 
     @Override

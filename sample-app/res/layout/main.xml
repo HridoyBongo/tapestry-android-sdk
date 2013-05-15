@@ -6,36 +6,38 @@
         >
 
     <TextView
-            android:id="@+id/request"
-            android:layout_width="fill_parent"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@android:color/background_light"
+            android:gravity="center"
             android:text="Request"
             />
 
-    <Spinner
-            android:id="@+id/parameters"
-            android:layout_width="fill_parent"
+    <include
+            layout="@layout/scrolltext"
+            android:id="@+id/request"/>
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@android:color/background_light"
+            android:gravity="center"
+            android:text="Response"
             />
 
-    <Button android:id="@+id/opt_in_out"
-            android:text="Opt in / out"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            />
+    <include
+            layout="@layout/scrolltext"
+            android:id="@+id/response"/>
 
-    <Button android:id="@+id/send"
+    <Button
+            android:id="@+id/send"
             android:text="Send Request"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />
-
-    <TextView
-            android:id="@+id/response"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Response"
-            />
-
 </LinearLayout>
 

@@ -18,6 +18,7 @@ public class TapestryTracking {
     public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
     private final IdentifierSource source;
     private final Context context;
+    private String userAgent = "";
     private List<TypedIdentifier> ids;
 
     public TapestryTracking(Context context) {
@@ -65,9 +66,15 @@ public class TapestryTracking {
     }
 
     public String getUserAgent() {
-        WebView wv = new WebView(context);
-        String userAgent = wv.getSettings().getUserAgentString();
-        wv.destroy();
+        if (userAgent.isEmpty()) {
+            try {
+                WebView wv = new WebView(context);
+                userAgent = wv.getSettings().getUserAgentString();
+                wv.destroy();
+            } catch (Exception e) {
+                Logging.error("TapestryTracking", "Could not get user agent", e);
+            }
+        }
         return userAgent;
     }
 
