@@ -20,7 +20,7 @@
                 android:name="tapad.ID_SOURCES"
                 android:value="AndroidId,PhoneId,WifiMac"/>
 
-        <activity android:name=".TapestryDemoActivity">
+        <activity android:name=".TapestryTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -15,7 +15,7 @@ import com.tapad.tapestry.Logging;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-public class TapestryDemoActivity extends Activity {
+public class TapestryTestActivity extends Activity {
     private TapestryClient client = new TapestryClient(this, "1");
     private String[] parameters = {"Opt-out", "setData(color, blue)", "addData(color, red)", "addAudiences(2DSP1)", "listDevices()", "strength(5)", "depth(2)"};
     private boolean[] selected = new boolean[parameters.length];
