@@ -1,7 +1,5 @@
 package com.tapad.tapestry;
 
-import com.tapad.util.Logging;
-
 /**
  * Represents an error that occurred in sending a request to Tapestry.
  */

@@ -1,7 +1,6 @@
 package com.tapad.tapestry;
 
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
-import com.tapad.util.Logging;
 import org.junit.Before;
 import org.junit.Test;
 

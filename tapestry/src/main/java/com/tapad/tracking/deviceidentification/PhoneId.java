@@ -2,8 +2,7 @@ package com.tapad.tracking.deviceidentification;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
-import com.tapad.util.DigestUtil;
-import com.tapad.util.Logging;
+import com.tapad.tapestry.Logging;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

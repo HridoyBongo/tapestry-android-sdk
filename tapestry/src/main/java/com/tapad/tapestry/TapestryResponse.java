@@ -1,6 +1,5 @@
 package com.tapad.tapestry;
 
-import com.tapad.util.Logging;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

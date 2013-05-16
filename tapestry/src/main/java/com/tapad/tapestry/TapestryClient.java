@@ -2,7 +2,6 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
-import com.tapad.util.Logging;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -141,7 +140,7 @@ public class TapestryClient {
         return request.partnerId(partnerId).get();
     }
 
-    protected DefaultHttpClient createClient(String userAgent) {
+    private DefaultHttpClient createClient(String userAgent) {
         // Event occur infrequently, so we use a vanilla single-threaded client.
         HttpParams params = new BasicHttpParams();
         HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);

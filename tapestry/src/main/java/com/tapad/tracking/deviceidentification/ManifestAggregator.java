@@ -3,9 +3,9 @@ package com.tapad.tracking.deviceidentification;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import com.tapad.tapestry.Logging;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ManifestAggregator implements IdentifierSource {
@@ -33,7 +33,7 @@ public class ManifestAggregator implements IdentifierSource {
                 sources.add((IdentifierSource) Class.forName("com.tapad.tracking.deviceidentification." + className.trim()).newInstance());
             }
         } catch (Exception e) {
-            com.tapad.util.Logging.warn(ManifestAggregator.class, "Unable to instantiate identifier sources from manifest: " + e);
+            Logging.warn(ManifestAggregator.class, "Unable to instantiate identifier sources from manifest: " + e);
 
         }
         return new IdentifierSourceAggregator(sources);

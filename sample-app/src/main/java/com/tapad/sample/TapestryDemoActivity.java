@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.tapad.tapestry.*;
-import com.tapad.util.Logging;
+import com.tapad.tapestry.Logging;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

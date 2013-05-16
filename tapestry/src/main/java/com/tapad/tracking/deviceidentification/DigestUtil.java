@@ -1,4 +1,4 @@
-package com.tapad.util;
+package com.tapad.tracking.deviceidentification;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

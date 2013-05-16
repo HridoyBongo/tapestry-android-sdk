@@ -7,12 +7,14 @@ import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
 import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
-import com.tapad.util.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Gets hardware ids from this device for {@link TapestryClient}.
+ */
 public class TapestryTracking {
     public static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
     public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
@@ -36,8 +38,7 @@ public class TapestryTracking {
 
     /**
      * Uses the idCollector to generate ids, if any.  This is not done if the user is already opted out through
-     * preferences.  If there were no ids generated, a random UUID is generated and persisted through
-     * preferences.
+     * preferences.  If there were no ids generated, a random UUID is generated and persisted through preferences.
      */
     public List<TypedIdentifier> getIds() {
         if (ids == null) {
