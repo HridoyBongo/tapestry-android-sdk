@@ -9,10 +9,8 @@ import org.json.JSONObject;
 import java.util.*;
 
 /**
- * A mutable class for building requests sent with {@link TapestryClient}.
- * <p/>
- * Requests are sent as HTTP queries to the Tapestry Web API.  This class provides methods for building valid queries by
- * adding parameters to the query string.
+ * A mutable class for building requests that are sent with {@link TapestryClient}.  Building a request adds parameters
+ * to the HTTP query string that will be sent to Tapestry Web API.
  * <p/>
  * An example of building a request:
  * <blockquote><pre>
@@ -99,10 +97,7 @@ public class TapestryRequest {
     }
 
     protected TapestryRequest get() {
-        addParameter("ta_get_ids", "");
-        addParameter("ta_get_data", "");
-        addParameter("ta_get_platforms", "");
-        return addParameter("ta_get_audiences", "");
+        return addParameter("ta_get", "");
     }
 
     /**

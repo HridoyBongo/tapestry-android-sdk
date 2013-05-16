@@ -2,6 +2,9 @@ package com.tapad.tapestry;
 
 import com.tapad.util.Logging;
 
+/**
+ * Represents an error that occurred in sending a request to Tapestry.
+ */
 public class TapestryError {
     public static int UNEXPECTED_EXCEPTION_ERROR = 0;
     public static int JSON_PARSE_ERROR = 1;
@@ -13,9 +16,9 @@ public class TapestryError {
     public static int CANNOT_IDENTIFY_DEVICE = 7;
     public static int CLIENT_REQUEST_ERROR = 8;
 
-    public int type;
-    public String name;
-    public String message;
+    private int type;
+    private String name;
+    private String message;
 
     public static TapestryError fromJSON(String error) {
         try {
@@ -32,6 +35,33 @@ public class TapestryError {
         this.type = type;
         this.name = name;
         this.message = message;
+    }
+
+    /**
+     * Returns the type of error
+     *
+     * @return type id
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * Returns the name of the error
+     *
+     * @return error name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the error message (if any).
+     *
+     * @return error message or empty string if none exists
+     */
+    public String getMessage() {
+        return message;
     }
 
     @Override

@@ -31,7 +31,7 @@ import static com.tapad.tapestry.TapestryTracking.PREF_TAPAD_DEVICE_ID;
  * {@link TapestryResponse}.  When calling the client from the Android UI thread, it is recommended to send requests
  * asynchronously by passing in a {@link TapestryCallback} so as not to block the UI thread.
  * <p/>
- * An example of sending a request and receiving a response:
+ * An example of sending a request and receiving an asynchronous response:
  * <blockquote><pre>
  * TapestryClient client = new TapestryClient(context, "your-partner-id");
  * TapestryRequest request = new TapestryRequest();

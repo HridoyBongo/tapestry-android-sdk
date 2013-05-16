@@ -29,7 +29,7 @@ public class TapestryClientTest {
         TapestryClient client = new TapestryClient(tracking, "1", "http://tapestry.tapad.com/tapestry/1");
         TapestryResponse response = client.sendSynchronously(new TapestryRequest());
         Logging.setEnabled(true);
-        assertThat(response.getErrors().get(0).type, equalTo(TapestryError.OPTED_OUT));
+        assertThat(response.getErrors().get(0).getType(), equalTo(TapestryError.OPTED_OUT));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class TapestryClientTest {
     public void should_return_errors_in_response() {
         TapestryClient client = new TapestryClient(tracking, "1", "bad url");
         TapestryResponse response = client.sendSynchronously(new TapestryRequest());
-        assertThat(response.getErrors().get(0).type, equalTo(TapestryError.CLIENT_REQUEST_ERROR));
+        assertThat(response.getErrors().get(0).getType(), equalTo(TapestryError.CLIENT_REQUEST_ERROR));
     }
 
     @Test

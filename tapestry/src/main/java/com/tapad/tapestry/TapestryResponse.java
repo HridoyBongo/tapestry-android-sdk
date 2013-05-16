@@ -8,15 +8,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Contains the response to requests sent by the {@link TapestryClient}.
+ * Contains information about this device and devices connected to it in the device graph, as a result of sending a
+ * request to {@link TapestryClient}.  Accessor methods return a list of values from all devices.
  * <p/>
- * Responses are returned as JSON from the Tapestry Web API.  This class parses that JSON and provides useful accessors
- * to the fields contained within.
- * <p/>
- * An example of getting information from a response:
+ * Examples of getting information from a response:
  * <blockquote><pre>
  * if (response.getData("color").contains("blue"))
  *  // user has a preference for blue
@@ -25,43 +22,69 @@ import java.util.Map;
  * if (response.getAudiences().contains("buying-car"))
  *   // user is in a buying car audience
  * for (String cookieId : response.getIds("my-cookie"))
- *   // for every cookie id in a connected device the user has
+ *   // get every cookie id from connected devices
  * if (response.getPlatforms().contains("XBox"))
  *   // user has an XBox
- * if (response.getErrors().isEmpty())
- *   // no errors occurred
+ * if (response.getErrors().size() > 0)
+ *   // errors occurred
  * for (TapestryResponse device : response.getDevices())
- *   // handle each device separately
+ *   // get each device as a separate response
  * </pre></blockquote>
  */
 public class TapestryResponse {
     private JSONObject json;
 
-    public TapestryResponse(TapestryError error) {
+    protected TapestryResponse(TapestryError error) {
         this("{errors:['" + error + "']}");
     }
 
-    public TapestryResponse(String response) {
+    /**
+     * Creates a response from a JSON string returned by Tapestry
+     *
+     * @param jsonString JSON string
+     */
+    public TapestryResponse(String jsonString) {
         try {
-            json = new JSONObject(response);
+            json = new JSONObject(jsonString);
         } catch (Exception e) {
-            Logging.warn(getClass(), "Could not parse " + response);
+            Logging.warn(getClass(), "Could not parse " + jsonString);
             json = new JSONObject();
         }
     }
 
+    /**
+     * Returns information about each device separately as a list of responses.  For instance, whereas {@code
+     * getPlatforms()} normally returns a list of platforms from all devices, calling {@code getPlatforms()} on a
+     * response returned by this method will return only the platform for a single device.
+     * <p/>
+     * Note that {@link com.tapad.tapestry.TapestryRequest#listDevices()} must be called on the request in order for the
+     * devices to be contained in the response.  Calling {@code getDevices()} on devices returned by this method will
+     * always return an empty list.
+     *
+     * @return a list of devices connected to this one or an empty list if none exist
+     */
     public List<TapestryResponse> getDevices() {
         ArrayList<TapestryResponse> devices = new ArrayList<TapestryResponse>();
-        for (String device : getList("devices")) {
+        for (String device : getList("devices"))
             devices.add(new TapestryResponse(device));
-        }
         return devices;
     }
 
+    /**
+     * Returns the platforms the devices.  Not all devices are guaranteed to return a platform.
+     *
+     * @return a list of platform names
+     */
     public List<String> getPlatforms() {
         return getList("platforms");
     }
 
+    /**
+     * Returns any errors that occurred when handling this request.  The types of errors can be found in the {@link
+     * TapestryError} class.
+     *
+     * @return a list of errors
+     */
     public List<TapestryError> getErrors() {
         ArrayList<TapestryError> errors = new ArrayList<TapestryError>();
         for (String error : getList("errors"))
@@ -69,16 +92,33 @@ public class TapestryResponse {
         return errors;
     }
 
+    /**
+     * Returns the audiences that the devices are members of.
+     *
+     * @return a list of audiences
+     */
     public List<String> getAudiences() {
         return getList("audiences");
     }
 
+    /**
+     * Returns the values associated with a given key in the devices.
+     *
+     * @param key The key to retrieve from devices
+     * @return a list of values
+     */
     public List<String> getData(String key) {
         return getStringListMap("data", key);
     }
 
-    public List<String> getIds(String key) {
-        return getStringListMap("ids", key);
+    /**
+     * Returns the hardware or cookie ids of the devices.
+     *
+     * @param type The id type to retrieve
+     * @return a list of ids
+     */
+    public List<String> getIds(String type) {
+        return getStringListMap("ids", type);
     }
 
     private List<String> getList(String key) {
