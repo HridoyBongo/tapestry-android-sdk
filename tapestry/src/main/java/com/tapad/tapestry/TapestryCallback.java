@@ -5,4 +5,10 @@ package com.tapad.tapestry;
  */
 public interface TapestryCallback {
     public void receive(TapestryResponse response);
+
+    public static TapestryCallback DO_NOTHING = new TapestryCallback() {
+        @Override
+        public void receive(TapestryResponse response) {
+        }
+    };
 }

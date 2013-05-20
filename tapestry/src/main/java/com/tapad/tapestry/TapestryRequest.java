@@ -88,16 +88,16 @@ public class TapestryRequest {
         return addMapParameter("ta_user_ids", type, id);
     }
 
+    protected TapestryRequest get() {
+        return addParameter("ta_get", "");
+    }
+
     protected TapestryRequest partnerId(String id) {
         return addParameter("ta_partner_id", id);
     }
 
     protected TapestryRequest typedDid(String key, String value) {
         return addMapParameter("ta_typed_did", key, value);
-    }
-
-    protected TapestryRequest get() {
-        return addParameter("ta_get", "");
     }
 
     /**

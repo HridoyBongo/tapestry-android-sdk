@@ -2,6 +2,9 @@ package com.tapad.tapestry;
 
 import android.util.Log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  * Enables logging or exception throwing (disabled by default) for Tapestry.
  */
@@ -36,7 +39,9 @@ public class Logging {
     }
 
     public static void error(Class<?> clazz, String message, Exception e) {
-        tryLog(clazz, "ERROR", message + ": " + e);
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        tryLog(clazz, "ERROR", message + ": " + sw.toString());
         if (throwExceptions) throw new RuntimeException(e);
     }
 

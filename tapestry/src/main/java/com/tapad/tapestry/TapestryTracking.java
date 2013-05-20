@@ -16,24 +16,33 @@ import java.util.UUID;
  * Gets hardware ids from this device for {@link TapestryClient}.
  */
 public class TapestryTracking {
-    public static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
-    public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
-    private final IdentifierSource source;
-    private final Context context;
+    private final List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
     private String userAgent = "";
-    private List<TypedIdentifier> ids;
+    private String deviceId;
 
     public TapestryTracking(Context context) {
         this(context, new ManifestAggregator());
     }
 
     public TapestryTracking(Context context, IdentifierSource source) {
-        this.context = context;
-        this.source = source;
-    }
-
-    public boolean isOptedOut() {
-        return getDeviceId().equals(OPTED_OUT_DEVICE_ID);
+        updateDeviceId(context);
+        try {
+            ids.addAll(source.get(context));
+            if (ids.isEmpty() && getDeviceId() != null)
+                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_RANDOM_UUID, getDeviceId()));
+        } catch (Exception e) {
+            Logging.error(getClass(), "Unable to collect ids", e);
+        }
+        try {
+            WebView wv = new WebView(context);
+            userAgent = wv.getSettings().getUserAgentString();
+            wv.destroy();
+        } catch (Exception e) {
+            Logging.error(getClass(), "Could not get user agent", e);
+        }
+        // We throw an uncaught exception here because we don't want to fail silently due to an easy-to-make mistake
+        if (ids.isEmpty())
+            throw new RuntimeException("Tapestry cannot identify this device, make sure onCreate() has been called before instantiating TapestryClient");
     }
 
     /**
@@ -41,45 +50,27 @@ public class TapestryTracking {
      * preferences.  If there were no ids generated, a random UUID is generated and persisted through preferences.
      */
     public List<TypedIdentifier> getIds() {
-        if (ids == null) {
-            ids = new ArrayList<TypedIdentifier>();
-            try {
-                ids.addAll(source.get(context));
-                if (ids.isEmpty())
-                    ids.add(new TypedIdentifier(TypedIdentifier.TYPE_RANDOM_UUID, getDeviceId()));
-            } catch (Exception e) {
-                Logging.warn(getClass(), "Unable to collect ids: " + e.getMessage());
-            }
-        }
         return ids;
     }
 
     public String getUserAgent() {
-        if (userAgent.isEmpty()) {
-            try {
-                WebView wv = new WebView(context);
-                userAgent = wv.getSettings().getUserAgentString();
-                wv.destroy();
-            } catch (Exception e) {
-                Logging.error(getClass(), "Could not get user agent", e);
-            }
-        }
         return userAgent;
     }
 
     public String getDeviceId() {
-        String deviceId = getPreferences().getString(PREF_TAPAD_DEVICE_ID, null);
-        if (deviceId == null) {
-            deviceId = UUID.randomUUID().toString();
-            getPreferences().edit().putString(PREF_TAPAD_DEVICE_ID, deviceId).commit();
-        }
         return deviceId;
     }
 
-    protected SharedPreferences getPreferences() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences == null)
-            throw new IllegalStateException("Preferences is null, make sure onCreate() has been called before using Tapestry");
-        return preferences;
+    public void updateDeviceId(Context context) {
+        try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            deviceId = preferences.getString(TapestryClient.PREF_TAPAD_DEVICE_ID, null);
+            if (deviceId == null) {
+                deviceId = UUID.randomUUID().toString();
+                preferences.edit().putString(TapestryClient.PREF_TAPAD_DEVICE_ID, deviceId).commit();
+            }
+        } catch (Exception e) {
+            Logging.error(getClass(), "Error updating device id", e);
+        }
     }
 }

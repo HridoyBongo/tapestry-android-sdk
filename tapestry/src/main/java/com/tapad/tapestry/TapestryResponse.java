@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -120,24 +119,24 @@ public class TapestryResponse {
         return getStringListMap("ids", type);
     }
 
-    private List<String> getList(String key) {
+    private List<String> getList(String name) {
         try {
-            return jsonArrayToStringList(json.getJSONArray(key));
+            if (json.has(name))
+                return jsonArrayToStringList(json.getJSONArray(name));
         } catch (Exception e) {
-            Logging.warn(getClass(), "Could not parse " + key + " in " + json);
-            return new ArrayList<String>();
+            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
         }
+        return new ArrayList<String>();
     }
 
     private List<String> getStringListMap(String name, String key) {
         try {
-            HashMap<String, List<String>> map = new HashMap<String, List<String>>();
-            JSONObject data = json.getJSONObject(name);
-            return jsonArrayToStringList(data.getJSONArray(key));
+            if (json.has(name) && json.getJSONObject(name).has(key))
+                return jsonArrayToStringList(json.getJSONObject(name).getJSONArray(key));
         } catch (Exception e) {
-            Logging.warn(getClass(), "Could not parse " + name + " in " + json);
-            return new ArrayList<String>();
+            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
         }
+        return new ArrayList<String>();
     }
 
     private List<String> jsonArrayToStringList(JSONArray array) throws JSONException {

@@ -10,20 +10,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.tapad.tapestry.*;
-import com.tapad.tapestry.Logging;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 public class TapestryTestActivity extends Activity {
-    private TapestryClient client = new TapestryClient(this, "1");
+    private TapestryClient client;
     private String[] parameters = {"Opt-out", "setData(color, blue)", "addData(color, red)", "addAudiences(2DSP1)", "listDevices()", "strength(5)", "depth(2)"};
     private boolean[] selected = new boolean[parameters.length];
+
+    public TapestryRequest updateRequest() {
+        TapestryRequest request = new TapestryRequest();
+        int i = 0;
+        if (selected[i++]) client.optOut(this);
+        else client.optIn(this);
+        if (selected[i++]) request.setData("color", "blue");
+        if (selected[i++]) request.addData("color", "red");
+        if (selected[i++]) request.addAudiences("2DSP1");
+        if (selected[i++]) request.listDevices();
+        if (selected[i++]) request.strength(5);
+        if (selected[i++]) request.depth(2);
+        getTextView(R.id.request).setText(prettifyRequest(client.addParameters(request).toQuery()));
+        return request;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.test_content);
+
+        client = new TapestryClient(this, "1");
+
         getTextView(R.id.response).setHorizontallyScrolling(true);
         getTextView(R.id.request).setHorizontallyScrolling(true);
 
@@ -37,21 +54,6 @@ public class TapestryTestActivity extends Activity {
                 new SelectParametersDialogFragment().show(getFragmentManager(), "");
             }
         });
-    }
-
-    public TapestryRequest updateRequest() {
-        TapestryRequest request = new TapestryRequest();
-        int i = 0;
-        if (selected[i++]) client.optOut();
-        else client.optIn();
-        if (selected[i++]) request.setData("color", "blue");
-        if (selected[i++]) request.addData("color", "red");
-        if (selected[i++]) request.addAudiences("2DSP1");
-        if (selected[i++]) request.listDevices();
-        if (selected[i++]) request.strength(5);
-        if (selected[i++]) request.depth(2);
-        getTextView(R.id.request).setText(prettifyRequest(client.addParameters(request).toQuery()));
-        return request;
     }
 
     public void sendRequest(TapestryRequest request) {

@@ -8,7 +8,7 @@ public class TypedIdentifier {
     /**
      * List of known identifier types
      */
-    public static final String TYPE_RANDOM_UUID = "na";
+    public static final String TYPE_RANDOM_UUID = "pref";
     public static final String TYPE_ANDROID_ID_SHA1 = "sha1anid";
     public static final String TYPE_ANDROID_ID_MD5 = "md5anid";
     public static final String TYPE_PHONE_ID_SHA1 = "sha1phid";

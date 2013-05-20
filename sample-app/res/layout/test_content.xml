@@ -16,7 +16,7 @@
             />
 
     <include
-            layout="@layout/scrolltext"
+            layout="@layout/scroll_text"
             android:id="@+id/request"/>
 
     <TextView
@@ -30,7 +30,7 @@
             />
 
     <include
-            layout="@layout/scrolltext"
+            layout="@layout/scroll_text"
             android:id="@+id/response"/>
 
     <Button
