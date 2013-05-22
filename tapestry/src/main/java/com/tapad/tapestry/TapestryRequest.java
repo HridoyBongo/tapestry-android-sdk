@@ -92,6 +92,10 @@ public class TapestryRequest {
         return addParameter("ta_get", "");
     }
 
+    protected TapestryRequest platform(String platform) {
+        return addParameter("ta_platform", platform);
+    }
+
     protected TapestryRequest partnerId(String id) {
         return addParameter("ta_partner_id", id);
     }

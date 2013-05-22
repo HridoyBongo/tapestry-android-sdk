@@ -2,6 +2,7 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
@@ -9,6 +10,7 @@ import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,9 +18,14 @@ import java.util.UUID;
  * Gets hardware ids from this device for {@link TapestryClient}.
  */
 public class TapestryTracking {
+    // Platforms we can identify in the user agent to avoid sending one explicitly
+    private static final List<String> PLATFORMS = Arrays.asList("smarttv", "googletv", "internet.tv", "netcast", "nettv", "appletv", "boxee", "kylo", "roku", "dlnadoc", "ce-html", "symbian", "kindle", "android", "blackberry", "palm", "wii", "playstation", "xbox", "silk", "msie");
+    // Defined in Android SDKs newer than 1.6
+    private static final int SCREENLAYOUT_SIZE_XLARGE = 4;
     private final List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
     private String userAgent = "";
-    private String deviceId;
+    private String deviceId = "";
+    private String platform = "";
 
     public TapestryTracking(Context context) {
         this(context, new ManifestAggregator());
@@ -40,9 +47,25 @@ public class TapestryTracking {
         } catch (Exception e) {
             Logging.error(getClass(), "Could not get user agent", e);
         }
+        try {
+            platform = identifyPlatform(context);
+        } catch (Exception e) {
+            Logging.error(getClass(), "Could not identify platform", e);
+        }
         // We throw an uncaught exception here because we don't want to fail silently due to an easy-to-make mistake
         if (ids.isEmpty())
             throw new RuntimeException("Tapestry cannot identify this device, make sure onCreate() has been called before instantiating TapestryClient");
+    }
+
+    private String identifyPlatform(Context context) {
+        String userAgentLower = userAgent.toLowerCase();
+        for (String platform : PLATFORMS)
+            if (userAgentLower.contains(platform))
+                return "";
+        int screenSize = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE || screenSize == SCREENLAYOUT_SIZE_XLARGE)
+            return "android tablet";
+        return "android mobile";
     }
 
     /**
@@ -55,6 +78,10 @@ public class TapestryTracking {
 
     public String getUserAgent() {
         return userAgent;
+    }
+
+    public String getPlatform() {
+        return platform;
     }
 
     public String getDeviceId() {

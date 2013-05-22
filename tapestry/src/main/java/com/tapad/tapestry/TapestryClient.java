@@ -150,6 +150,8 @@ public class TapestryClient {
     public TapestryRequest addParameters(TapestryRequest request) {
         for (TypedIdentifier identifier : tracking.getIds())
             request.typedDid(identifier.getType(), identifier.getValue());
+        if (!tracking.getPlatform().isEmpty())
+            request.platform(tracking.getPlatform());
         return request.partnerId(partnerId).get();
     }
 

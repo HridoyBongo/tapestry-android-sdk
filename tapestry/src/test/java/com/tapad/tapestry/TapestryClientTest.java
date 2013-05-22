@@ -24,6 +24,7 @@ public class TapestryClientTest {
     public void setup() {
         when(tracking.getIds()).thenReturn(new ArrayList<TypedIdentifier>());
         when(tracking.getDeviceId()).thenReturn("");
+        when(tracking.getPlatform()).thenReturn("");
     }
 
     @Test
@@ -78,5 +79,12 @@ public class TapestryClientTest {
         when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier("sometype", "someval")));
         TapestryClient client = new TapestryClient(tracking, TEST_PARTNER_ID, "");
         assertEquals(client.addParameters(new TapestryRequest()), new TapestryRequest().typedDid("sometype", "someval").partnerId(TEST_PARTNER_ID).get());
+    }
+
+    @Test
+    public void should_decorate_requests_with_platform_when_defined() {
+        when(tracking.getPlatform()).thenReturn("platform");
+        TapestryClient client = new TapestryClient(tracking, TEST_PARTNER_ID, "");
+        assertEquals(client.addParameters(new TapestryRequest()), new TapestryRequest().platform("platform").partnerId(TEST_PARTNER_ID).get());
     }
 }
