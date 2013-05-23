@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tapad.sample"
+          package="com.tapad.tapestry"
           android:versionCode="6"
           android:versionName="1.1">
 
@@ -13,19 +13,21 @@
     <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-    <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+    <application android:name=".MainApplication" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         <!-- Tapad Tracking ids to be collected. Defaults to AndroidId if not specified -->
         <!-- Available Values are: AndroidId, PhoneId, WifiMac -->
-        <meta-data
-                android:name="tapad.ID_SOURCES"
-                android:value="AndroidId,PhoneId,WifiMac"/>
+        <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
+        <meta-data android:name="tapad.API_URL" android:value="http://tapestry-api-test.dev.tapad.com/tapestry/1"/>
+        <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
 
-        <activity android:name=".TapestryTestActivity">
+        <activity android:name=".MenuTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".DemoActivity"/>
+        <activity android:name=".TestActivity"/>
     </application>
 
 </manifest> 

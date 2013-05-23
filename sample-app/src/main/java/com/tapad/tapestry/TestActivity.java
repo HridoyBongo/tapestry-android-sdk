@@ -1,36 +1,34 @@
-package com.tapad.sample;
+package com.tapad.tapestry;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.tapad.tapestry.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-public class TapestryTestActivity extends Activity {
-    private TapestryClient client;
+public class TestActivity extends FragmentActivity {
     private String[] parameters = {"Opt-out", "setData(color, blue)", "addData(color, red)", "addAudiences(2DSP1)", "listDevices()", "strength(5)", "depth(2)"};
     private boolean[] selected = new boolean[parameters.length];
 
     public TapestryRequest updateRequest() {
         TapestryRequest request = new TapestryRequest();
         int i = 0;
-        if (selected[i++]) client.optOut(this);
-        else client.optIn(this);
+        if (selected[i++]) TapestryService.optOut(this);
+        else TapestryService.optIn(this);
         if (selected[i++]) request.setData("color", "blue");
         if (selected[i++]) request.addData("color", "red");
         if (selected[i++]) request.addAudiences("2DSP1");
         if (selected[i++]) request.listDevices();
         if (selected[i++]) request.strength(5);
         if (selected[i++]) request.depth(2);
-        getTextView(R.id.request).setText(prettifyRequest(client.addParameters(request).toQuery()));
+        getTextView(R.id.request).setText(prettifyRequest(TapestryService.client().addParameters(request).toQuery()));
         return request;
     }
 
@@ -38,8 +36,6 @@ public class TapestryTestActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_content);
-
-        client = new TapestryClient(this, "1");
 
         getTextView(R.id.response).setHorizontallyScrolling(true);
         getTextView(R.id.request).setHorizontallyScrolling(true);
@@ -51,13 +47,14 @@ public class TapestryTestActivity extends Activity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SelectParametersDialogFragment().show(getFragmentManager(), "");
+                SelectParametersDialogFragment dialog = new SelectParametersDialogFragment();
+                dialog.show(getSupportFragmentManager(), "");
             }
         });
     }
 
     public void sendRequest(TapestryRequest request) {
-        client.send(request, new TapestryUICallback(this) {
+        TapestryService.send(request, new TapestryUICallback(this) {
             @Override
             public void receiveOnUiThread(TapestryResponse response) {
                 getTextView(R.id.response).setText(response.toString());

@@ -38,5 +38,4 @@ public class ManifestAggregator implements IdentifierSource {
         }
         return new IdentifierSourceAggregator(sources);
     }
-
 }

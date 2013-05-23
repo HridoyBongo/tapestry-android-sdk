@@ -1,7 +1,9 @@
 package com.tapad.tapestry;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,11 +27,14 @@ import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static com.tapad.tapestry.TapestryError.CLIENT_REQUEST_ERROR;
 import static com.tapad.tapestry.TapestryError.OPTED_OUT;
 
 /**
- * A client for sending requests to the Tapestry Web API and returning responses.
+ * A client for sending requests to the Tapestry Web API and returning responses.  The client should be instantiated
+ * once your activity has entered {@code onCreate()}.  If you use the client across many Activities, you may wish to use
+ * the {@link TapestryService} wrapper instead.
  * <p/>
  * The client sends a {@link TapestryRequest} as an HTTP request to the Tapestry Web API and parses the JSON response as
  * {@link TapestryResponse}.  When calling the client from the Android UI thread, it is recommended to send requests
@@ -37,7 +42,7 @@ import static com.tapad.tapestry.TapestryError.OPTED_OUT;
  * <p/>
  * An example of sending a request and receiving an asynchronous response:
  * <blockquote><pre>
- * TapestryClient client = new TapestryClient(context, "your-partner-id");
+ * TapestryClient client = new TapestryClient(context);
  * TapestryRequest request = new TapestryRequest();
  * // TODO build request
  * client.send(request, new TapestryCallback() {
@@ -52,10 +57,11 @@ import static com.tapad.tapestry.TapestryError.OPTED_OUT;
  * has been set to true.
  */
 public class TapestryClient {
+    public static final String DEFAULT_URL = "http://tapestry.tapad.com/tapestry/1";
     public static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
     public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
     private static final int SOCKET_OPERATION_TIMEOUT = 10 * 1000;
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private static final ExecutorService executor = Executors.newFixedThreadPool(2);
     private final TapestryTracking tracking;
     private final String url;
     private final String partnerId;
@@ -63,12 +69,24 @@ public class TapestryClient {
 
     /**
      * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.
+     * Partner id will be read from {@code tapad.PARTNER_ID} in the manifest or default if none exists.  The url of the
+     * API will be read from {@code tapad.API_URL} in the manifest or default if none exists.
+     *
+     * @param context The context of the app
+     */
+    public TapestryClient(Context context) {
+        this(context, getMetaData(context, "tapad.PARTNER_ID", null));
+    }
+
+    /**
+     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.  The
+     * url of the API will be read from {@code tapad.API_URL} in the manifest or default if none exists.
      *
      * @param context   The context of the app
      * @param partnerId The Tapestry partner id that has been assigned to you
      */
     public TapestryClient(Context context, String partnerId) {
-        this(new TapestryTracking(context), partnerId, "http://tapestry.tapad.com/tapestry/1");
+        this(context, partnerId, getMetaData(context, "tapad.API_URL", DEFAULT_URL));
     }
 
     /**
@@ -82,10 +100,23 @@ public class TapestryClient {
         this(new TapestryTracking(context), partnerId, url);
     }
 
+    private static String getMetaData(Context context, String key, String defaultValue) {
+        try {
+            String value = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
+                    .metaData.get(key).toString();
+            return value == null ? defaultValue : value;
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
     protected TapestryClient(TapestryTracking tracking, String partnerId, String url) {
         this.tracking = tracking;
         this.partnerId = partnerId;
         this.url = url;
+        if (this.partnerId == null)
+            throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
         client = createClient(tracking.getUserAgent());
     }
 
@@ -142,24 +173,10 @@ public class TapestryClient {
     }
 
     /**
-     * Adds parameters which are required (e.g. device identifiers and partner id) to a request.
-     *
-     * @param request A request
-     * @return the request with additional parameters
-     */
-    public TapestryRequest addParameters(TapestryRequest request) {
-        for (TypedIdentifier identifier : tracking.getIds())
-            request.typedDid(identifier.getType(), identifier.getValue());
-        if (!tracking.getPlatform().isEmpty())
-            request.platform(tracking.getPlatform());
-        return request.partnerId(partnerId).get();
-    }
-
-    /**
      * Opts this device into tracking.  Tapestry will collect ids and send requests from this app.
      */
     public void optIn(Context context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().remove(PREF_TAPAD_DEVICE_ID).commit();
+        getDefaultSharedPreferences(context).edit().remove(PREF_TAPAD_DEVICE_ID).commit();
         tracking.updateDeviceId(context);
     }
 
@@ -168,8 +185,22 @@ public class TapestryClient {
      * will be a {@link TapestryResponse} containing an {@link TapestryError#OPTED_OUT} error.
      */
     public void optOut(Context context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID).commit();
+        getDefaultSharedPreferences(context).edit().putString(PREF_TAPAD_DEVICE_ID, OPTED_OUT_DEVICE_ID).commit();
         tracking.updateDeviceId(context);
+    }
+
+    /**
+     * Adds parameters which are required (e.g. device identifiers and partner id) to a request.
+     *
+     * @param request A request
+     * @return the request with additional parameters
+     */
+    protected TapestryRequest addParameters(TapestryRequest request) {
+        for (TypedIdentifier identifier : tracking.getIds())
+            request.typedDid(identifier.getType(), identifier.getValue());
+        if (!tracking.getPlatform().isEmpty())
+            request.platform(tracking.getPlatform());
+        return request.partnerId(partnerId).get();
     }
 
     /**

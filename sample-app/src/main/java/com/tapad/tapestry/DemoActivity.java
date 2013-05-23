@@ -1,4 +1,4 @@
-package com.tapad.sample;
+package com.tapad.tapestry;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,15 +8,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import com.tapad.tapestry.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class TapestryDemoActivity extends Activity {
+public class DemoActivity extends Activity {
     private List<String> colorNames = Arrays.asList("black", "blue", "gray", "red", "white");
     private int[] colors = {R.drawable.black_car, R.drawable.blue_car, R.drawable.gray_car, R.drawable.red_car, R.drawable.white_car};
-    private TapestryClient client;
     private int selectedColor;
 
     @Override
@@ -27,8 +25,6 @@ public class TapestryDemoActivity extends Activity {
         Logging.setEnabled(true);
         Logging.setThrowExceptions(true);
 
-        client = new TapestryClient(this, "12345", "http://tapestry-api-test.dev.tapad.com/tapestry/1");
-
         // install swipe detection
         ImageView imageView = (ImageView) findViewById(R.id.image);
         imageView.setOnTouchListener(new GestureListener(this) {
@@ -36,7 +32,7 @@ public class TapestryDemoActivity extends Activity {
             protected void swipe(int dX) {
                 selectedColor += dX;
                 updateColor();
-                client.send(new TapestryRequest().setData("color", colorNames.get(selectedColor)));
+                TapestryService.send(new TapestryRequest().setData("color", colorNames.get(selectedColor)));
             }
         });
 
@@ -50,7 +46,7 @@ public class TapestryDemoActivity extends Activity {
     }
 
     private void refreshColor() {
-        client.send(new TapestryRequest(), new TapestryUICallback(this) {
+        TapestryService.send(new TapestryRequest(), new TapestryUICallback(this) {
             @Override
             public void receiveOnUiThread(TapestryResponse response) {
                 List<String> savedColors = response.getData("color");
