@@ -14,10 +14,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application android:name=".MainApplication" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-        <!-- Tapad Tracking ids to be collected. Defaults to AndroidId if not specified -->
-        <!-- Available Values are: AndroidId, PhoneId, WifiMac -->
+        <!-- Tracking ids to be collected.  Available Values are: AndroidId, PhoneId, WifiMac.  Default: AndroidId -->
         <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
+
+        <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
         <meta-data android:name="tapad.API_URL" android:value="http://tapestry-api-test.dev.tapad.com/tapestry/1"/>
+
+        <!-- Tapestry partner id. -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
 
         <activity android:name=".MenuTabActivity">
@@ -29,5 +32,4 @@
         <activity android:name=".DemoActivity"/>
         <activity android:name=".TestActivity"/>
     </application>
-
-</manifest> 
+</manifest>
