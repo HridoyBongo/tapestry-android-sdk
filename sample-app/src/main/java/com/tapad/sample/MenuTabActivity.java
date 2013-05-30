@@ -1,9 +1,10 @@
-package com.tapad.tapestry;
+package com.tapad.sample;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
+import com.tapad.tapestry.R;
 
 public class MenuTabActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {

@@ -13,7 +13,7 @@
     <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
-    <application android:name=".MainApplication" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+    <application android:name="com.tapad.sample.MainApplication" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         <!-- Tracking ids to be collected.  Available Values are: AndroidId, PhoneId, WifiMac.  Default: AndroidId -->
         <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
 
@@ -23,13 +23,13 @@
         <!-- Tapestry partner id. -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
 
-        <activity android:name=".MenuTabActivity">
+        <activity android:name="com.tapad.sample.MenuTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DemoActivity"/>
-        <activity android:name=".TestActivity"/>
+        <activity android:name="com.tapad.sample.DemoActivity"/>
+        <activity android:name="com.tapad.sample.TestActivity"/>
     </application>
 </manifest>

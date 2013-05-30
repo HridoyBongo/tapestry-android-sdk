@@ -1,4 +1,4 @@
-package com.tapad.tapestry;
+package com.tapad.sample;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.tapad.tapestry.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

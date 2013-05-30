@@ -1,4 +1,4 @@
-package com.tapad.tapestry;
+package com.tapad.sample;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import com.tapad.tapestry.*;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,9 +1,7 @@
 package com.tapad.tapestry;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -155,7 +153,9 @@ public class TapestryClient {
             if (tracking.getDeviceId().equals(OPTED_OUT_DEVICE_ID))
                 return new TapestryResponse(new TapestryError(OPTED_OUT, "OptedOut", ""));
             String uri = url + "?" + addParameters(request).toQuery();
-            HttpResponse response = client.execute(new HttpGet(uri));
+            HttpGet http = new HttpGet(uri);
+            http.setHeader("X-Tapestry-Id", partnerId);
+            HttpResponse response = client.execute(http);
             HttpEntity entity = response.getEntity();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             try {
