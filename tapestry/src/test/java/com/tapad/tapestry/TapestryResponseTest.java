@@ -2,10 +2,21 @@ package com.tapad.tapestry;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.*;
 
 public class TapestryResponseTest {
+    @Test
+    public void should_analytics() {
+        TapestryResponse response = new TapestryResponse("{'analytics':{a:['1'],b:'2',c:3}}");
+        assertThat(response.getAnalyticsList("a"), equalTo(Arrays.asList("1")));
+        assertThat(response.getAnalyticsString("b"), equalTo("2"));
+        assertThat(response.getAnalyticsInt("c"), equalTo(3));
+    }
+
     @Test
     public void should_parse_data() {
         TapestryResponse response = new TapestryResponse("{'data':{'a':['1','2'],'b':['3']}}");

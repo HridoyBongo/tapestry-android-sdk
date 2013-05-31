@@ -10,7 +10,6 @@ public class TapestryError {
     public static int NO_PARTNER_ID_ERROR = 3;
     public static int OPTED_OUT = 4;
     public static int NO_PERMISSIONS = 5;
-    public static int UNRECOGNIZED_PARAMETER = 6;
     public static int CANNOT_IDENTIFY_DEVICE = 7;
     public static int CLIENT_REQUEST_ERROR = 8;
 
