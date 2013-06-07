@@ -3,6 +3,8 @@ package com.tapad.tapestry;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
@@ -11,9 +13,11 @@ import static org.junit.matchers.JUnitMatchers.*;
 public class TapestryResponseTest {
     @Test
     public void should_analytics() {
-        TapestryResponse response = new TapestryResponse("{'analytics':{a:['1'],b:'2',c:3}}");
-        assertThat(response.getAnalytics("b"), equalTo("2"));
-        assertThat(response.getAnalytics("c"), equalTo("3"));
+        TapestryResponse response = new TapestryResponse("{'analytics':{a:'1',b:'2'}}");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("a", "1");
+        map.put("b", "2");
+        assertThat(response.analytics(), equalTo(map));
     }
 
     @Test

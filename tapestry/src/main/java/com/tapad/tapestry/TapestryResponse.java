@@ -5,7 +5,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Contains information about this device and devices connected to it in the device graph, as a result of sending a
@@ -119,13 +121,23 @@ public class TapestryResponse {
         return getStringListMap("ids", type);
     }
 
-    public String getAnalytics(String name) {
+    /**
+     * Returns the analytics values.
+     *
+     * @return map of values
+     */
+    public Map<String, String> analytics() {
         try {
-            return json.getJSONObject("analytics").get(name).toString();
+            HashMap<String, String> map = new HashMap<String, String>();
+            JSONObject object = json.getJSONObject("analytics");
+            JSONArray names = object.names();
+            for (int i = 0; i < names.length(); i++)
+                map.put(names.getString(i), object.getString(names.getString(i)));
+            return map;
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
+            Logging.error(getClass(), "Could not parse analytics in " + json, e);
         }
-        return "";
+        return new HashMap<String, String>();
     }
 
     private List<String> getList(String name) {
