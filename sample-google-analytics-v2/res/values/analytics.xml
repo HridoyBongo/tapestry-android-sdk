@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources xmlns:tools="https://schemas.android.com/tools" tools:ignore="TypographyDashes">
+    <string name="ga_trackingId">UA-41283710-2</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <integer name="ga_dispatchPeriod">1</integer>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <integer name="ga_sampleFrequency">1</integer>
+    <bool name="ga_debug">true</bool>
+</resources>

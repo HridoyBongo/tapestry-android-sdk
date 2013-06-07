@@ -119,31 +119,13 @@ public class TapestryResponse {
         return getStringListMap("ids", type);
     }
 
-    public String getAnalyticsString(String name) {
+    public String getAnalytics(String name) {
         try {
-            return json.getJSONObject("analytics").getString(name);
+            return json.getJSONObject("analytics").get(name).toString();
         } catch (Exception e) {
             Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
         }
         return "";
-    }
-
-    public int getAnalyticsInt(String name) {
-        try {
-            return json.getJSONObject("analytics").getInt(name);
-        } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
-        }
-        return -1;
-    }
-
-    public List<String> getAnalyticsList(String name) {
-        try {
-            return jsonArrayToStringList(json.getJSONObject("analytics").getJSONArray(name));
-        } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
-        }
-        return new ArrayList<String>();
     }
 
     private List<String> getList(String name) {

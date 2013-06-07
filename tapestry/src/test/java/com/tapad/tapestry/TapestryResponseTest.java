@@ -12,9 +12,8 @@ public class TapestryResponseTest {
     @Test
     public void should_analytics() {
         TapestryResponse response = new TapestryResponse("{'analytics':{a:['1'],b:'2',c:3}}");
-        assertThat(response.getAnalyticsList("a"), equalTo(Arrays.asList("1")));
-        assertThat(response.getAnalyticsString("b"), equalTo("2"));
-        assertThat(response.getAnalyticsInt("c"), equalTo(3));
+        assertThat(response.getAnalytics("b"), equalTo("2"));
+        assertThat(response.getAnalytics("c"), equalTo("3"));
     }
 
     @Test

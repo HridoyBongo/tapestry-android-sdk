@@ -88,6 +88,15 @@ public class TapestryRequest {
         return addMapParameter("ta_user_ids", type, id);
     }
 
+    /**
+     * Sets the analytics parameter for tracking in analytics platforms
+     *
+     * @param isNewSession   Has enough time elapsed to be considered a new tracking session
+     */
+    public TapestryRequest analytics(Boolean isNewSession) {
+        return addMapParameter("ta_analytics", "isNewSession", isNewSession.toString());
+    }
+
     protected TapestryRequest get() {
         return addParameter("ta_get", "");
     }

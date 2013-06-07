@@ -14,6 +14,8 @@
     <modules>
         <module>sample-app</module>
         <module>tapestry</module>
+        <module>sample-google-analytics</module>
+        <module>sample-google-analytics-v2</module>
     </modules>
 
     <distributionManagement>
