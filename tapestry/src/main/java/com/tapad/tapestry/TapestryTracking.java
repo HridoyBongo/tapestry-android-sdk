@@ -8,6 +8,7 @@ import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
 import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
+import com.tapad.tracking.deviceidentification.UserAgent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +42,7 @@ public class TapestryTracking {
             Logging.error(getClass(), "Unable to collect ids", e);
         }
         try {
-            WebView wv = new WebView(context);
-            userAgent = wv.getSettings().getUserAgentString();
-            wv.destroy();
+            userAgent = UserAgent.getUserAgent(context);
         } catch (Exception e) {
             Logging.error(getClass(), "Could not get user agent", e);
         }

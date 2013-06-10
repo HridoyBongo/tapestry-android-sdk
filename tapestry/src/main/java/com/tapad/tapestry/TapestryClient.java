@@ -195,7 +195,7 @@ public class TapestryClient {
      * @param request A request
      * @return the request with additional parameters
      */
-    protected TapestryRequest addParameters(TapestryRequest request) {
+    public TapestryRequest addParameters(TapestryRequest request) {
         for (TypedIdentifier identifier : tracking.getIds())
             request.typedDid(identifier.getType(), identifier.getValue());
         if (!tracking.getPlatform().isEmpty())

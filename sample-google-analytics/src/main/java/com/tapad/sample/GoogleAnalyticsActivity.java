@@ -22,9 +22,10 @@ public class GoogleAnalyticsActivity extends Activity {
                 tracker.setCustomVar(2, "Platforms Associated", analytics.get("pa"), 2);
                 tracker.setCustomVar(3, "Platform Types", analytics.get("pt"), 2);
                 tracker.setCustomVar(4, "First Visited Platform", analytics.get("fvp"), 2);
-                tracker.setCustomVar(5, "Most Recent Visited Platform", analytics.get("mrvp"), 2);
+                // Because there can only be 5 custom variables the following is unused
+                tracker.setCustomVar(6, "Most Recent Visited Platform", analytics.get("mrvp"), 2);
                 if (analytics.get("movp") != null)
-                    tracker.setCustomVar(6, "Most Often Visited Platform", analytics.get("movp"), 2);
+                    tracker.setCustomVar(5, "Most Often Visited Platform", analytics.get("movp"), 2);
                 tracker.trackEvent("tapestry", "android", "", 0);
                 tracker.dispatch();
                 lastAnalyticsPush.set(System.currentTimeMillis());

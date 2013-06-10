@@ -38,11 +38,11 @@ public class Logging {
         tryLog(clazz, "WARN", message);
     }
 
-    public static void error(Class<?> clazz, String message, Exception e) {
+    public static void error(Class<?> clazz, String message, Throwable t) {
         StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
+        t.printStackTrace(new PrintWriter(sw));
         tryLog(clazz, "ERROR", message + ": " + sw.toString());
-        if (throwExceptions) throw new RuntimeException(e);
+        if (throwExceptions) throw new RuntimeException(t);
     }
 
     private static void tryLog(Class<?> clazz, String logger, String message) {
