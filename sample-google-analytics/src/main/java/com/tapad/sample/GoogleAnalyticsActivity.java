@@ -13,12 +13,12 @@ public class GoogleAnalyticsActivity extends Activity {
      * TapestryAnalyticsService can be used from multiple Activities or the Application
      */
     public static class TapestryAnalyticsService {
-        private static AtomicLong lastAnalyticsPush = new AtomicLong();
+        private static AtomicLong lastAnalyticsSend = new AtomicLong();
 
-        private static void sendAnalytics(GoogleAnalyticsTracker tracker, Map<String,String> analytics) {
+        private static void sendAnalytics(GoogleAnalyticsTracker tracker, Map<String, String> analytics) {
             if (!analytics.isEmpty()) {
                 // You can modify the custom variables and scope here (2 = session-level scope)
-                tracker.setCustomVar(1, "Screen Count", analytics.get("sc"), 2);
+                tracker.setCustomVar(1, "Visited Platforms", analytics.get("vp"), 2);
                 tracker.setCustomVar(2, "Platforms Associated", analytics.get("pa"), 2);
                 tracker.setCustomVar(3, "Platform Types", analytics.get("pt"), 2);
                 tracker.setCustomVar(4, "First Visited Platform", analytics.get("fvp"), 2);
@@ -28,12 +28,12 @@ public class GoogleAnalyticsActivity extends Activity {
                     tracker.setCustomVar(5, "Most Often Visited Platform", analytics.get("movp"), 2);
                 tracker.trackEvent("tapestry", "android", "", 0);
                 tracker.dispatch();
-                lastAnalyticsPush.set(System.currentTimeMillis());
+                lastAnalyticsSend.set(System.currentTimeMillis());
             }
         }
 
         public static void track(final GoogleAnalyticsTracker tracker, TapestryClient tapestry) {
-            boolean isNewSession = lastAnalyticsPush.get() < System.currentTimeMillis() - 30 * 60 * 1000;
+            boolean isNewSession = lastAnalyticsSend.get() < System.currentTimeMillis() - 30 * 60 * 1000;
             tapestry.send(new TapestryRequest().analytics(isNewSession), new TapestryCallback() {
                 @Override
                 public void receive(TapestryResponse response) {
