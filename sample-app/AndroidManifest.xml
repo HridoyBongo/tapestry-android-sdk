@@ -18,10 +18,10 @@
         <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
 
         <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
-        <meta-data android:name="tapad.API_URL" android:value="http://tapestry-api-test.dev.tapad.com/tapestry/1"/>
+        <meta-data android:name="tapad.API_URL" android:value="http://tapestry.tapad.com/tapestry/1"/>
 
         <!-- Tapestry partner id. -->
-        <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
 
         <activity android:name="com.tapad.sample.MenuTabActivity">
             <intent-filter>
