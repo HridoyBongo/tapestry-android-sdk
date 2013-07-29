@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.webkit.WebView;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
 import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
