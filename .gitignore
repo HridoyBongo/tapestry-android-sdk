@@ -8,7 +8,8 @@ javadoc
 /sample-app/bin/
 /sample-app/.settings/
 /sample-google-analytics/bin/
-/tapestry/bin/
+tapestry/bin/
+tapestry.test/bin/
 gen
 .classpath
 .project

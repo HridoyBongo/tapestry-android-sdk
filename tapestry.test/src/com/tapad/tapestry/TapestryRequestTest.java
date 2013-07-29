@@ -1,19 +1,15 @@
 package com.tapad.tapestry;
 
-import org.junit.Test;
+import android.test.AndroidTestCase;
 
-import static junit.framework.Assert.assertEquals;
-
-public class TapestryRequestTest {
-    @Test
-    public void should_append_values_to_array_parameters() {
+public class TapestryRequestTest extends AndroidTestCase {
+    public void test_should_append_values_to_array_parameters() {
         assertEncodedEquals(new TapestryRequest()
                 .addAudiences("e")
                 .toQuery(), "ta_add_audiences=['e']");
     }
 
-    @Test
-    public void should_append_values_to_map_parameters() {
+    public void test_should_append_values_to_map_parameters() {
         assertEncodedEquals(new TapestryRequest()
                 .addData("a", "{1}")
                 .addData("b", "2")
@@ -23,14 +19,12 @@ public class TapestryRequestTest {
                 .toQuery(), "ta_add_data={'b':'2','a':'{1}'}&ta_set_data={'c':'3'}&ta_user_ids={'d':'4'}&ta_typed_did={'e':'5'}");
     }
 
-    @Test
-    public void should_append_single_value_parameters() {
+    public void test_should_append_single_value_parameters() {
         assertEncodedEquals(new TapestryRequest().strength(1).depth(2).partnerId("a")
                 .toQuery(), "ta_strength=1&ta_depth=2&ta_partner_id=a");
     }
 
-    @Test
-    public void should_create_empty_parameters() {
+    public void test_should_create_empty_parameters() {
         assertEncodedEquals(new TapestryRequest().listDevices().toQuery(),
                 "ta_list_devices=");
     }
