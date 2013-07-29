@@ -1,5 +1,7 @@
 package com.tapad.tapestry;
 
+import android.text.TextUtils;
+
 /**
  * Represents an error that occurred in sending a request to Tapestry.
  */
@@ -23,7 +25,7 @@ public class TapestryError {
             String message = split.length > 2 ? split[2] : "";
             return new TapestryError(Integer.parseInt(split[0]), split[1], message);
         } catch (Exception e) {
-            Logging.error(TapestryError.class, "Could not parse error message " + error, e);
+            Logging.e("Could not parse error message " + error, e);
             return new TapestryError(0, "UnexpectedExceptionError", e.getMessage());
         }
     }
@@ -63,7 +65,7 @@ public class TapestryError {
 
     @Override
     public String toString() {
-        return type + "|" + name + (message.isEmpty() ? "" : "|" + message);
+        return type + "|" + name + (TextUtils.isEmpty(message) ? "" : "|" + message);
     }
 
     @Override

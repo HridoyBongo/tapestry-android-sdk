@@ -23,9 +23,6 @@ public class DemoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_content);
 
-        Logging.setEnabled(true);
-        Logging.setThrowExceptions(true);
-
         // install swipe detection
         ImageView imageView = (ImageView) findViewById(R.id.image);
         imageView.setOnTouchListener(new GestureListener(this) {
@@ -53,7 +50,7 @@ public class DemoActivity extends Activity {
                 List<String> savedColors = response.getData("color");
                 if (savedColors.size() > 0) {
                     selectedColor = colorNames.indexOf(savedColors.get(0));
-                    Logging.debug(getClass(), "Selected color " + savedColors.get(0) + " " + selectedColor);
+                    Logging.d("Selected color " + savedColors.get(0) + " " + selectedColor);
                     updateColor();
                 }
             }

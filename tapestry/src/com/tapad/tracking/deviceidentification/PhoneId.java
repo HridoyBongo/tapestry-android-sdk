@@ -27,7 +27,7 @@ public class PhoneId implements IdentifierSource {
             ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_MD5, DigestUtil.md5Hash(phoneId)));
             ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_SHA1, DigestUtil.sha1Hash(phoneId)));
         } catch (Exception e) {
-            Logging.error(getClass(), "Error retrieving PHONE_ID.", e);
+            Logging.e("Error retrieving PHONE_ID.", e);
         }
         return (ids);
     }

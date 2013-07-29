@@ -47,7 +47,7 @@ public class TapestryResponse {
         try {
             json = new JSONObject(jsonString);
         } catch (Exception e) {
-            Logging.warn(getClass(), "Could not parse " + jsonString);
+            Logging.w("Could not parse " + jsonString);
             json = new JSONObject();
         }
     }
@@ -135,7 +135,7 @@ public class TapestryResponse {
                 map.put(names.getString(i), object.getString(names.getString(i)));
             return map;
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse analytics in " + json, e);
+            Logging.e("Could not parse analytics in " + json, e);
         }
         return new HashMap<String, String>();
     }
@@ -145,7 +145,7 @@ public class TapestryResponse {
             if (json.has(name))
                 return jsonArrayToStringList(json.getJSONArray(name));
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
+            Logging.e("Could not parse " + name + " in " + json, e);
         }
         return new ArrayList<String>();
     }
@@ -155,7 +155,7 @@ public class TapestryResponse {
             if (json.has(name) && json.getJSONObject(name).has(key))
                 return jsonArrayToStringList(json.getJSONObject(name).getJSONArray(key));
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not parse " + name + " in " + json, e);
+            Logging.e("Could not parse " + name + " in " + json, e);
         }
         return new ArrayList<String>();
     }

@@ -2,57 +2,35 @@ package com.tapad.tapestry;
 
 import android.util.Log;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
- * Enables logging or exception throwing (disabled by default) for Tapestry.
+ * Convenience class to log using com.tapad as log tag.
  */
 public class Logging {
-    private static boolean enabled = false;
-    private static boolean throwExceptions = false;
+	private static final String TAG = "com.tapad";
 
-    /**
-     * Causes Tapestry to throw any caught exceptions.
-     *
-     * @param throwExceptions Whether to throw exceptions
-     */
-    public static void setThrowExceptions(boolean throwExceptions) {
-        Logging.throwExceptions = throwExceptions;
-    }
+	public static void d(String message) {
+		Log.d(TAG, message);
+	}
+	
+	public static void d(String message, Throwable caught) {
+		Log.d(TAG, message, caught);
+	}
+	
+	public static void w(String message) {
+		Log.w(TAG, message);
+	}
+	
+	public static void w(String message, Throwable caught) {
+		Log.w(TAG, message, caught);
+	}
+	
+	public static void e(String message) {
+		Log.e(TAG, message);
+	}
+	
+	public static void e(String message, Throwable caught) {
+		Log.e(TAG, message, caught);
+	}
 
-    /**
-     * Causes Tapestry to log to Android's logs or System.out if not running on Android (i.e. in a test environment).
-     *
-     * @param enabled Whether to log
-     */
-    public static void setEnabled(boolean enabled) {
-        Logging.enabled = enabled;
-    }
-
-    public static void debug(Class<?> clazz, String message) {
-        tryLog(clazz, "DEBUG", message);
-    }
-
-    public static void warn(Class<?> clazz, String message) {
-        tryLog(clazz, "WARN", message);
-    }
-
-    public static void error(Class<?> clazz, String message, Throwable t) {
-        StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
-        tryLog(clazz, "ERROR", message + ": " + sw.toString());
-        if (throwExceptions) throw new RuntimeException(t);
-    }
-
-    private static void tryLog(Class<?> clazz, String logger, String message) {
-        if (enabled)
-            try {
-                if (logger.equals("DEBUG")) Log.d(clazz.getCanonicalName(), message);
-                if (logger.equals("WARN")) Log.w(clazz.getCanonicalName(), message);
-                if (logger.equals("ERROR")) Log.e(clazz.getCanonicalName(), message);
-            } catch (Exception ignore) {
-                System.err.println(logger + ": " + clazz.getCanonicalName() + ": " + message);
-            }
-    }
 }

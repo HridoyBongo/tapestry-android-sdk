@@ -62,11 +62,11 @@ public class UserAgent {
             final String base = context.getResources().getText(webUserAgentResourceId).toString();
             final String userAgent = String.format(base, buffer, mobile);
 
-            Logging.debug(UserAgent.class, "UserAgent successfully constructed: " + userAgent);
+            Logging.d("UserAgent successfully constructed: " + userAgent);
             return userAgent;
         }
         catch (Throwable t) {
-            Logging.error(UserAgent.class, "Exception caught while generating user agent: " + t.getMessage(), t);
+            Logging.e("Exception caught while generating user agent: " + t.getMessage(), t);
             return "Android";
         }
     }

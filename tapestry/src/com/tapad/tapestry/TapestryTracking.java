@@ -1,5 +1,11 @@
 package com.tapad.tapestry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,11 +18,6 @@ import com.tapad.tracking.deviceidentification.PhoneId;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.tracking.deviceidentification.UserAgent;
 import com.tapad.tracking.deviceidentification.WifiMac;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Gets hardware ids from this device for {@link TapestryClient}.
@@ -42,24 +43,25 @@ public class TapestryTracking {
             if (ids.isEmpty() && getDeviceId() != null)
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_RANDOM_UUID, getDeviceId()));
         } catch (Exception e) {
-            Logging.error(getClass(), "Unable to collect ids", e);
+            Logging.e("Unable to collect ids", e);
         }
         try {
             userAgent = UserAgent.getUserAgent(context);
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not get user agent", e);
+            Logging.e("Could not get user agent", e);
         }
         try {
             platform = identifyPlatform(context);
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not identify platform", e);
+            Logging.e("Could not identify platform", e);
         }
         // We throw an uncaught exception here because we don't want to fail silently due to an easy-to-make mistake
         if (ids.isEmpty())
             throw new RuntimeException("Tapestry cannot identify this device, make sure onCreate() has been called before instantiating TapestryClient");
     }
 
-    private String identifyPlatform(Context context) {
+    @SuppressLint("DefaultLocale")
+	private String identifyPlatform(Context context) {
         String userAgentLower = userAgent.toLowerCase();
         for (String platform : PLATFORMS)
             if (userAgentLower.contains(platform))
@@ -99,7 +101,7 @@ public class TapestryTracking {
                 preferences.edit().putString(TapestryClient.PREF_TAPAD_DEVICE_ID, deviceId).commit();
             }
         } catch (Exception e) {
-            Logging.error(getClass(), "Error updating device id", e);
+            Logging.e("Error updating device id", e);
         }
     }
 }

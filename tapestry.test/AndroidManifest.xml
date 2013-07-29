@@ -17,6 +17,8 @@
          this package needs to link against the android.test library,
          which is needed when building test cases.
     -->
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="18"/>
+
     <application>
         <uses-library android:name="android.test.runner" />
 

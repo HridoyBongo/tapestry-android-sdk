@@ -17,7 +17,6 @@ public class TapestryClientTest extends AndroidTestCase {
         tracking = new TapestryTracking(getContext());
     }
     
-    { Logging.setEnabled(true); }
 
     public void test_can_connect_over_https() {
         //when(tracking.getIds()).thenReturn(Arrays.asList(new TypedIdentifier(TYPE_ANDROID_ID_MD5, "111")));
@@ -31,7 +30,6 @@ public class TapestryClientTest extends AndroidTestCase {
         // when(tracking.getDeviceId()).thenReturn(TapestryClient.OPTED_OUT_DEVICE_ID);
         TapestryClient client = new TapestryClient(tracking, TEST_PARTNER_ID, TEST_URL);
         TapestryResponse response = client.sendSynchronously(new TapestryRequest());
-        Logging.setEnabled(true);
         assertEquals(response.getErrors().get(0).getType(), TapestryError.OPTED_OUT);
     }
 

@@ -23,7 +23,7 @@ public class AndroidId implements IdentifierSource {
             ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_SHA1, DigestUtil.sha1Hash(androidId)));
         }
         catch (Exception e) {
-            Logging.error(getClass(), "Error retrieving ANDROID_ID.", e);
+            Logging.e("Error retrieving ANDROID_ID.", e);
         }
         return (ids);
     }

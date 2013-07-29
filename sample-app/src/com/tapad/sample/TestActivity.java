@@ -42,9 +42,6 @@ public class TestActivity extends FragmentActivity {
         getTextView(R.id.response).setHorizontallyScrolling(true);
         getTextView(R.id.request).setHorizontallyScrolling(true);
 
-        Logging.setThrowExceptions(true);
-        Logging.setEnabled(true);
-
         Button send = (Button) findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
             @Override

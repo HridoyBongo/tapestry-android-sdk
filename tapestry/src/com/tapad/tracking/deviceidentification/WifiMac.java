@@ -27,7 +27,7 @@ public class WifiMac implements IdentifierSource {
 	        ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_MD5, DigestUtil.md5Hash(wifiMac)));
 	        ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_SHA1, DigestUtil.sha1Hash(wifiMac)));
         } catch (Exception e) {
-            Logging.error(getClass(), "Error retrieving WIFI_MAC.", e);
+            Logging.e("Error retrieving WIFI_MAC.", e);
         }
         return (ids);
     }
