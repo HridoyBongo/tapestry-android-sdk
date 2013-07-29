@@ -18,7 +18,6 @@ import com.tapad.tracking.deviceidentification.PhoneId;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.tracking.deviceidentification.UserAgent;
 import com.tapad.tracking.deviceidentification.WifiMac;
-
 /**
  * Gets hardware ids from this device for {@link TapestryClient}.
  */
