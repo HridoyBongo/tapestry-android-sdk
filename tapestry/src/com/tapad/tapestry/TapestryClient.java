@@ -2,6 +2,8 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
+
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -198,7 +200,7 @@ public class TapestryClient {
     public TapestryRequest addParameters(TapestryRequest request) {
         for (TypedIdentifier identifier : tracking.getIds())
             request.typedDid(identifier.getType(), identifier.getValue());
-        if (!tracking.getPlatform().isEmpty())
+        if (!TextUtils.isEmpty(tracking.getPlatform()))
             request.platform(tracking.getPlatform());
         return request.partnerId(partnerId).get();
     }

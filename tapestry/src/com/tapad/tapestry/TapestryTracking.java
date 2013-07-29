@@ -1,5 +1,6 @@
 package com.tapad.tapestry;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -56,7 +57,8 @@ public class TapestryTracking {
             throw new RuntimeException("Tapestry cannot identify this device, make sure onCreate() has been called before instantiating TapestryClient");
     }
 
-    private String identifyPlatform(Context context) {
+    @SuppressLint("DefaultLocale")
+	private String identifyPlatform(Context context) {
         String userAgentLower = userAgent.toLowerCase();
         for (String platform : PLATFORMS)
             if (userAgentLower.contains(platform))

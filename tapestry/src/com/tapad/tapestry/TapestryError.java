@@ -1,5 +1,7 @@
 package com.tapad.tapestry;
 
+import android.text.TextUtils;
+
 /**
  * Represents an error that occurred in sending a request to Tapestry.
  */
@@ -63,7 +65,7 @@ public class TapestryError {
 
     @Override
     public String toString() {
-        return type + "|" + name + (message.isEmpty() ? "" : "|" + message);
+        return type + "|" + name + (TextUtils.isEmpty(message) ? "" : "|" + message);
     }
 
     @Override
