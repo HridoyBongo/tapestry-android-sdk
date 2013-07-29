@@ -1,4 +1,4 @@
-import com.tapad.tapestry.DummyMath;
+import com.tapad.sample.DummyMath;
 
 import android.test.AndroidTestCase;
 

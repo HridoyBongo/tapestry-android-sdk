@@ -1,4 +1,4 @@
-package com.tapad.tapestry;
+package com.tapad.sample;
 
 public class DummyMath {
 
