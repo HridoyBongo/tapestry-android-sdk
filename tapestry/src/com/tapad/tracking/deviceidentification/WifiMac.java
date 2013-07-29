@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import com.tapad.tapestry.Logging;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +20,14 @@ import java.util.List;
 public class WifiMac implements IdentifierSource {
     @Override
     public List<TypedIdentifier> get(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        String wifiMac = wifiManager.getConnectionInfo().getMacAddress();
-        List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
-        if (wifiMac != null) {
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_MD5, DigestUtil.md5Hash(wifiMac)));
-            } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing WIFI_MAC - MD5 not supported", nsae);
-            }
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_SHA1, DigestUtil.sha1Hash(wifiMac)));
-            } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing WIFI_MAC - SHA1 not supported", nsae);
-            }
-        } else {
-            Logging.warn(getClass(), "Error retrieving WIFI_MAC.");
+    	List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
+        try {
+	        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+	        String wifiMac = wifiManager.getConnectionInfo().getMacAddress();
+	        ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_MD5, DigestUtil.md5Hash(wifiMac)));
+	        ids.add(new TypedIdentifier(TypedIdentifier.TYPE_WIFI_MAC_SHA1, DigestUtil.sha1Hash(wifiMac)));
+        } catch (Exception e) {
+            Logging.error(getClass(), "Error retrieving WIFI_MAC.", e);
         }
         return (ids);
     }

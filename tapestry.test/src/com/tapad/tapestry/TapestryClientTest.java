@@ -9,7 +9,14 @@ public class TapestryClientTest extends AndroidTestCase {
     public static final String TEST_URL = "http://tapestry.tapad.com/tapestry/1";
     public static final String HTTPS_TEST_URL = "https://tapestry.tapad.com/tapestry/1";
     public static final String TEST_PARTNER_ID = "1";
-    private TapestryTracking tracking = new TapestryTracking(getContext());
+    private TapestryTracking tracking = null;
+    
+    @Override
+    protected void setUp() throws Exception {
+    	super.setUp();
+        tracking = new TapestryTracking(getContext());
+    }
+    
     { Logging.setEnabled(true); }
 
     public void test_can_connect_over_https() {

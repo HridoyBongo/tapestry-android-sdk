@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- package name must be unique so suffix with "tests" so package loader doesn't ignore us -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tapad.tapestry.tests"
-          android:versionCode="1"
-          android:versionName="1.0">
-    <!-- We add an application tag here just so that we can indicate that
+    package="com.tapad.tapestry.tests"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!--
+         We add an application tag here just so that we can indicate that
          this package needs to link against the android.test library,
-         which is needed when building test cases. -->
+         which is needed when building test cases.
+    -->
     <application>
         <uses-library android:name="android.test.runner" />
+
+        <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
+        <meta-data
+            android:name="tapad.API_URL"
+            android:value="http://tapestry.tapad.com/tapestry/1" />
+
+        <!-- Tapestry partner id. -->
+        <meta-data
+            android:name="tapad.PARTNER_ID"
+            android:value="1" />
     </application>
     <!--
     This declares that this application uses the instrumentation test runner targeting
     the package of com.tapad.tapestry.  To run the tests use the command:
     "adb shell am instrument -w com.tapad.tapestry.tests/android.test.InstrumentationTestRunner"
     -->
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.tapad.tapestry"
-                     android:label="Tests for com.tapad.tapestry"/>
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Tests for com.tapad.tapestry"
+        android:targetPackage="com.tapad.tapestry" />
+
 </manifest>

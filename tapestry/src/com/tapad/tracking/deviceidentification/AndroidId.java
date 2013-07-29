@@ -4,7 +4,6 @@ import android.content.Context;
 import android.provider.Settings;
 import com.tapad.tapestry.Logging;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,24 +16,14 @@ import java.util.List;
 public class AndroidId implements IdentifierSource {
     @Override
     public List<TypedIdentifier> get(Context context) {
-        String androidId = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
-        if (androidId != null) {
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_MD5, DigestUtil.md5Hash(androidId)));
-            }
-            catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing ANDROID_ID - MD5 not supported", nsae);
-            }
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_SHA1, DigestUtil.sha1Hash(androidId)));
-            }
-            catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing ANDROID_ID - SHA1 not supported", nsae);
-            }
+        try {
+        	String androidId = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_MD5, DigestUtil.md5Hash(androidId)));
+            ids.add(new TypedIdentifier(TypedIdentifier.TYPE_ANDROID_ID_SHA1, DigestUtil.sha1Hash(androidId)));
         }
-        else {
-            Logging.warn(getClass(), "Error retrieving ANDROID_ID.");
+        catch (Exception e) {
+            Logging.error(getClass(), "Error retrieving ANDROID_ID.", e);
         }
         return (ids);
     }

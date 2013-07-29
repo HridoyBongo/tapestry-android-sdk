@@ -4,7 +4,6 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 import com.tapad.tapestry.Logging;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +20,14 @@ import java.util.List;
 public class PhoneId implements IdentifierSource {
     @Override
     public List<TypedIdentifier> get(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String phoneId = telephonyManager.getDeviceId();
         List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
-        if (phoneId != null) {
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_MD5, DigestUtil.md5Hash(phoneId)));
-            } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing PHONE_ID - MD5 not supported", nsae);
-            }
-            try {
-                ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_SHA1, DigestUtil.sha1Hash(phoneId)));
-            } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing PHONE_ID - SHA1 not supported", nsae);
-            }
-        } else {
-            Logging.warn(getClass(), "Error retrieving PHONE_ID.");
+        try {
+        	TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            String phoneId = telephonyManager.getDeviceId();
+            ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_MD5, DigestUtil.md5Hash(phoneId)));
+            ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_SHA1, DigestUtil.sha1Hash(phoneId)));
+        } catch (Exception e) {
+            Logging.error(getClass(), "Error retrieving PHONE_ID.", e);
         }
         return (ids);
     }
