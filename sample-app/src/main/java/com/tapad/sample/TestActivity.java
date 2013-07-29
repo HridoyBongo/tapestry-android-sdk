@@ -1,5 +1,6 @@
 package com.tapad.sample;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -75,6 +76,7 @@ public class TestActivity extends FragmentActivity {
         }
     }
 
+    @SuppressLint("ValidFragment")  // TODO: Make static class, solve without inner class/instance reference
     public class SelectParametersDialogFragment extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

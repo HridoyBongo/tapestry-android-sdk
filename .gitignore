@@ -5,3 +5,12 @@
 target
 out
 javadoc
+/sample-app/bin/
+/sample-app/.settings/
+/sample-google-analytics/bin/
+/tapestry/bin/
+gen
+.classpath
+.project
+.settings
+local.properties
