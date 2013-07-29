@@ -33,7 +33,7 @@ public class ManifestAggregator implements IdentifierSource {
                 sources.add((IdentifierSource) Class.forName("com.tapad.tracking.deviceidentification." + className.trim()).newInstance());
             }
         } catch (Exception e) {
-            Logging.warn(ManifestAggregator.class, "Unable to instantiate identifier sources from manifest: " + e);
+            Logging.e("Unable to instantiate identifier sources from manifest: ", e);
 
         }
         return new IdentifierSourceAggregator(sources);

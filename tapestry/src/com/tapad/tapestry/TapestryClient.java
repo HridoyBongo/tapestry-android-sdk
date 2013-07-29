@@ -164,12 +164,12 @@ public class TapestryClient {
                 entity.writeTo(bout);
             } catch (SocketException e) {
                 // can happen due to Connection Reset, but still return a valid response
-                Logging.error(getClass(), "Exception writing output ", e);
+                Logging.e( "Exception writing output ", e);
             }
-            Logging.debug(getClass(), "Received response " + bout.toString("UTF-8"));
+            Logging.d("Received response " + bout.toString("UTF-8"));
             return new TapestryResponse(bout.toString("UTF-8"));
         } catch (Exception e) {
-            Logging.error(getClass(), "Exception sending request ", e);
+            Logging.e( "Exception sending request ", e);
             return new TapestryResponse(new TapestryError(CLIENT_REQUEST_ERROR, "ClientRequestError", "Exception: " + e));
         }
     }

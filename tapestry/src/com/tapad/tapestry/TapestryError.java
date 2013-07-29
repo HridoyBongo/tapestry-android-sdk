@@ -25,7 +25,7 @@ public class TapestryError {
             String message = split.length > 2 ? split[2] : "";
             return new TapestryError(Integer.parseInt(split[0]), split[1], message);
         } catch (Exception e) {
-            Logging.error(TapestryError.class, "Could not parse error message " + error, e);
+            Logging.e("Could not parse error message " + error, e);
             return new TapestryError(0, "UnexpectedExceptionError", e.getMessage());
         }
     }

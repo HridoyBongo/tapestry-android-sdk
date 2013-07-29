@@ -28,15 +28,15 @@ public class PhoneId implements IdentifierSource {
             try {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_MD5, DigestUtil.md5Hash(phoneId)));
             } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing PHONE_ID - MD5 not supported", nsae);
+                Logging.e("Error hashing PHONE_ID - MD5 not supported", nsae);
             }
             try {
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_PHONE_ID_SHA1, DigestUtil.sha1Hash(phoneId)));
             } catch (NoSuchAlgorithmException nsae) {
-                Logging.error(getClass(), "Error hashing PHONE_ID - SHA1 not supported", nsae);
+                Logging.e("Error hashing PHONE_ID - SHA1 not supported", nsae);
             }
         } else {
-            Logging.warn(getClass(), "Error retrieving PHONE_ID.");
+            Logging.e("Error retrieving PHONE_ID.");
         }
         return (ids);
     }

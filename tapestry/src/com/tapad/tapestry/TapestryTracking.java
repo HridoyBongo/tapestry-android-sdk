@@ -1,20 +1,20 @@
 package com.tapad.tapestry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.webkit.WebView;
+
 import com.tapad.tracking.deviceidentification.IdentifierSource;
 import com.tapad.tracking.deviceidentification.ManifestAggregator;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.tracking.deviceidentification.UserAgent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Gets hardware ids from this device for {@link TapestryClient}.
@@ -40,17 +40,17 @@ public class TapestryTracking {
             if (ids.isEmpty() && getDeviceId() != null)
                 ids.add(new TypedIdentifier(TypedIdentifier.TYPE_RANDOM_UUID, getDeviceId()));
         } catch (Exception e) {
-            Logging.error(getClass(), "Unable to collect ids", e);
+            Logging.e("Unable to collect ids", e);
         }
         try {
             userAgent = UserAgent.getUserAgent(context);
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not get user agent", e);
+            Logging.e("Could not get user agent", e);
         }
         try {
             platform = identifyPlatform(context);
         } catch (Exception e) {
-            Logging.error(getClass(), "Could not identify platform", e);
+            Logging.e("Could not identify platform", e);
         }
         // We throw an uncaught exception here because we don't want to fail silently due to an easy-to-make mistake
         if (ids.isEmpty())
@@ -98,7 +98,7 @@ public class TapestryTracking {
                 preferences.edit().putString(TapestryClient.PREF_TAPAD_DEVICE_ID, deviceId).commit();
             }
         } catch (Exception e) {
-            Logging.error(getClass(), "Error updating device id", e);
+            Logging.e("Error updating device id", e);
         }
     }
 }
