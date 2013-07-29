@@ -15,3 +15,5 @@ gen
 .settings
 local.properties
 .metadata
+
+bin
