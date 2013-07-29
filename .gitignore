@@ -14,3 +14,4 @@ gen
 .project
 .settings
 local.properties
+.metadata
