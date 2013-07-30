@@ -3,6 +3,7 @@ package com.tapad.tapestry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.annotation.SuppressLint;
@@ -61,7 +62,7 @@ public class TapestryTracking {
 
     @SuppressLint("DefaultLocale")
 	private String identifyPlatform(Context context) {
-        String userAgentLower = userAgent.toLowerCase();
+        String userAgentLower = userAgent.toLowerCase(Locale.ENGLISH);
         for (String platform : PLATFORMS)
             if (userAgentLower.contains(platform))
                 return "";
