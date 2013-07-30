@@ -86,6 +86,15 @@ public class TapestryService {
     /**
      * Sends a request asynchronously using a worker thread pool.
      *
+     * @param callback A callback that will be called when the Tapestry server responds
+     */
+    public static void send(final TapestryCallback callback) {
+        client().send(callback);
+    }
+
+    /**
+     * Sends a request asynchronously using a worker thread pool.
+     *
      * @param request  The request
      * @param callback A callback that will be called when the Tapestry server responds
      */

@@ -6,18 +6,16 @@
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="18"/>
 
-    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- Permissions for accessing the phone's ids (at least one is required) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application android:name="com.tapad.sample.MainApplication" 
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" 
         android:icon="@drawable/ic_launcher">
-        <!-- Tapestry partner id. -->
-        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
+	    <!-- Your Tapestry partner id will be provided by Tapad -->
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1" />
 
         <activity android:name="com.tapad.sample.MenuTabActivity">
             <intent-filter>
