@@ -11,12 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
-        <!-- Tracking ids to be collected.  Available Values are: AndroidId, PhoneId, WifiMac.  Default: AndroidId -->
-        <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId"/>
-
-        <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
-        <meta-data android:name="tapad.API_URL" android:value="http://tapestry-api-test.dev.tapad.com/tapestry/1"/>
-
         <!-- Tapestry partner id. -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
 

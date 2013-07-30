@@ -11,11 +11,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
+import com.tapad.tracking.deviceidentification.AndroidId;
 import com.tapad.tracking.deviceidentification.IdentifierSource;
-import com.tapad.tracking.deviceidentification.ManifestAggregator;
+import com.tapad.tracking.deviceidentification.IdentifierSourceAggregator;
+import com.tapad.tracking.deviceidentification.PhoneId;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import com.tapad.tracking.deviceidentification.UserAgent;
-
+import com.tapad.tracking.deviceidentification.WifiMac;
 /**
  * Gets hardware ids from this device for {@link TapestryClient}.
  */
@@ -30,7 +32,7 @@ public class TapestryTracking {
     private String platform = "";
 
     public TapestryTracking(Context context) {
-        this(context, new ManifestAggregator());
+        this(context, new IdentifierSourceAggregator(Arrays.asList(new AndroidId(), new WifiMac(), new PhoneId())));
     }
 
     public TapestryTracking(Context context, IdentifierSource source) {

@@ -157,6 +157,7 @@ public class TapestryClient {
             String uri = url + "?" + addParameters(request).toQuery();
             HttpGet http = new HttpGet(uri);
             http.setHeader("X-Tapestry-Id", partnerId);
+            Logging.d("Sending request: " + http.getURI());
             HttpResponse response = client.execute(http);
             HttpEntity entity = response.getEntity();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();

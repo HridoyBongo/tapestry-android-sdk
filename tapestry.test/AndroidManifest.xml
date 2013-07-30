@@ -5,6 +5,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <!--
          We add an application tag here just so that we can indicate that
          this package needs to link against the android.test library,
@@ -14,6 +21,16 @@
 
     <application>
         <uses-library android:name="android.test.runner" />
+
+        <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
+        <meta-data
+            android:name="tapad.API_URL"
+            android:value="http://tapestry.tapad.com/tapestry/1" />
+
+        <!-- Tapestry partner id. -->
+        <meta-data
+            android:name="tapad.PARTNER_ID"
+            android:value="1" />
     </application>
     <!--
     This declares that this application uses the instrumentation test runner targeting
