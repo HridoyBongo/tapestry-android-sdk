@@ -1,9 +1,9 @@
 ## Quick Setup
-Download the Tapestry code.
+Download the Tapestry SDK from the releases page.
 
-Copy tapestry.jar into the libs folder of your Android project.
+Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
-Add your Tapestry Partner Id and permissions to your manifest:
+Add your Tapestry Partner Id and permissions the `AndroidManifest.xml` of your application:
 ```xml
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +19,7 @@ Add your Tapestry Partner Id and permissions to your manifest:
 ```
 
 ## Using Tapestry
-Intialize the TapestryService prior to use, preferably in your Application or in every Activity that uses it:
+Intialize the TapestryService prior to use, preferably in your `Application` or in every `Activity` that uses it:
 ```java
 public class MyApplication extends Application {
     public void onCreate() {
@@ -42,7 +42,7 @@ TapestryService.send(new TapestryCallback() {
 });
 ```
 
-Or set Tapestry data:
+Or set the Tapestry data of the current device:
 ```java
 TapestryService.send(new TapestryRequest()
     .addAudiences("buying-car")
@@ -51,7 +51,7 @@ TapestryService.send(new TapestryRequest()
 );
 ```
 
-Or do both at once (setting the depth and strength of the request to change the devices queried):
+Or do both at once:
 ```java
 TapestryRequest = new TapestryRequest()
     .addData("color", "blue")
