@@ -1,5 +1,6 @@
-package com.tapad.tapestry;
+package com.tapad.tapestry.http;
 
+import static com.tapad.tapestry.http.HttpStackFactory.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -8,23 +9,17 @@ import java.net.URL;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.BasicHttpEntity;
 
-/* 
+/** 
  * HttpStack implementation based on the new and recommended HttpUrlConnection
  * heavily inspired by Google Volley @ https://android.googlesource.com/platform/frameworks/volley/
  */
-
-public class HttpUrlConnectionStack extends HttpStack {
-
-	public HttpUrlConnectionStack(String partnerId, String userAgent) {
-		super(partnerId, userAgent);
-	}
-
+class HttpUrlConnectionStack implements HttpStack {
 	@Override
-	public String performGet(String uri) throws Exception {
+	public String performGet(String uri, String partnerId) throws Exception {
 		URL url = new URL(uri);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
-		connection.addRequestProperty(HEADER_PARTNER_ID, getPartnerId());
+		connection.addRequestProperty(HEADER_PARTNER_ID, partnerId);
 
 		connection.setConnectTimeout(TIMEOUT_CONNECT);
 		connection.setReadTimeout(TIMEOUT_CONNECT);
@@ -77,5 +72,4 @@ public class HttpUrlConnectionStack extends HttpStack {
 		entity.setContentType(connection.getContentType());
 		return entity;
 	}
-
 }

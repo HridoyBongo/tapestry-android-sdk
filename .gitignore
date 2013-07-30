@@ -16,5 +16,6 @@ gen
 .settings
 local.properties
 .metadata
-
+*.jar
+*.zip
 bin

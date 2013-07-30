@@ -2,30 +2,11 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.text.TextUtils;
 
+import com.tapad.tapestry.http.HttpStack;
+import com.tapad.tapestry.http.HttpStackFactory;
 import com.tapad.tracking.deviceidentification.TypedIdentifier;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-
-import java.io.ByteArrayOutputStream;
-import java.net.SocketException;
-import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -73,7 +54,7 @@ public class TapestryClient {
 	private final TapestryTracking tracking;
 	private final String url;
 	private final String partnerId;
-	private HttpStack stack;
+	private final HttpStack stack;
 
 	/**
 	 * Creates client ready to receive requests. Client cannot be instantiated
@@ -115,7 +96,29 @@ public class TapestryClient {
 	 *            The url of the tapestry host
 	 */
 	public TapestryClient(Context context, String partnerId, String url) {
-		this(new TapestryTracking(context), partnerId, url);
+		this(context, partnerId, url, HttpStackFactory.getDefaultStack(context));
+	}
+
+	/**
+	 * Creates client ready to receive requests. Client cannot be instantiated
+	 * before {@code onCreate} is called.
+	 * 
+	 * @param context
+	 *            The context of the app
+	 * @param partnerId
+	 *            The Tapestry partner id that has been assigned to you
+	 * @param url
+	 *            The url of the tapestry host
+	 * @param stack
+	 *            The stack for sending and receiving http requests 
+	 */
+	public TapestryClient(Context context, String partnerId, String url, HttpStack stack) {
+		this.tracking = new TapestryTracking(context);
+		this.partnerId = partnerId;
+		this.url = url;
+		this.stack = stack;
+		if (this.partnerId == null)
+			throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
 	}
 
 	private static String getMetaData(Context context, String key, String defaultValue) {
@@ -127,24 +130,6 @@ public class TapestryClient {
 		}
 	}
 
-	protected TapestryClient(TapestryTracking tracking, String partnerId, String url) {
-		this.tracking = tracking;
-		this.partnerId = partnerId;
-		this.url = url;
-		if (this.partnerId == null)
-			throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			stack = new HttpClientStack(partnerId, tracking.getUserAgent());
-		} else {
-			stack = new HttpUrlConnectionStack(partnerId, tracking.getUserAgent());
-		}
-	}
-
-	public HttpStack getStack() {
-		return stack;
-	}
-	
 	/**
 	 * Sends a request asynchronously using a worker thread pool.
 	 * 
@@ -193,15 +178,12 @@ public class TapestryClient {
 	 * @return a response from the server
 	 */
 	public TapestryResponse sendSynchronously(TapestryRequest request) {
-		String uri = url + "?" + addParameters(request).toQuery();
-
 		try {
-
-			String response = stack.performGet(uri);
-
 			if (tracking.getDeviceId().equals(OPTED_OUT_DEVICE_ID))
 				return new TapestryResponse(new TapestryError(OPTED_OUT, "OptedOut", ""));
 
+			String uri = url + "?" + addParameters(request).toQuery();
+			String response = stack.performGet(uri, null);
 			Logging.d("Received response " + response);
 			return new TapestryResponse(response);
 		} catch (Exception e) {
@@ -244,5 +226,4 @@ public class TapestryClient {
 			request.platform(tracking.getPlatform());
 		return request.partnerId(partnerId).get();
 	}
-
 }

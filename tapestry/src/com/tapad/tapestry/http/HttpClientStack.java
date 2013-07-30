@@ -1,9 +1,6 @@
-package com.tapad.tapestry;
+package com.tapad.tapestry.http;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+import static com.tapad.tapestry.http.HttpStackFactory.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -21,19 +18,17 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
-public class HttpClientStack extends HttpStack {
-
+class HttpClientStack implements HttpStack {
 	private DefaultHttpClient client;
 
-	public HttpClientStack(String partnerId, String userAgent) {
-		super(partnerId, userAgent);
+	public HttpClientStack(String userAgent) {
 		client = createClient(userAgent);
 	}
 
 	@Override
-	public String performGet(String uri) throws Exception {
+	public String performGet(String uri, String partnerId) throws Exception {
 		HttpGet http = new HttpGet(uri);
-		http.addHeader(HEADER_PARTNER_ID, getPartnerId());
+		http.addHeader(HEADER_PARTNER_ID, partnerId);
 
 		HttpResponse response = client.execute(http);
 		String responseBody = null;
@@ -79,5 +74,4 @@ public class HttpClientStack extends HttpStack {
 		DefaultHttpClient client = new DefaultHttpClient(manager, params);
 		return client;
 	}
-
 }

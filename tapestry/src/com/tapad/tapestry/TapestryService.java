@@ -42,28 +42,6 @@ public class TapestryService {
     }
 
     /**
-     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.  The
-     * url of the API will be read from {@code tapad.API_URL} in the manifest or default if none exists.
-     *
-     * @param context   The context of the app
-     * @param partnerId The Tapestry partner id that has been assigned to you
-     */
-    public static void initialize(Context context, String partnerId) {
-        client = new TapestryClient(context, partnerId);
-    }
-
-    /**
-     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.
-     *
-     * @param context   The context of the app
-     * @param partnerId The Tapestry partner id that has been assigned to you
-     * @param url       The url of the tapestry host
-     */
-    public static void initialize(Context context, String partnerId, String url) {
-        client = new TapestryClient(new TapestryTracking(context), partnerId, url);
-    }
-
-    /**
      * Get an instance of the underlying client.  Throws a {@code RuntimeException} if not initialized.
      *
      * @return the Tapestry client

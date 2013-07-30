@@ -3,6 +3,7 @@ package com.tapad.tapestry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.annotation.SuppressLint;
@@ -27,7 +28,6 @@ public class TapestryTracking {
     // Defined in Android SDKs newer than 1.6
     private static final int SCREENLAYOUT_SIZE_XLARGE = 4;
     private final List<TypedIdentifier> ids = new ArrayList<TypedIdentifier>();
-    private String userAgent = "";
     private String deviceId = "";
     private String platform = "";
 
@@ -45,11 +45,6 @@ public class TapestryTracking {
             Logging.e("Unable to collect ids", e);
         }
         try {
-            userAgent = UserAgent.getUserAgent(context);
-        } catch (Exception e) {
-            Logging.e("Could not get user agent", e);
-        }
-        try {
             platform = identifyPlatform(context);
         } catch (Exception e) {
             Logging.e("Could not identify platform", e);
@@ -61,7 +56,7 @@ public class TapestryTracking {
 
     @SuppressLint("DefaultLocale")
 	private String identifyPlatform(Context context) {
-        String userAgentLower = userAgent.toLowerCase();
+        String userAgentLower = UserAgent.getUserAgent(context).toLowerCase(Locale.ENGLISH);
         for (String platform : PLATFORMS)
             if (userAgentLower.contains(platform))
                 return "";
@@ -77,10 +72,6 @@ public class TapestryTracking {
      */
     public List<TypedIdentifier> getIds() {
         return ids;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
     }
 
     public String getPlatform() {
