@@ -36,12 +36,12 @@ public class TapestryRequest {
     }
 
     /**
-     * Set-add will add a value to a key without duplicates
+     *  Will add a value to a key without duplicates
      *
      * @param key   The data key
      * @param value The value to set-add to the key
      */
-    public TapestryRequest saddData(String key, String value) {
+    public TapestryRequest addUniqueData(String key, String value) {
         return addMapParameter("ta_sadd_data", key, value);
     }
 
@@ -110,6 +110,8 @@ public class TapestryRequest {
     }
 
     /**
+     * Tells Tapestry to consider devices this many steps away from the source device.
+     * 
      * @param depth The depth value between 0-2 inclusive.  Default is 1
      */
     public TapestryRequest depth(int depth) {
