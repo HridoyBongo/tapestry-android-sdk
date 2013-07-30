@@ -12,7 +12,7 @@
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
         <!-- Tapestry partner id. -->
-        <meta-data android:name="tapad.PARTNER_ID" android:value="12345"/>
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
 
         <activity android:name="com.tapad.sample.GoogleAnalyticsActivity">
             <intent-filter>

@@ -27,6 +27,35 @@ public class TapestryRequest {
     private Map<String, Object> parameters = new LinkedHashMap<String, Object>();
 
     /**
+     * Clear data removes all data from one or more keys.
+     *
+     * @param keys   The list of keys
+     */
+    public TapestryRequest clearData(String... keys) {
+        return addArrayParameter("ta_clear_data", keys);
+    }
+
+    /**
+     * Set-add will add a value to a key without duplicates
+     *
+     * @param key   The data key
+     * @param value The value to set-add to the key
+     */
+    public TapestryRequest saddData(String key, String value) {
+        return addMapParameter("ta_sadd_data", key, value);
+    }
+
+    /**
+     * Removes the value for a data key.
+     *
+     * @param key   The data key
+     * @param value The value to remove from the key
+     */
+    public TapestryRequest removeData(String key, String value) {
+        return addMapParameter("ta_remove_data", key, value);
+    }
+    
+    /**
      * Sets the value for a data key.
      *
      * @param key   The data key
@@ -54,6 +83,15 @@ public class TapestryRequest {
      */
     public TapestryRequest addAudiences(String... audiences) {
         return addArrayParameter("ta_add_audiences", audiences);
+    }
+
+    /**
+     * Removes this device to one or more audiences.
+     *
+     * @param audiences A list of audiences
+     */
+    public TapestryRequest removeAudiences(String... audiences) {
+        return addArrayParameter("ta_remove_audiences", audiences);
     }
 
     /**

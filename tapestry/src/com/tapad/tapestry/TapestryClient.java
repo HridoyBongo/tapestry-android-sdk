@@ -144,6 +144,17 @@ public class TapestryClient {
 	public HttpStack getStack() {
 		return stack;
 	}
+	
+	/**
+	 * Sends a request asynchronously using a worker thread pool.
+	 * 
+	 * @param callback
+	 *            A callback that will be called when the Tapestry server
+	 *            responds
+	 */
+	public void send(final TapestryCallback callback) {
+		send(new TapestryRequest(), callback);
+	}
 
 	/**
 	 * Sends a request asynchronously using a worker thread pool, without
