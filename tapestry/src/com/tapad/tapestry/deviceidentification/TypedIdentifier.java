@@ -1,4 +1,4 @@
-package com.tapad.tracking.deviceidentification;
+package com.tapad.tapestry.deviceidentification;
 
 /**
  * An identifier value packaged with a type

@@ -9,7 +9,7 @@ import org.apache.http.HttpEntity;
 import android.content.Context;
 import android.os.Build;
 
-import com.tapad.tracking.deviceidentification.UserAgent;
+import com.tapad.tapestry.deviceidentification.UserAgent;
 
 public class HttpStackFactory {	
 	static final String HEADER_PARTNER_ID = "X-Tapestry-Id";

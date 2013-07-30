@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import com.tapad.tapestry.deviceidentification.TypedIdentifier;
 import com.tapad.tapestry.http.HttpStack;
 import com.tapad.tapestry.http.HttpStackFactory;
-import com.tapad.tracking.deviceidentification.TypedIdentifier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

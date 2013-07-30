@@ -1,4 +1,4 @@
-package com.tapad.tracking.deviceidentification;
+package com.tapad.tapestry.deviceidentification;
 
 import android.content.Context;
 import android.provider.Settings;

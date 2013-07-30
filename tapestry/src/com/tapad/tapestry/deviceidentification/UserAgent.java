@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.tapad.tracking.deviceidentification;
+package com.tapad.tapestry.deviceidentification;
 
 import android.content.Context;
 import android.content.res.Resources;
