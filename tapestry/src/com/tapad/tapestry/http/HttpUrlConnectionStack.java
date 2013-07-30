@@ -15,11 +15,11 @@ import org.apache.http.entity.BasicHttpEntity;
  */
 class HttpUrlConnectionStack implements HttpStack {
 	@Override
-	public String performGet(String uri, String partnerId) throws Exception {
+	public String performGet(String uri, String headerName, String headerValue) throws Exception {
 		URL url = new URL(uri);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
-		connection.addRequestProperty(HEADER_PARTNER_ID, partnerId);
+		connection.addRequestProperty(headerName, headerValue);
 
 		connection.setConnectTimeout(TIMEOUT_CONNECT);
 		connection.setReadTimeout(TIMEOUT_CONNECT);

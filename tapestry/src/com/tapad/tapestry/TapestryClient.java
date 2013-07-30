@@ -50,6 +50,7 @@ public class TapestryClient {
 	public static final String DEFAULT_URL = "http://tapestry.tapad.com/tapestry/1";
 	public static final String PREF_TAPAD_DEVICE_ID = "_tapad_device_id";
 	public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
+	public static final String TAPESTRY_HEADER = "X-Tapestry-Id";
 	private static final ExecutorService executor = Executors.newFixedThreadPool(2);
 	private final TapestryTracking tracking;
 	private final String url;
@@ -183,7 +184,7 @@ public class TapestryClient {
 				return new TapestryResponse(new TapestryError(OPTED_OUT, "OptedOut", ""));
 
 			String uri = url + "?" + addParameters(request).toQuery();
-			String response = stack.performGet(uri, null);
+			String response = stack.performGet(uri, TAPESTRY_HEADER, partnerId);
 			Logging.d("Received response " + response);
 			return new TapestryResponse(response);
 		} catch (Exception e) {

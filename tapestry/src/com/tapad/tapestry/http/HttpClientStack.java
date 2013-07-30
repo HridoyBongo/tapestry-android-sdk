@@ -26,9 +26,9 @@ class HttpClientStack implements HttpStack {
 	}
 
 	@Override
-	public String performGet(String uri, String partnerId) throws Exception {
+	public String performGet(String uri, String headerName, String headerValue) throws Exception {
 		HttpGet http = new HttpGet(uri);
-		http.addHeader(HEADER_PARTNER_ID, partnerId);
+		http.addHeader(headerName, headerValue);
 
 		HttpResponse response = client.execute(http);
 		String responseBody = null;

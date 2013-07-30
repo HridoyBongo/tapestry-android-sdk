@@ -11,8 +11,10 @@ import android.os.Build;
 
 import com.tapad.tapestry.deviceidentification.UserAgent;
 
+/**
+ * Returns an HTTP implementation based on the version of Android SDK as recommended by Google.
+ */
 public class HttpStackFactory {	
-	static final String HEADER_PARTNER_ID = "X-Tapestry-Id";
 	static final int TIMEOUT_CONNECT = 10 * 1000;
 	static final String CONTENT_CHARSET = "UTF-8";
 

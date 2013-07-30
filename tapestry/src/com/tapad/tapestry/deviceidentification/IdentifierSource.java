@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 /**
- * Produces identifiers
+ * Finds identifiers from the device
  */
 public interface IdentifierSource {
     /**

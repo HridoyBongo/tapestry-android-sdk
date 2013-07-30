@@ -19,8 +19,9 @@ import com.tapad.tapestry.deviceidentification.PhoneId;
 import com.tapad.tapestry.deviceidentification.TypedIdentifier;
 import com.tapad.tapestry.deviceidentification.UserAgent;
 import com.tapad.tapestry.deviceidentification.WifiMac;
+
 /**
- * Gets hardware ids from this device for {@link TapestryClient}.
+ * Extracts information from the Android Context.
  */
 public class TapestryTracking {
     // Platforms we can identify in the user agent to avoid sending one explicitly
