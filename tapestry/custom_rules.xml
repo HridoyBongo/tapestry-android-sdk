@@ -8,8 +8,12 @@
     <target name="build-jar" depends="release,-read-manifest">
         <echo>${out.library.jar.file}</echo>
         <property name="build.output" location="${out.library.jar.file}" />
-        <property name="release.output" location="${ant.project.name}-${manifest.version.name}.apk"/>
+        <property name="release.output" location="${ant.project.name}-${manifest.version.name}.jar"/>
         <copy file="${build.output}" tofile="${release.output}"/>
+        <zip destfile="${ant.project.name}-${manifest.version.name}-sources.jar"
+       		basedir="src/"
+       		includes="**/*.java"
+  		/>
         <echo level="info">Copied release JAR from ${build.output} to: ${release.output}</echo>
     </target>
 
