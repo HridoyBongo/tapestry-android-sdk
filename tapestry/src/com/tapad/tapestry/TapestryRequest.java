@@ -164,9 +164,9 @@ public class TapestryRequest {
             if (value instanceof String)
                 params.add(new BasicNameValuePair(key, (String) value));
             else if (value instanceof List)
-                params.add(new BasicNameValuePair(key, new JSONArray((List) value).toString()));
+                params.add(new BasicNameValuePair(key, new JSONArray((List<?>) value).toString()));
             else if (value instanceof Map)
-                params.add(new BasicNameValuePair(key, new JSONObject((Map) value).toString()));
+                params.add(new BasicNameValuePair(key, new JSONObject((Map<?, ?>) value).toString()));
         }
         return URLEncodedUtils.format(params, "UTF-8");
     }
@@ -176,20 +176,22 @@ public class TapestryRequest {
         return this;
     }
 
-    private TapestryRequest addMapParameter(String name, String key, String value) {
+    @SuppressWarnings("unchecked")
+	private TapestryRequest addMapParameter(String name, String key, String value) {
         Object param = parameters.get(name);
         Map<String, String> map = new HashMap<String, String>();
         if (param != null && param instanceof Map)
-            map = ((Map) param);
+            map = ((Map<String, String>) param);
         map.put(key, value);
         return addParameter(name, map);
     }
 
-    private TapestryRequest addArrayParameter(String name, String... values) {
+    @SuppressWarnings("unchecked")
+	private TapestryRequest addArrayParameter(String name, String... values) {
         Object param = parameters.get(name);
         List<String> list = new ArrayList<String>();
         if (param != null && param instanceof List)
-            list = ((List) param);
+            list = ((List<String>) param);
         list.addAll(Arrays.asList(values));
         return addParameter(name, list);
     }

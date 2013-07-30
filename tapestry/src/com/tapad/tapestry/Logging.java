@@ -2,7 +2,6 @@ package com.tapad.tapestry;
 
 import android.util.Log;
 
-
 /**
  * Convenience class to log using com.tapad as log tag.
  */
@@ -32,5 +31,4 @@ public class Logging {
 	public static void e(String message, Throwable caught) {
 		Log.e(TAG, message, caught);
 	}
-
 }
