@@ -6,6 +6,10 @@
 3. Go to Run > Edit Configurations... > Add new 'Android Application'.  Select module to be 'sample-app' and pick an emulator or device to run on.
 4. To run unit tests make sure the Android SDK is below the Maven dependencies, otherwise the classes in android.jar will throw a "Stub!" exception.
 
+## Build jar
+1. With terminal, change working dir to tapestry/
+2. Run the following ant command: ant build-jar -Dsdk.dir=/path/to/android-sdk
+3. Pick up tapestry-n.n.jar
 
 # License
 

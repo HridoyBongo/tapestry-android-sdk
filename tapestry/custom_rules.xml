@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <target name="-read-manifest">
+        <xpath input="AndroidManifest.xml" expression="/manifest/@android:versionName" output="manifest.version.name" default="unknown"/>
+        <xpath input="AndroidManifest.xml" expression="/manifest/@android:versionCode" output="manifest.version.code" default="unknown"/>
+    </target>
+    
+    <target name="build-jar" depends="release,-read-manifest">
+        <echo>${out.library.jar.file}</echo>
+        <property name="build.output" location="${out.library.jar.file}" />
+        <property name="release.output" location="${ant.project.name}-${manifest.version.name}.apk"/>
+        <copy file="${build.output}" tofile="${release.output}"/>
+        <echo level="info">Copied release JAR from ${build.output} to: ${release.output}</echo>
+    </target>
+
+</project>
