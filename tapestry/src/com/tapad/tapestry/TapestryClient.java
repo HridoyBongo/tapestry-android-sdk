@@ -34,16 +34,21 @@ import static com.tapad.tapestry.TapestryError.CLIENT_REQUEST_ERROR;
 import static com.tapad.tapestry.TapestryError.OPTED_OUT;
 
 /**
- * A client for sending requests to the Tapestry Web API and returning responses.  The client should be instantiated
- * once your activity has entered {@code onCreate()}.  If you use the client across many Activities, you may wish to use
- * the {@link TapestryService} wrapper instead.
+ * A client for sending requests to the Tapestry Web API and returning
+ * responses. The client should be instantiated once your activity has entered
+ * {@code onCreate()}. If you use the client across many Activities, you may
+ * wish to use the {@link TapestryService} wrapper instead.
  * <p/>
- * The client sends a {@link TapestryRequest} as an HTTP request to the Tapestry Web API and parses the JSON response as
- * {@link TapestryResponse}.  When calling the client from the Android UI thread, it is recommended to send requests
- * asynchronously by passing in a {@link TapestryCallback} so as not to block the UI thread.
+ * The client sends a {@link TapestryRequest} as an HTTP request to the Tapestry
+ * Web API and parses the JSON response as {@link TapestryResponse}. When
+ * calling the client from the Android UI thread, it is recommended to send
+ * requests asynchronously by passing in a {@link TapestryCallback} so as not to
+ * block the UI thread.
  * <p/>
  * An example of sending a request and receiving an asynchronous response:
- * <blockquote><pre>
+ * <blockquote>
+ * 
+ * <pre>
  * TapestryClient client = new TapestryClient(context);
  * TapestryRequest request = new TapestryRequest();
  * // TODO build request
@@ -53,10 +58,12 @@ import static com.tapad.tapestry.TapestryError.OPTED_OUT;
  *         // TODO handle response
  *     }
  * });
- * </pre></blockquote>
- * Note if the callback updates the UI then you should use the {@link TapestryUICallback} convenience class which runs
- * the callback on the UI thread.  The client throws no exceptions unless {@link Logging#setThrowExceptions(boolean)}
- * has been set to true.
+ * </pre>
+ * 
+ * </blockquote> Note if the callback updates the UI then you should use the
+ * {@link TapestryUICallback} convenience class which runs the callback on the
+ * UI thread. The client throws no exceptions unless
+ * {@link Logging#setThrowExceptions(boolean)} has been set to true.
  */
 public class TapestryClient {
 	public static final String DEFAULT_URL = "http://tapestry.tapad.com/tapestry/1";
@@ -68,64 +75,74 @@ public class TapestryClient {
 	private final String partnerId;
 	private HttpStack stack;
 
-    /**
-     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.
-     * Partner id will be read from {@code tapad.PARTNER_ID} in the manifest or default if none exists.  The url of the
-     * API will be read from {@code tapad.API_URL} in the manifest or default if none exists.
-     *
-     * @param context The context of the app
-     */
-    public TapestryClient(Context context) {
-        this(context, getMetaData(context, "tapad.PARTNER_ID", null));
-    }
+	/**
+	 * Creates client ready to receive requests. Client cannot be instantiated
+	 * before {@code onCreate} is called. Partner id will be read from
+	 * {@code tapad.PARTNER_ID} in the manifest or default if none exists. The
+	 * url of the API will be read from {@code tapad.API_URL} in the manifest or
+	 * default if none exists.
+	 * 
+	 * @param context
+	 *            The context of the app
+	 */
+	public TapestryClient(Context context) {
+		this(context, getMetaData(context, "tapad.PARTNER_ID", null));
+	}
 
-    /**
-     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.  The
-     * url of the API will be read from {@code tapad.API_URL} in the manifest or default if none exists.
-     *
-     * @param context   The context of the app
-     * @param partnerId The Tapestry partner id that has been assigned to you
-     */
-    public TapestryClient(Context context, String partnerId) {
-        this(context, partnerId, getMetaData(context, "tapad.API_URL", DEFAULT_URL));
-    }
+	/**
+	 * Creates client ready to receive requests. Client cannot be instantiated
+	 * before {@code onCreate} is called. The url of the API will be read from
+	 * {@code tapad.API_URL} in the manifest or default if none exists.
+	 * 
+	 * @param context
+	 *            The context of the app
+	 * @param partnerId
+	 *            The Tapestry partner id that has been assigned to you
+	 */
+	public TapestryClient(Context context, String partnerId) {
+		this(context, partnerId, getMetaData(context, "tapad.API_URL", DEFAULT_URL));
+	}
 
-    /**
-     * Creates client ready to receive requests.  Client cannot be instantiated before {@code onCreate} is called.
-     *
-     * @param context   The context of the app
-     * @param partnerId The Tapestry partner id that has been assigned to you
-     * @param url       The url of the tapestry host
-     */
-    public TapestryClient(Context context, String partnerId, String url) {
-        this(new TapestryTracking(context), partnerId, url);
-    }
+	/**
+	 * Creates client ready to receive requests. Client cannot be instantiated
+	 * before {@code onCreate} is called.
+	 * 
+	 * @param context
+	 *            The context of the app
+	 * @param partnerId
+	 *            The Tapestry partner id that has been assigned to you
+	 * @param url
+	 *            The url of the tapestry host
+	 */
+	public TapestryClient(Context context, String partnerId, String url) {
+		this(new TapestryTracking(context), partnerId, url);
+	}
 
-    private static String getMetaData(Context context, String key, String defaultValue) {
-        try {
-            String value = context.getPackageManager()
-                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA)
-                    .metaData.get(key).toString();
-            return value == null ? defaultValue : value;
-        } catch (Exception e) {
-            return defaultValue;
-        }
-    }
+	private static String getMetaData(Context context, String key, String defaultValue) {
+		try {
+			String value = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData.get(key).toString();
+			return value == null ? defaultValue : value;
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
 
-    protected TapestryClient(TapestryTracking tracking, String partnerId, String url) {
-        this.tracking = tracking;
-        this.partnerId = partnerId;
-        this.url = url;
-        if (this.partnerId == null)
-            throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
-        client = createClient(tracking.getUserAgent());
-    }
+	protected TapestryClient(TapestryTracking tracking, String partnerId, String url) {
+		this.tracking = tracking;
+		this.partnerId = partnerId;
+		this.url = url;
+		if (this.partnerId == null)
+			throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
 
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
 			stack = new HttpClientStack(partnerId, tracking.getUserAgent());
 		} else {
 			stack = new HttpUrlConnectionStack(partnerId, tracking.getUserAgent());
 		}
+	}
+
+	public HttpStack getStack() {
+		return stack;
 	}
 
 	/**

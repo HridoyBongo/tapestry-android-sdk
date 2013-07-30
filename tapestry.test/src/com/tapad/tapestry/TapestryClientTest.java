@@ -1,5 +1,6 @@
 package com.tapad.tapestry;
 
+import android.os.Build;
 import android.test.AndroidTestCase;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -53,5 +54,14 @@ public class TapestryClientTest extends AndroidTestCase {
         TapestryClient client = new TapestryClient(tracking, TEST_PARTNER_ID, "bad url");
         TapestryResponse response = client.sendSynchronously(new TapestryRequest());
         assertEquals(response.getErrors().get(0).getType(), TapestryError.CLIENT_REQUEST_ERROR);
+    }
+    
+    public void testHttpStackImplementation() {
+    	TapestryClient client = new TapestryClient(tracking, TEST_PARTNER_ID, TEST_URL);
+    	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+    		assertEquals(HttpUrlConnectionStack.class, client.getStack().getClass());
+    	}else {
+    		assertEquals(HttpClientStack.class, client.getStack().getClass());
+    	}
     }
 }
