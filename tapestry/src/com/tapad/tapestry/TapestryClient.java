@@ -2,11 +2,16 @@ package com.tapad.tapestry;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 import com.tapad.tapestry.deviceidentification.TypedIdentifier;
 import com.tapad.tapestry.http.HttpStack;
 import com.tapad.tapestry.http.HttpStackFactory;
+
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,6 +57,8 @@ public class TapestryClient {
 	public static final String OPTED_OUT_DEVICE_ID = "OptedOut";
 	public static final String TAPESTRY_HEADER = "X-Tapestry-Id";
 	private static final ExecutorService executor = Executors.newFixedThreadPool(2);
+	private final ConnectivityManager connectivityManager;
+	private final Queue<Runnable> requestQueue = new LinkedList<Runnable>();
 	private final TapestryTracking tracking;
 	private final String url;
 	private final String partnerId;
@@ -118,6 +125,7 @@ public class TapestryClient {
 		this.partnerId = partnerId;
 		this.url = url;
 		this.stack = stack;
+		connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (this.partnerId == null)
 			throw new RuntimeException("Partner id must be specified in the manifest or during instantiation");
 	}
@@ -163,12 +171,35 @@ public class TapestryClient {
 	 *            responds
 	 */
 	public void send(final TapestryRequest request, final TapestryCallback callback) {
-		executor.submit(new Runnable() {
+		requestQueue.add(new Runnable() {
 			@Override
 			public void run() {
 				callback.receive(sendSynchronously(request));
 			}
 		});
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (!isOnline() && requestQueue.size() > 0)
+							Thread.sleep(1000);
+					while (!requestQueue.isEmpty())
+						executor.execute(requestQueue.remove());
+				} catch (Exception e) {
+					Logging.e("Exception in queuing thread", e);
+				}
+			}
+		});
+	}
+
+	public boolean isOnline() {
+		try {
+		    NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+		    return netInfo != null && netInfo.isConnectedOrConnecting();
+		} catch (Exception e) {
+			Logging.e("Error getting network status", e);
+			return true;
+		}
 	}
 
 	/**

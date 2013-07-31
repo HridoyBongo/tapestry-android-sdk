@@ -41,8 +41,11 @@ public class CarExampleFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.image: changeColor();
-		case R.id.refresh: refreshColor();
+		case R.id.image:
+			changeColor();
+			break;
+		case R.id.refresh:
+			refreshColor();
 		}
 	}
 
