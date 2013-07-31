@@ -1,6 +1,7 @@
 package com.tapad.sample;
 
 import android.app.Application;
+
 import com.tapad.tapestry.TapestryService;
 
 public class MainApplication extends Application {

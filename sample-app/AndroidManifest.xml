@@ -17,13 +17,13 @@
 	    <!-- Your Tapestry partner id will be provided by Tapad -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="1" />
 
-        <activity android:name="com.tapad.sample.MenuTabActivity">
+        <activity android:name="com.tapad.sample.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.tapad.sample.DemoActivity"/>
+        <activity android:name="com.tapad.sample.CarExampleFragment"/>
         <activity android:name="com.tapad.sample.TestActivity"/>
     </application>
 </manifest>
