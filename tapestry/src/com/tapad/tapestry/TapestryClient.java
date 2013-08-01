@@ -195,7 +195,7 @@ public class TapestryClient {
 	public boolean isOnline() {
 		try {
 		    NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
-		    return netInfo != null && netInfo.isConnectedOrConnecting();
+		    return netInfo.isConnectedOrConnecting();
 		} catch (Exception e) {
 			Logging.e("Error getting network status", e);
 			return true;
