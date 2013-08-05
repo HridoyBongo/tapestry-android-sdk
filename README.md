@@ -3,7 +3,7 @@ Download the Tapestry SDK from the releases page.
 
 Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
-Add your Tapestry Partner Id and permissions the `AndroidManifest.xml` of your application:
+Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
 ```xml
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
