@@ -26,6 +26,5 @@
             </intent-filter>
         </activity>
         <activity android:name="com.tapad.sample.CarExampleFragment"/>
-        <activity android:name="com.tapad.sample.TestActivity"/>
     </application>
 </manifest>
