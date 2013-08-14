@@ -18,7 +18,7 @@ public class MainActivity extends FragmentActivity {
                 .setIndicator("Demo"),
                 CarExampleFragment.class, null);
         host.addTab(host.newTabSpec("test")
-                .setIndicator("Test"),
+                .setIndicator("Debug"),
                 DebugFragment.class, null);
     }
 }
