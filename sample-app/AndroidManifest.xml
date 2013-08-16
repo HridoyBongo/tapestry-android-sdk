@@ -4,32 +4,27 @@
           android:versionCode="6"
           android:versionName="1.1">
 
-    <uses-sdk android:minSdkVersion="8"/>
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="18"/>
 
-    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Required if specifying PhoneId as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- Required if specifying WifiMac as one of the tapad.ID_SOURCES -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Permissions for accessing the phone's ids (at least one is required) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <application android:name="com.tapad.sample.MainApplication" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-        <!-- Tracking ids to be collected.  Available Values are: AndroidId, PhoneId, WifiMac.  Default: AndroidId -->
-        <meta-data android:name="tapad.ID_SOURCES" android:value="AndroidId,PhoneId,WifiMac"/>
+    <application android:name="com.tapad.sample.MainApplication" 
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" 
+        android:icon="@drawable/ic_launcher">
+	    <!-- Your Tapestry partner id will be provided by Tapad -->
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1" />
 
-        <!-- Tapestry API url. Default: "http://tapestry.tapad.com/tapestry/1" -->
-        <meta-data android:name="tapad.API_URL" android:value="http://tapestry.tapad.com/tapestry/1"/>
-
-        <!-- Tapestry partner id. -->
-        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
-
-        <activity android:name="com.tapad.sample.MenuTabActivity">
+        <activity android:name="com.tapad.sample.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.tapad.sample.DemoActivity"/>
-        <activity android:name="com.tapad.sample.TestActivity"/>
+        <activity android:name="com.tapad.sample.CarExampleFragment"/>
     </application>
 </manifest>
