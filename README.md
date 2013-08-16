@@ -1,17 +1,71 @@
-# Tapestry Android SDK
+## Quick Setup
+Download the Tapestry SDK from the releases page.
 
-### Running with IntelliJ
-1. Make sure the Anroid plugin is installed in IntelliJ.
-2. Go to File > Import Project... > Select the pom.xml file in tapestry-android-sdk.  Go through the dialogs and select the project SDK to be Android.
-3. Go to Run > Edit Configurations... > Add new 'Android Application'.  Select module to be 'sample-app' and pick an emulator or device to run on.
-4. To run unit tests make sure the Android SDK is below the Maven dependencies, otherwise the classes in android.jar will throw a "Stub!" exception.
+Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
-## Build jar
-1. With terminal, change working dir to tapestry/
-2. Run the following ant command: ant build-jar -Dsdk.dir=/path/to/android-sdk
-3. Pick up tapestry-n.n.jar
+Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
+```xml
+    <!-- Permissions for accessing the phone's ids (at least one is required) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-# License
+    <application>
+        ...
+      <!-- Your Tapestry partner id will be provided by Tapad -->
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1" />
+    </application>
+
+```
+
+## Using Tapestry
+Intialize the TapestryService prior to use, preferably in your `Application` or in every `Activity` that uses it:
+```java
+public class MyApplication extends Application {
+    public void onCreate() {
+        TapestryService.initialize(this);
+    }
+}
+```
+
+Now you can get cross-device data out of Tapestry:
+```java
+TapestryService.send(new TapestryCallback() {
+    public void receive(TapestryResponse response) {
+        if (response.getData("color").contains("blue"))
+          // user has a preference for blue
+        if (response.getAudiences().contains("buying-car"))
+          // user is in a buying car audience
+        if (response.getPlatforms().contains("XBox"))
+          // user has an XBox
+    }
+});
+```
+
+Or set the Tapestry data of the current device:
+```java
+TapestryService.send(new TapestryRequest()
+    .addAudiences("buying-car")
+    .addData("color", "blue")
+    .userIds("uid", "bob123")
+);
+```
+
+Or do both at once:
+```java
+TapestryRequest = new TapestryRequest()
+    .addData("color", "blue")
+    .strength(1)
+    .depth(2);
+
+TapestryService.send(request, new TapestryCallback()  {
+    public void receive(TapestryResponse response) {
+        // do stuff
+    }
+);
+```
+
+#### License
 
 Copyright (c) 2012-2013 Tapad, INC.
 
