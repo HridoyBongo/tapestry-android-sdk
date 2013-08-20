@@ -55,9 +55,8 @@ public class TapestryTracking {
             throw new RuntimeException("Tapestry cannot identify this device, make sure onCreate() has been called before instantiating TapestryClient");
     }
 
-    @SuppressLint("DefaultLocale")
 	private String identifyPlatform(Context context) {
-        String userAgentLower = UserAgent.getUserAgent(context).toLowerCase(Locale.ENGLISH);
+        String userAgentLower = UserAgent.getUserAgent(context).toLowerCase(Locale.getDefault());
         for (String platform : PLATFORMS)
             if (userAgentLower.contains(platform))
                 return "";
