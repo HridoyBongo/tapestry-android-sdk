@@ -1,5 +1,7 @@
 package com.tapad.tapestry;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
@@ -129,6 +131,10 @@ public class TapestryClient {
 		} catch (Exception e) {
 			return defaultValue;
 		}
+	}
+	
+	public List<TypedIdentifier> getDeviceIDs() {
+		return tracking.getIds();
 	}
 
 	/**
