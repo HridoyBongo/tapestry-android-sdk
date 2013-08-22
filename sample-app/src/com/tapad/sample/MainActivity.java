@@ -1,6 +1,7 @@
 package com.tapad.sample;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -53,25 +55,32 @@ public class MainActivity extends FragmentActivity {
 	private void composeBridgeEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/html");
-		intent.putExtra(Intent.EXTRA_SUBJECT, "Tapad Bridge Device");
+		intent.putExtra(Intent.EXTRA_SUBJECT, "TapAd Bridge: " + Build.MODEL);
+		
+		intent.putExtra(Intent.EXTRA_TEXT, "Pleaes open this URL in your desktop's browser to bridge " + Build.MODEL + ":\n\n" + buildURL());
+		startActivity(Intent.createChooser(intent, "Select Email App"));
+	}
 
+	private String buildURL() {
 		JSONObject bridge = new JSONObject();
-		String deviceIDsEncoded = "";
+		List<TypedIdentifier> deviceIDs = TapestryService.client().getDeviceIDs();
 		try {
-			List<TypedIdentifier> deviceIDs = TapestryService.client().getDeviceIDs();
 			for (TypedIdentifier id : deviceIDs) {
 				bridge.put(id.getType(), id.getValue());
 			}
 			Logging.d("Added device ids:\n" + bridge.toString());
 
-			deviceIDsEncoded = URLEncoder.encode(bridge.toString(), "UTF-8");
+			StringBuilder stringBuilder = new StringBuilder(TapestryService.client().getURL());
+			stringBuilder.append("?ta_partner_id=");
+			stringBuilder.append(TapestryService.client().getPartnerID());
+			stringBuilder.append("&ta_bridge=");
+			stringBuilder.append(URLEncoder.encode(bridge.toString(), "UTF-8"));
+			stringBuilder.append("&ta_redirect=");
+			stringBuilder.append(URLEncoder.encode("http://tapestry-demo-test.dev.tapad.com/content_optimization", "UTF-8"));
+			return stringBuilder.toString();
 		} catch (Exception e) {
-			Logging.e("Could not create bridge URL");
-			Toast.makeText(this, "Could not create bridge URL", Toast.LENGTH_LONG).show();
-			return;
+			Logging.e("Some error occured while making URL for bridging", e);
+			return "error!";
 		}
-		String bridgeURL = "http://tapestry-api-test.dev.tapad.com/tapestry/1?&ta_bridge=" + deviceIDsEncoded;
-		intent.putExtra(Intent.EXTRA_TEXT, "Pleaes open this URL to bridge your device:\n\n" + bridgeURL);
-		startActivity(Intent.createChooser(intent, "Send Bridge Email"));
 	}
 }

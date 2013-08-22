@@ -122,8 +122,19 @@ public class TapestryClient {
 		}
 	}
 	
+	/**
+	 * @return Will return a list of typed device identifiers, e.g. UID, Wi-Fi MAC address
+	 */
 	public List<TypedIdentifier> getDeviceIDs() {
 		return tracking.getIds();
+	}
+	
+	public String getPartnerID() {
+		return partnerId;
+	}
+	
+	public String getURL() {
+		return url;
 	}
 
 	/**
