@@ -11,23 +11,23 @@ public class Logging {
 	public static void d(String message) {
 		Log.d(TAG, message);
 	}
-	
+
 	public static void d(String message, Throwable caught) {
 		Log.d(TAG, message, caught);
 	}
-	
+
 	public static void w(String message) {
 		Log.w(TAG, message);
 	}
-	
+
 	public static void w(String message, Throwable caught) {
 		Log.w(TAG, message, caught);
 	}
-	
+
 	public static void e(String message) {
 		Log.e(TAG, message);
 	}
-	
+
 	public static void e(String message, Throwable caught) {
 		Log.e(TAG, message, caught);
 	}

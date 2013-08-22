@@ -92,7 +92,7 @@ public class DebugFragment extends Fragment {
 	public void sendRequest(TapestryRequest request) {
 		TapestryService.send(request, new TapestryUICallback(getActivity()) {
 			@Override
-			public void receiveOnUiThread(TapestryResponse response) {
+			public void receiveOnUiThread(TapestryResponse response, Exception exception, long millisSinceInvocation) {
 				viewContainer.setResponseText(response.toString());
 			}
 		});
