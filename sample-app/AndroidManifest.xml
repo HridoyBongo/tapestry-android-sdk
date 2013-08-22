@@ -8,8 +8,6 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
-    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -24,7 +22,11 @@
         <!-- Your Tapestry partner id will be provided by Tapad -->
         <meta-data 
 			android:name="tapad.PARTNER_ID"
-            android:value="1" />
+            android:value="12345" />
+        
+        <meta-data
+            android:name="tapad.API_URL"
+            android:value="http://tapestry-api-test.dev.tapad.com/tapestry/1" />
 
         <activity
             android:name="com.tapad.sample.MainActivity"

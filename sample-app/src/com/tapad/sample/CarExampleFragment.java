@@ -28,7 +28,7 @@ public class CarExampleFragment extends Fragment {
     private void refreshColor() {
         TapestryService.send(new TapestryUICallback(getActivity()) {
             @Override
-            public void receiveOnUiThread(TapestryResponse response) {
+            public void receiveOnUiThread(TapestryResponse response, Exception exception, long millisSinceInvocation) {
                 List<String> savedColors = response.getData("color");
                 if (savedColors.isEmpty()) return;
                 selectedColor = colorNames.indexOf(savedColors.get(0));

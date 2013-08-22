@@ -33,7 +33,7 @@ public class GoogleAnalyticsActivity extends Activity {
             boolean isNewSession = lastAnalyticsPush.get() < System.currentTimeMillis() - 30 * 60 * 1000;
             tapestry.send(new TapestryRequest().analytics(isNewSession), new TapestryCallback() {
                 @Override
-                public void receive(TapestryResponse response) {
+                public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
                     sendAnalytics(tracker, response.analytics());
                 }
             });
