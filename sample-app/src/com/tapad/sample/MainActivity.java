@@ -50,9 +50,9 @@ public class MainActivity extends FragmentActivity {
 	private void composeBridgeEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/html");
-		intent.putExtra(Intent.EXTRA_SUBJECT, "TapAd Bridge: " + Build.MODEL);
+		intent.putExtra(Intent.EXTRA_SUBJECT, "Tapad Bridge: " + Build.MODEL);
 
-		intent.putExtra(Intent.EXTRA_TEXT, "Pleaes open this URL in your desktop's browser to bridge " + Build.MODEL + ":\n\n" + buildURL());
+		intent.putExtra(Intent.EXTRA_TEXT, "Please open this URL in your desktop's browser to bridge " + Build.MODEL + ":\n\n" + buildURL());
 		startActivity(Intent.createChooser(intent, "Select Email App"));
 	}
 
