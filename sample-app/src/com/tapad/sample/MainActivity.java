@@ -1,11 +1,8 @@
 package com.tapad.sample;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -15,11 +12,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.tapad.tapestry.Logging;
 import com.tapad.tapestry.R;
-import com.tapad.tapestry.TapestryClient;
 import com.tapad.tapestry.TapestryService;
 import com.tapad.tapestry.deviceidentification.TypedIdentifier;
 
@@ -56,7 +51,7 @@ public class MainActivity extends FragmentActivity {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("text/html");
 		intent.putExtra(Intent.EXTRA_SUBJECT, "TapAd Bridge: " + Build.MODEL);
-		
+
 		intent.putExtra(Intent.EXTRA_TEXT, "Pleaes open this URL in your desktop's browser to bridge " + Build.MODEL + ":\n\n" + buildURL());
 		startActivity(Intent.createChooser(intent, "Select Email App"));
 	}
