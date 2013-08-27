@@ -1,5 +1,5 @@
 ## Quick Setup
-Download the Tapestry SDK from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
+Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
 
 Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
