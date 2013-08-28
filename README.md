@@ -31,7 +31,7 @@ public class MyApplication extends Application {
 Now you can get cross-device data out of Tapestry:
 ```java
 TapestryService.send(new TapestryCallback() {
-    public void receive(TapestryResponse response) {
+    public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
         if (response.getData("color").contains("blue"))
           // user has a preference for blue
         if (response.getAudiences().contains("buying-car"))
@@ -59,7 +59,7 @@ TapestryRequest = new TapestryRequest()
     .depth(2);
 
 TapestryService.send(request, new TapestryCallback()  {
-    public void receive(TapestryResponse response) {
+    public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
         // do stuff
     }
 );
