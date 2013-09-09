@@ -5,6 +5,9 @@ Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
 Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
 ```xml
+    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/i>
+
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
