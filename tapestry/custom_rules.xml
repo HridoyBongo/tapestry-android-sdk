@@ -12,18 +12,18 @@
         <copy file="${build.output}" tofile="${release.output}"/>
         <echo level="info">Copied release JAR from ${build.output} to: ${release.output}</echo>
 
-        <zip destfile="${ant.project.name}-${manifest.version.name}-sources.jar"
+        <zip destfile="tapestry-android-${manifest.version.name}-sources.jar"
        		basedir="src/"
        		includes="**/*.java"
   		/>
         
         <javadoc sourcepath="src/" destdir="javadoc/"/>
-        <zip destfile="${ant.project.name}-${manifest.version.name}-javadoc.jar"
+        <zip destfile="tapestry-android-${manifest.version.name}-javadoc.jar"
        		basedir="javadoc/"
        		includes="**/*"
   		/>
 
-        <zip destfile="${ant.project.name}-${manifest.version.name}.zip"
+        <zip destfile="tapestry-android-${manifest.version.name}.zip"
             basedir=""
             includes="**/${ant.project.name}-${manifest.version.name}*.jar"
   		/>
