@@ -8,7 +8,7 @@
     <target name="build-jar" depends="release,-read-manifest">
         <echo>${out.library.jar.file}</echo>
         <property name="build.output" location="${out.library.jar.file}" />
-        <property name="release.output" location="${ant.project.name}-${manifest.version.name}.jar"/>
+        <property name="release.output" location="tapestry-android-${manifest.version.name}.jar"/>
         <copy file="${build.output}" tofile="${release.output}"/>
         <echo level="info">Copied release JAR from ${build.output} to: ${release.output}</echo>
 
@@ -25,7 +25,7 @@
 
         <zip destfile="tapestry-android-${manifest.version.name}.zip"
             basedir=""
-            includes="**/${ant.project.name}-${manifest.version.name}*.jar"
+            includes="**/tapestry-android-${manifest.version.name}*.jar"
   		/>
     </target>
 </project>
