@@ -25,12 +25,12 @@ public class GoogleAnalyticsActivity extends Activity {
                     tracker.setCustomVar(5, "Most_Often_Visited_Platform", analytics.get("movp"), 2);
                 tracker.trackEvent("tapestry", "android", "", 0);
                 tracker.dispatch();
-                lastAnalyticsPush.set(System.currentTimeMillis());
             }
         }
 
         public static void track(final GoogleAnalyticsTracker tracker, TapestryClient tapestry) {
             boolean isNewSession = lastAnalyticsPush.get() < System.currentTimeMillis() - 30 * 60 * 1000;
+            lastAnalyticsPush.set(System.currentTimeMillis());
             tapestry.send(new TapestryRequest().analytics(isNewSession), new TapestryCallback() {
                 @Override
                 public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
