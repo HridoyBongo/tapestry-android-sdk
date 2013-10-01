@@ -8,24 +8,24 @@
     <target name="build-jar" depends="release,-read-manifest">
         <echo>${out.library.jar.file}</echo>
         <property name="build.output" location="${out.library.jar.file}" />
-        <property name="release.output" location="tapestry-android-${manifest.version.name}.jar"/>
+        <property name="release.output" location="tapestry-android-sdk-${manifest.version.name}.jar"/>
         <copy file="${build.output}" tofile="${release.output}"/>
         <echo level="info">Copied release JAR from ${build.output} to: ${release.output}</echo>
 
-        <zip destfile="tapestry-android-${manifest.version.name}-sources.jar"
+        <zip destfile="tapestry-android-sdk-${manifest.version.name}-sources.jar"
        		basedir="src/"
        		includes="**/*.java"
   		/>
         
         <javadoc sourcepath="src/" destdir="javadoc/"/>
-        <zip destfile="tapestry-android-${manifest.version.name}-javadoc.jar"
+        <zip destfile="tapestry-android-sdk-${manifest.version.name}-javadoc.jar"
        		basedir="javadoc/"
        		includes="**/*"
   		/>
 
-        <zip destfile="tapestry-android-${manifest.version.name}.zip"
+        <zip destfile="tapestry-android-sdk-${manifest.version.name}.zip"
             basedir=""
-            includes="**/tapestry-android-${manifest.version.name}*.jar"
+            includes="**/tapestry-android-sdk-${manifest.version.name}*.jar"
   		/>
     </target>
 </project>
