@@ -6,7 +6,7 @@
 3. Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
 ```xml
     <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/i>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,6 @@
       <!-- Your Tapestry partner id will be provided by Tapad -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="1" />
     </application>
-
 ```
 
 ## Using Tapestry
