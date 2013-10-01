@@ -1,9 +1,9 @@
 ## Quick Setup
-Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
+1. Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-android-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
 
-Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
+2. Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
-Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
+3. Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
 ```xml
     <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/i>
