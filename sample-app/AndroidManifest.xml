@@ -8,6 +8,9 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
+    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />

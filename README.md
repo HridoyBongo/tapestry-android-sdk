@@ -1,10 +1,13 @@
 ## Quick Setup
-Download the Tapestry SDK from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
+Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk)).
 
 Copy `tapestry-X-X-X.jar` into the `libs` folder of your Android project.
 
 Add your Tapestry Partner Id and permissions into the `AndroidManifest.xml` of your application:
 ```xml
+    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/i>
+
     <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -31,7 +34,7 @@ public class MyApplication extends Application {
 Now you can get cross-device data out of Tapestry:
 ```java
 TapestryService.send(new TapestryCallback() {
-    public void receive(TapestryResponse response) {
+    public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
         if (response.getData("color").contains("blue"))
           // user has a preference for blue
         if (response.getAudiences().contains("buying-car"))
@@ -59,7 +62,7 @@ TapestryRequest = new TapestryRequest()
     .depth(2);
 
 TapestryService.send(request, new TapestryCallback()  {
-    public void receive(TapestryResponse response) {
+    public void receive(TapestryResponse response, Exception exception, long millisSinceInvocation) {
         // do stuff
     }
 );
