@@ -1,0 +1,1 @@
+javadoc -sourcepath ./tapestry/src -d ./docs com.tapad.tapestry

@@ -155,6 +155,25 @@ public class TapestryRequest {
 		return addMapParameter("ta_analytics", "isNewSession", isNewSession.toString());
 	}
 
+	/**
+	 * Add a typed device id, e.g. OpenUDID or IDFA. The client sets these automatically; under normal circumstances it is not necessary to set your own.
+	 * 
+	 * @param type - type of the identifier
+	 * @param id - the id
+	 */
+	public TapestryRequest typedDid(String type, String id) {
+		return addMapParameter("ta_typed_did", type, id);
+	}
+
+	/**
+	 * Set a partner device id, typically the mobile browser's cookie id.
+	 * 
+	 * @param id - the id value
+	 */
+	public TapestryRequest partnerDeviceId(String id) {
+		return addParameter("ta_partner_did", id);
+	}
+
 	protected TapestryRequest get() {
 		return addParameter("ta_get", "");
 	}
@@ -165,10 +184,6 @@ public class TapestryRequest {
 
 	protected TapestryRequest partnerId(String id) {
 		return addParameter("ta_partner_id", id);
-	}
-
-	protected TapestryRequest typedDid(String key, String value) {
-		return addMapParameter("ta_typed_did", key, value);
 	}
 
 	/**
