@@ -20,8 +20,8 @@ public class TapestryRequestTest extends AndroidTestCase {
     }
 
     public void test_should_append_single_value_parameters() {
-        assertEncodedEquals(new TapestryRequest().strength(1).depth(2).partnerId("a")
-                .toQuery(), "ta_strength=1&ta_depth=2&ta_partner_id=a");
+        assertEncodedEquals(new TapestryRequest().strength(1).depth(2).partnerId("a").partnerDeviceId("b")
+                .toQuery(), "ta_strength=1&ta_depth=2&ta_partner_id=a&ta_partner_did=b");
     }
 
     public void test_should_create_empty_parameters() {
