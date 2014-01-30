@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tapad.tapestry"
+    android:versionCode="6"
+    android:versionName="1.1" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+
+    <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- Required permissions for accessing the phone's ids and using Google Analytics SDK -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name="com.tapad.sample.MainApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_title"
+        android:theme="@style/ApplicationTheme" >
+
+        <!-- Your Tapestry partner id will be provided by Tapad -->
+        <meta-data 
+			android:name="tapad.PARTNER_ID"
+            android:value="725" />
+        
+        <meta-data
+            android:name="tapad.API_URL"
+            android:value="http://tapestry.tapad.com/tapestry/1" />
+
+        <activity
+            android:name="com.tapad.sample.MainActivity"
+            android:label="@string/app_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
