@@ -5,8 +5,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.tapad.tapestry.R;
-
 public class DebugViewContainer {
 
 	private TextView requestTextView;

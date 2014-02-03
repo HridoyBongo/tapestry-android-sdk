@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 import com.tapad.tapestry.Logging;
-import com.tapad.tapestry.R;
 import com.tapad.tapestry.TapestryService;
 import com.tapad.tapestry.TapestryClient;
 import com.tapad.tapestry.deviceidentification.TypedIdentifier;

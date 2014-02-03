@@ -1,7 +1,5 @@
 package com.tapad.sample;
 
-import com.tapad.tapestry.R;
-
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
