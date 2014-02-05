@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -34,9 +35,8 @@ public class MainActivity extends FragmentActivity {
 		host.addTab(host.newTabSpec("demo").setIndicator("Demo"), CarExampleFragment.class, null);
 		host.addTab(host.newTabSpec("debug").setIndicator("Debug"), DebugFragment.class, null);
 
-        // This code should be included in
         GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
-        tracker.startNewSession("UA-30562281-7", this);
+        tracker.startNewSession("UA-30562281-8", this);
         tracker.setDebug(true);
         TapestryAnalyticsPlugin.track(tracker, new TapestryClient(this, "725"));
 	}
