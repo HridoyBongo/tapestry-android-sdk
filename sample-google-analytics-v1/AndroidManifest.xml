@@ -18,9 +18,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
-        <!-- Tapestry partner id and Google Analytics id -->
+        <!-- Your Tapestry partner id will be provided by Tapad -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
-        <meta-data android:name="ga.PROPERTY_ID" android:value="UA-30562281-8"/>
+
+        <!-- Place your Google Analytics property id here. -->
+        <meta-data android:name="ga.PROPERTY_ID" android:value="UA-XXXXXXXX-X"/>
 
         <activity android:name="com.tapad.sample.GoogleAnalyticsActivity">
             <intent-filter>
