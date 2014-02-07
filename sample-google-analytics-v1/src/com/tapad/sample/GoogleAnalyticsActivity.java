@@ -25,7 +25,7 @@ public class GoogleAnalyticsActivity extends Activity {
                 tracker.setCustomVar(4, "First_Visited_Platform", analytics.get("fvp"), 2);
                 tracker.setCustomVar(5, "Most_Recent_Visited_Platform", analytics.get("mrvp"), 2);
                 if (analytics.get("movp") != null)
-                    tracker.setCustomVar(5, "Most_Often_Visited_Platform", analytics.get("movp"), 2);
+                    tracker.setCustomVar(6, "Most_Often_Visited_Platform", analytics.get("movp"), 2);
                 tracker.trackEvent("tapestry", "android", "", 0);
                 tracker.dispatch();
             }
