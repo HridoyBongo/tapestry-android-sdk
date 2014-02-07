@@ -1,4 +1,4 @@
-## Quick Setup {#quick-setup}
+## Quick Setup ## {#quick-setup}
 1. Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-android-sdk-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk/docs)).
 
 2. Copy `tapestry-android-sdk-X-X-X.jar` into the `libs` folder of your Android project.
@@ -20,7 +20,7 @@
     </application>
 ```
 
-## Using Tapestry {#using-tapestry}
+## Using Tapestry ## {#using-tapestry}
 Intialize the TapestryService prior to use, preferably in your `Application` or in every `Activity` that uses it:
 ```java
 public class MyApplication extends Application {
@@ -71,7 +71,7 @@ TapestryService.send(request, new TapestryCallback()  {
 
 ### v1 (Legacy)
 
-Use this version of the Tapestry plugin if your android app currently uses the Google Analytics SDK for Android v1.
+Use this version of the Tapestry plugin if your android app currently uses the Google Analytics SDK for Android v1. The Tapestry plugin uses up to 6 custom variable slots in Google Analytics. To take advantage of all 6 analytics, users will either need a Premium Google Analytics account or a Universal property implemented with v3 of the SDK.
 
 To start using the plugin, first complete the instructions in [Quick Setup](#quick-setup).
 
@@ -91,8 +91,6 @@ Ensure that the TapestryService has been initialized, as detailed in [Using Tape
 See `GoogleAnalyticsActivity.java` for an example Activity that utilizes the plugin. The code provided in this example should be added to the Activity that you would like to use to send analytics.
 
 Note: This example does NOT use EasyTracker. If your analytics code has been implemented with EasyTracker you will need to make the appropriate adjustments to the provided code.
-
-The Tapestry plugin uses up to 6 custom variable slots in Google Analytics. To take advantage of all 6 analytics, users will either need a Premium Google Analytics account or a Universal property used with v3 of the SDK.
 
 ## License
 
