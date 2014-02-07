@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tapad.tapestry"
+          package="com.tapad.sample"
           android:versionCode="6"
           android:versionName="1.1" xmlns:tools="http://schemas.android.com/tools">
 
@@ -12,10 +12,13 @@
     <!-- Required permissions for using Google Analytics SDK -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
-        <!-- Tapestry partner id. -->
+        <!-- Tapestry partner id and Google Analytics id -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
+        <meta-data android:name="ga.PROPERTY_ID" android:value="UA-30562281-8"/>
 
         <activity android:name="com.tapad.sample.GoogleAnalyticsActivity">
             <intent-filter>
