@@ -9,11 +9,13 @@
     <!-- Optional permissions for detecting phone's connectivity and caching requests when offline -->
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <!-- Required permissions for using Google Analytics SDK -->
+    <!-- Permissions for accessing the phone's ids (at least one is required) -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Required permissions for using Google Analytics SDK -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
         <!-- Tapestry partner id and Google Analytics id -->
