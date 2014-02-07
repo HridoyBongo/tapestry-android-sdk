@@ -1,4 +1,4 @@
-## Quick Setup
+## Quick Setup {#quick-setup}
 1. Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-android-sdk-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk/docs)).
 
 2. Copy `tapestry-android-sdk-X-X-X.jar` into the `libs` folder of your Android project.
@@ -20,7 +20,7 @@
     </application>
 ```
 
-## Using Tapestry
+## Using Tapestry {#using-tapestry}
 Intialize the TapestryService prior to use, preferably in your `Application` or in every `Activity` that uses it:
 ```java
 public class MyApplication extends Application {
@@ -67,8 +67,36 @@ TapestryService.send(request, new TapestryCallback()  {
 );
 ```
 
+## Using Tapestry Google Analytics Plugin
+
+### v1 (Legacy)
+
+Use this version of the Tapestry plugin if your android app currently uses the Google Analytics SDK for Android v1.
+
+To start using the plugin, first complete the instructions in [Quick Setup](#quick-setup).
+
+Next, add your Google Analytics property id to the AndroidManifest.xml:
+```xml
+    <application>
+    ...
+    <!-- Your Tapestry partner id will be provided by Tapad -->
+    <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
+        
+    <!-- Place your Google Analytics property id here -->
+    <meta-data android:name="ga.PROPERTY_ID" android:value="UA-XXXXXXXX-X"/>
+    </application>
+```
+Ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](#using-tapestry).
+
+See `GoogleAnalyticsActivity.java` for an example Activity that utilizes the plugin. The code provided in this example should be added to the Activity that you would like to use to send analytics.
+
+Note: This example does NOT use EasyTracker. If your analytics code has been implemented with EasyTracker you will need to make the appropriate adjustments to the provided code.
+
+The Tapestry plugin uses up to 6 custom variable slots in Google Analytics. To take advantage of all 6 analytics, users will either need a Premium Google Analytics account or a Universal property used with v3 of the SDK.
+
 ## License
 
 Copyright (c) 2012-2013 Tapad, INC.
 
 Published under The MIT License, see LICENSE
+
