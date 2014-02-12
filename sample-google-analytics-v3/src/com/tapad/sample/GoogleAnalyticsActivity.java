@@ -1,19 +1,41 @@
 package com.tapad.sample;
 import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.GAServiceManager;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
+import com.google.analytics.tracking.android.*;
 import com.tapad.tapestry.*;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class GoogleAnalyticsActivity extends Activity {
-    private String GA_PROPERTY_ID = getMetaData(this, "ga.PROPERTY_ID", "UA-30562281-7");
+    // Custom Dimension indices that will be used for Tapestry Analytics
+    private static final int VISITED_PLATFORMS_DIM_IDX = 1;
+    private static final int PLATFORMS_ASSOC_DIM_IDX = 2;
+    private static final int PLATFORM_TYPES_DIM_IDX = 3;
+    private static final int FIRST_VISITED_DIM_IDX = 4;
+    private static final int MOST_RECENT_DIM_IDX = 5;
+    private static final int MOST_OFTEN_DIM_IDX = 6;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Initialize tracker
+        EasyTracker tracker = EasyTracker.getInstance(this);
+
+        // Start Google Analytics session
+        tracker.activityStart(this);
+
+        // Send Tapestry analytics data
+        TapestryAnalyticsService.track(tracker, new TapestryClient(this));
+    }
+
+    @Override
+    public void onStop() {
+        // Stop Google Analytics session
+        EasyTracker.getInstance(this).activityStop(this);
+
+        super.onStop();
+    }
 
     /**
      * TapestryAnalyticsService can be used from multiple Activities or the Application
@@ -25,15 +47,29 @@ public class GoogleAnalyticsActivity extends Activity {
             if (!analytics.isEmpty()) {
                 String vp = analytics.get("vp").equals("1") ? analytics.get("vp") + " Platform" : analytics.get("vp") + " Platforms";
                 String pa = analytics.get("pa").equals("1") ? analytics.get("pa") + " Platform" : analytics.get("pa") + " Platforms";
-                tracker.set(Fields.customDimension(1), vp); // Visited Platforms
-                tracker.set(Fields.customDimension(2), pa); // Platforms Associated
-                tracker.set(Fields.customDimension(3), analytics.get("pt")); // Platform Types
-                tracker.set(Fields.customDimension(4), analytics.get("fvp")); // First Visited Platform
-                tracker.set(Fields.customDimension(5), analytics.get("mrvp")); // Most Recent Visited Platform
-                if (analytics.get("movp") != null)
-                    tracker.set(Fields.customDimension(6), analytics.get("movp")); // Most Often Visited Platform
-                // manual dispatch
-                GAServiceManager.getInstance().dispatchLocalHits();
+                String pt = analytics.get("pt");
+                String fvp = analytics.get("fvp");
+                String mrvp = analytics.get("mrvp");
+                String movp = analytics.get("movp");
+
+                tracker.send(MapBuilder.createEvent("Tapestry", "Visited Platforms", vp, null)
+                        .set(Fields.customDimension(VISITED_PLATFORMS_DIM_IDX), vp)
+                        .build());
+                tracker.send(MapBuilder.createEvent("Tapestry", "Platforms Associated", pa, null)
+                        .set(Fields.customDimension(PLATFORMS_ASSOC_DIM_IDX), pa)
+                        .build());
+                tracker.send(MapBuilder.createEvent("Tapestry", "Platform Types", pt, null)
+                        .set(Fields.customDimension(PLATFORM_TYPES_DIM_IDX), pt)
+                        .build());
+                tracker.send(MapBuilder.createEvent("Tapestry", "First Visited Platform", fvp, null)
+                        .set(Fields.customDimension(FIRST_VISITED_DIM_IDX), fvp)
+                        .build());
+                tracker.send(MapBuilder.createEvent("Tapestry", "Most Recent Visited Platform", mrvp, null)
+                        .set(Fields.customDimension(MOST_RECENT_DIM_IDX), mrvp)
+                        .build());
+                tracker.send(MapBuilder.createEvent("Tapestry", "Most Often Visited Platform", movp, null)
+                        .set(Fields.customDimension(MOST_OFTEN_DIM_IDX), movp)
+                        .build());
             }
         }
 
@@ -46,23 +82,6 @@ public class GoogleAnalyticsActivity extends Activity {
                     sendAnalytics(tracker, response.analytics());
                 }
             });
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Tracker tracker = GoogleAnalytics.getInstance(this).getTracker(GA_PROPERTY_ID);
-        TapestryAnalyticsService.track(tracker, new TapestryClient(this));
-    }
-
-
-    private static String getMetaData(Context context, String key, String defaultValue) {
-        try {
-            String value = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData.get(key).toString();
-            return value == null ? defaultValue : value;
-        } catch (Exception e) {
-            return defaultValue;
         }
     }
 }

@@ -14,15 +14,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!-- Required permissions for using Google Analytics SDK -->
+    <!-- Additional permissions for using Google Analytics SDK -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" tools:ignore="AllowBackup" android:icon="@drawable/ic_launcher">
         <!-- Your Tapestry partner id will be provided by Tapad -->
-        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
-
-        <!-- Place your Google Analytics property id here. -->
-        <meta-data android:name="ga.PROPERTY_ID" android:value="UA-30562281-7"/>
+        <meta-data android:name="tapad.PARTNER_ID" android:value="725"/>
 
         <activity android:name="com.tapad.sample.GoogleAnalyticsActivity">
             <intent-filter>
