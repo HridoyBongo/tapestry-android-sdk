@@ -1,4 +1,4 @@
-## Quick Setup ## {#quick-setup}
+## Quick Setup
 1. Download the [Tapestry SDK](https://github.com/Tapad/tapestry-android-sdk/releases) (tapestry-android-sdk-X-X-X.zip) from the releases page ([JavaDoc here](https://tapad.github.com/tapestry-android-sdk/docs)).
 
 2. Copy `tapestry-android-sdk-X-X-X.jar` into the `libs` folder of your Android project.
@@ -20,7 +20,7 @@
     </application>
 ```
 
-## Using Tapestry ## {#using-tapestry}
+## Using Tapestry
 Intialize the TapestryService prior to use, preferably in your `Application` or in every `Activity` that uses it:
 ```java
 public class MyApplication extends Application {
@@ -73,7 +73,7 @@ TapestryService.send(request, new TapestryCallback()  {
 
 Use this version of the Tapestry plugin if your android app currently uses the Google Analytics SDK for Android v1. The Tapestry plugin uses up to 6 custom variable slots in Google Analytics. To take advantage of all 6 analytics, users will either need a Premium Google Analytics account or a Universal property implemented with v3 of the SDK.
 
-To start using the plugin, first complete the instructions in [Quick Setup](#quick-setup).
+To start using the plugin, first complete the instructions in [Quick Setup](## Quick Setup).
 
 Next, add your Google Analytics property id to the AndroidManifest.xml:
 ```xml
@@ -86,7 +86,7 @@ Next, add your Google Analytics property id to the AndroidManifest.xml:
     <meta-data android:name="ga.PROPERTY_ID" android:value="UA-XXXXXXXX-X"/>
     </application>
 ```
-Ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](#using-tapestry).
+Ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](## Using Tapestry).
 
 See `GoogleAnalyticsActivity.java` for an example Activity that utilizes the plugin. The code provided in this example should be added to the Activity that you would like to use to send analytics.
 
