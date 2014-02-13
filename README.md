@@ -88,7 +88,7 @@ Tapestry: Most Often Visited Platform  | 6     | Session | Active
 
 To start using the plugin, first complete the instructions in [Quick Setup](## Quick Setup).
 
-Next, add your Google Analytics property id to the analytics.xml located in the res/values/ directory:
+Next, add your Google Analytics property id to the `analytics.xml` located in the `res/values/` directory:
 ```xml
     <resources xmlns:tools="http://schemas.android.com/tools"
            tools:ignore="TypographyDashes">
@@ -98,7 +98,7 @@ Next, add your Google Analytics property id to the analytics.xml located in the 
     </resources>
 ```
 
-Note that the above analytics.xml has options `xmlns:tools="http://schemas.android.com/tools"` and `tools:ignore="TypographyDashes"` in the resources tag. Some users experience an issue with Android lint that causes the Google Analytics property id to be malformed with encoded dashes, so it is recommended to include these options in the resources tag of analytics.xml.
+Note that the above `analytics.xml` has options `xmlns:tools="http://schemas.android.com/tools"` and `tools:ignore="TypographyDashes"` in the resources tag. Some users experience an issue with Android lint that causes the Google Analytics property id to be malformed with encoded dashes, so it is recommended to include these options in the resources tag of analytics.xml.
 
 Next, ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](## Using Tapestry).
 
@@ -114,7 +114,7 @@ Use this version of the Tapestry plugin if your android app currently uses v1 of
 
 To start using the plugin, first complete the instructions in [Quick Setup](## Quick Setup).
 
-Next, add your Google Analytics property id to the AndroidManifest.xml:
+Next, add your Google Analytics property id to the `AndroidManifest.xml`:
 ```xml
     <application>
     ...
