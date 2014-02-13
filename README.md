@@ -76,6 +76,16 @@ Use this version of the Tapestry plugin if your android app currently uses v3 of
 The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. The provided Tapestry plugin code is based on the below configuration of dimensions. Indices in the sample code should be adjusted if necessary to match the indices of the dimensions.
 
 
+Custom Dimension Name                  | Index | Scope   | Status
+-------------------------------------- | ----- | ------- | ------
+Tapestry: Visited Platforms            | 1     | Session | Active
+Tapestry: Platforms Associated         | 2     | Session | Active
+Tapestry: Platform Types               | 3     | Session | Active
+Tapestry: First Visited Platform       | 4     | Session | Active
+Tapestry: Most Recent Visited Platform | 5     | Session | Active
+Tapestry: Most Often Visited Platform  | 6     | Session | Active
+
+
 
 ### v2
 
