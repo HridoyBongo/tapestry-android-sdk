@@ -69,9 +69,21 @@ TapestryService.send(request, new TapestryCallback()  {
 
 ## Using Tapestry Google Analytics Plugin
 
+### v3
+
+Use this version of the Tapestry plugin if your android app currently uses v3 of the Google Analytics SDK for Android or if this is your first time using the Google Analytics SDK for Android. Users will need to create an App view for their property if they do not have one already.
+
+The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. The provided Tapestry plugin code is based on the below configuration of dimensions. Indices in the sample code should be adjusted if necessary to match the indices of the dimensions.
+
+
+
+### v2
+
+We do not currently support use of the Tapestry Analytics plugin with Google Analytics SDK for Android v2.
+
 ### v1 (Legacy)
 
-Use this version of the Tapestry plugin if your android app currently uses the Google Analytics SDK for Android v1. The Tapestry plugin uses up to 6 custom variable slots in Google Analytics. To take advantage of all 6 analytics, users will either need a Premium Google Analytics account or a Universal property implemented with v3 of the SDK.
+Use this version of the Tapestry plugin if your android app currently uses v1 of the Google Analytics SDK for Android. The Tapestry plugin uses up to six custom variable slots in Google Analytics. To take advantage of all six analytics, users will either need a Premium Google Analytics account or a Universal property implemented with v3 of the SDK.
 
 To start using the plugin, first complete the instructions in [Quick Setup](## Quick Setup).
 
