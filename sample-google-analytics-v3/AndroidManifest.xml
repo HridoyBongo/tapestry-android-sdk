@@ -21,6 +21,14 @@
         <!-- Your Tapestry partner id will be provided by Tapad -->
         <meta-data android:name="tapad.PARTNER_ID" android:value="725"/>
 
+        <!-- Google Analytics custom dimension indices for Tapestry data -->
+        <meta-data android:name="ga.VISITED_PLATFORMS_DIM_IDX" android:value="1" />
+        <meta-data android:name="ga.PLATFORMS_ASSOC_DIM_IDX" android:value="2" />
+        <meta-data android:name="ga.PLATFORM_TYPES_DIM_IDX" android:value="3" />
+        <meta-data android:name="ga.FIRST_VISITED_DIM_IDX" android:value="4" />
+        <meta-data android:name="ga.MOST_RECENT_DIM_IDX" android:value="5" />
+        <meta-data android:name="ga.MOST_OFTEN_DIM_IDX" android:value="6" />
+
         <activity android:name="com.tapad.sample.GoogleAnalyticsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
