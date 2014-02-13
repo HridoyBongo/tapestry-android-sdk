@@ -73,7 +73,7 @@ TapestryService.send(request, new TapestryCallback()  {
 
 Use this version of the Tapestry plugin if your android app currently uses v3 of the Google Analytics SDK for Android or if this is your first time using the Google Analytics SDK for Android. Users will need to create an App view for their property if they do not have one already.
 
-The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. The provided Tapestry plugin code is based on the below configuration of dimensions. Indices in the plugin code should be adjusted if necessary to match the indices of the dimensions.
+The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. The provided sample code in `GoogleAnalyticsActivity.java` is based on the below configuration of dimensions. Indices in the sample code should be adjusted if necessary to match the indices of the dimensions.
 
 Custom dimension configuration:
 
@@ -98,9 +98,11 @@ Next, add your Google Analytics property id to the analytics.xml located in the 
     </resources>
 ```
 
-Note that the above analytics.xml has an option that instructs Android tools to ignore typography dashes. This is due to an issue with Android lint that causes the Google Analytics string to be malformed with encoded dashes. It is recommended that users either disable lint or include this option in the resources tag of analytics.xml.
+Note that the above analytics.xml has options `xmlns:tools="http://schemas.android.com/tools"` and `tools:ignore="TypographyDashes"` in the resources tag. Some users experience an issue with Android lint that causes the Google Analytics property id to be malformed with encoded dashes, so it is recommended to include these options in the resources tag of analytics.xml.
 
+Next, ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](## Using Tapestry).
 
+See `GoogleAnalyticsActivity.java` for an example Activity that utilizes the plugin. The code provided in this example should be added to the Activity that you would like to use to send analytics. The custom dimension indices in the sample code may need to be adjusted to match the appropriate indices in the property configuration.
 
 ### v2
 
