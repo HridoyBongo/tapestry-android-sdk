@@ -73,7 +73,7 @@ TapestryService.send(request, new TapestryCallback()  {
 
 Use this version of the Tapestry plugin if your android app currently uses v3 of the Google Analytics SDK for Android or if this is your first time using the Google Analytics SDK for Android. Users will need to create an App view for their property if they do not have one already.
 
-The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. The provided sample code in `GoogleAnalyticsActivity.java` is based on the below configuration of dimensions. Indices in the sample code should be adjusted if necessary to match the indices of the dimensions.
+The Tapestry plugin uses up to six custom dimensions. Custom dimensions are a Universal Analytics feature which are available for any property with an App view or a Universal Analytics Web view. Below is an example of a custom dimension configuration for the Tapestry plugin. These will need to be configured for the property in the Google Analytics Admin page.
 
 Custom dimension configuration:
 
@@ -99,6 +99,24 @@ Next, add your Google Analytics property id to the `analytics.xml` located in th
 ```
 
 Note that the above `analytics.xml` has options `xmlns:tools="http://schemas.android.com/tools"` and `tools:ignore="TypographyDashes"` in the resources tag. Some users experience an issue with Android lint that causes the Google Analytics property id to be malformed with encoded dashes, so it is recommended to include these options in the resources tag of analytics.xml.
+
+The `AndroidManifest.xml` will need to be modified to provide the Tapestry partner id and to ensure that the Google Analytics dimension indices match those in your Google Analytics configuration. By default the indices are assigned to dimensions 1-6.
+
+```xml
+    <application>
+        ...
+        <!-- Your Tapestry partner id will be provided by Tapad -->
+        <meta-data android:name="tapad.PARTNER_ID" android:value="1"/>
+
+        <!-- Google Analytics custom dimension indices for Tapestry data -->
+        <meta-data android:name="ga.VISITED_PLATFORMS_DIM_IDX" android:value="1" />
+        <meta-data android:name="ga.PLATFORMS_ASSOC_DIM_IDX" android:value="2" />
+        <meta-data android:name="ga.PLATFORM_TYPES_DIM_IDX" android:value="3" />
+        <meta-data android:name="ga.FIRST_VISITED_DIM_IDX" android:value="4" />
+        <meta-data android:name="ga.MOST_RECENT_DIM_IDX" android:value="5" />
+        <meta-data android:name="ga.MOST_OFTEN_DIM_IDX" android:value="6" />
+    </application>
+```
 
 Next, ensure that the TapestryService has been initialized, as detailed in [Using Tapestry](## Using Tapestry).
 
