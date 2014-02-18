@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class GoogleAnalyticsActivity extends Activity {
     private final String GA_PROPERTY_ID = getMetaData(this, "ga.PROPERTY_ID", null);
+
     /**
      * TapestryAnalyticsService can be used from multiple Activities or the Application
      */
@@ -34,6 +35,11 @@ public class GoogleAnalyticsActivity extends Activity {
             }
         }
 
+        /**
+         * Retrieves Tapestry analytics and sends to Google Analytics.
+         * @param tracker   a Google Analytics tracker
+         * @param tapestry  a Tapestry client
+         */
         public static void track(final GoogleAnalyticsTracker tracker, TapestryClient tapestry) {
             boolean isNewSession = lastAnalyticsPush.get() < System.currentTimeMillis() - 30 * 60 * 1000;
             lastAnalyticsPush.set(System.currentTimeMillis());
