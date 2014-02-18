@@ -100,7 +100,7 @@ Next, add your Google Analytics property id to the `analytics.xml` located in th
 
 Note that the above `analytics.xml` has options `xmlns:tools="http://schemas.android.com/tools"` and `tools:ignore="TypographyDashes"` in the resources tag. Some users experience an issue with Android lint that causes the Google Analytics property id to be malformed with encoded dashes, so it is recommended to include these options in the resources tag of analytics.xml.
 
-The `AndroidManifest.xml` will need to be modified to provide the Tapestry partner id and to ensure that the Google Analytics dimension indices match those in your Google Analytics configuration. By default the indices are assigned to dimensions 1-6.
+The `AndroidManifest.xml` will need to be modified to provide the Tapestry partner id and to ensure that the Google Analytics dimension indices match those in your Google Analytics configuration. By default the indices are assigned to dimensions 1-6. An analytics variable that is not used should be omitted or given a value of 0.
 
 ```xml
     <application>
